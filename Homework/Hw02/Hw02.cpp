@@ -1,3 +1,9 @@
+/**********************************************************
+Name:KUAS-Hw/Hw02
+DATE:2016/03/27
+By CharlotteHong
+**********************************************************/
+
 #include <iostream>
 #include <string>
 #include <math.h>

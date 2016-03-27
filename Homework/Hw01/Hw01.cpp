@@ -1,3 +1,9 @@
+/**********************************************************
+Name:KUAS-Hw/Hw01
+DATE:2016/03/27
+By CharlotteHong
+**********************************************************/
+
 #include <iostream>
 #include <string>
 using namespace std;

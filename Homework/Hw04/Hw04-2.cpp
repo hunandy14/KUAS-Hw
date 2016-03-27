@@ -1,3 +1,9 @@
+/**********************************************************
+Name:KUAS-Hw/Hw04-2
+DATE:2016/03/27
+By CharlotteHong
+**********************************************************/
+
 #include <iostream>
 #include <iomanip>
 #include <string>

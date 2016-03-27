@@ -55,7 +55,7 @@ int main(int argc, char const *argv[]){
             system("cls");
         }
 
-        else if (choose == 'Q'){
+        else if (choose == 'Q' || choose == 'q'){
             system("cls");
             choose=-1;
         }

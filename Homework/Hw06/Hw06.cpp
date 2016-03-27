@@ -1,3 +1,9 @@
+/**********************************************************
+Name:KUAS-Hw/Hw06
+DATE:2016/03/27
+By CharlotteHong
+**********************************************************/
+
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -26,21 +32,17 @@ int main(int argc, char const *argv[]){
     // reset ptr
     ptr=&array[0][0];
 
-
     // print array
     printarray(array);
     
-
     // add array
     for (int i = 0; i < (high*weith)/2; ++i){
         *(ptr+1)=*ptr+*(ptr+1);
         ptr+=2;
     }
 
-
     // print array
     printarray(array);
-
 
     cout << endl;
     return 0;
