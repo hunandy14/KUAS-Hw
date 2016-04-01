@@ -60,6 +60,8 @@ void nodep_link(node* n1, node* n2);
 int nodep_checkseq(node* n1, node* n2);
 // 節點交換 (任意節點,任意節點)
 void nodep_change(node* n1, node* n2);
+// 尋找最後一個節點的地址 (任意節點)
+node* nodep_head(node* n);
 //=========================================================
 int main(int argc, char const *argv[]){
     // 開頭節點
@@ -308,5 +310,15 @@ void nodep_change(node* n1, node* n2){
             nodep_insert(n2r,nh);
         }
     }
+}
+
+node* nodep_head(node* n){
+    int lenth=0;
+    node* tmp=n;
+    while( tmp->link != NULL || lenth>=999){
+        tmp=tmp->link;
+        lenth++;
+    }
+    return tmp;
 }
 //=========================================================
