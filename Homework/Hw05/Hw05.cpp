@@ -1,11 +1,12 @@
 /**********************************************************
 Name:KUAS-Hw/Hw05
 DATE:2016/03/29
-Final:2016/03/31
+Final:2016/04/01
 By CharlotteHong
 **********************************************************/
 //=========================================================
 #include <iostream>
+#include <stdio.h>
 using namespace std;
 //=========================================================
 /* typedef 型態宣告，可以想像成文字取代功能
@@ -17,6 +18,11 @@ struct doulnk_struct{
     int data;
     node *rlink;
 };
+//=========================================================
+/* 切割字串 (要切割的字串,切割的符號)
+字串的格式如 srt[]="1,2";
+回傳值為陣列指標地址，陣列[0]是長度 */
+int* str_split(const char* str, const char* sp);
 //=========================================================
 /* API 說明文件*/
 
@@ -66,35 +72,36 @@ int node_value(node* nh, int p);
 // 排序鏈結資料 (鏈結開頭,排序頭,排序尾)
 void node_short(node* nh, int h, int f);
 // 排序鏈結全部資料 (鏈結開頭)
-void node_short(node* nh){
-    return node_short(nh,1,node_lenth(nh));
-}
+void node_short(node* nh);
 // 排序鏈結前幾筆資料 (鏈結開頭,排序位置)
-void node_short(node* nh,int p){
-    return node_short(nh,1,p);
-}
+void node_short(node* nh,int p);
 //=========================================================
 int main(int argc, char const *argv[]){
-    // 開頭節點
+    /* 開頭節點 */
     node *nh=node_creat(-1);
-    // 批次匯入節點
-    int data[]={4,2,1,3,0,51,-5,15,31};
-    int len = sizeof(data)/sizeof(data[0]);
-    nodep_input(nh,data,len);
+    /* 批次匯入節點 */
+    // int data[]={18,15,65,0,1,15,6,-4};
+    // int len = sizeof(data)/sizeof(data[0]);
+    // nodep_input(nh,data,len);
+    char str[]="18,15,65,0,1,15,6,-4";
+    int *str_data=str_split(str,",")+1;
+    int len = *(str_data-1);
+    nodep_input(nh,str_data,len);
     
-    // 排序節點
-    // node_printall(nh);
+    /* 排序節點 */
     node_printalldata(nh);
-    node_short(nh,2);
-    // 印出節點
+    // node_printall(nh);
+    node_short(nh);
+    /* 印出節點 */
     cout << "=====================================" <<endl;
     node_printalldata(nh);
     // node_printall(nh);  
 
 
-    // 釋放記憶體
+    /* 釋放記憶體 */
     node_deleteall(nh);
     delete [] nh;
+    delete [] (str_data-1);
     return 0;
 }
 //=========================================================
@@ -131,7 +138,7 @@ node* node_creat(int data){
 node* nodep_final(node* n){
     int lenth=0;
     node* tmp=n;
-    while( tmp->rlink != NULL || lenth>=999){
+    while( tmp->rlink != NULL && lenth<=999){
         tmp=tmp->rlink;
         lenth++;
     }
@@ -141,7 +148,7 @@ node* nodep_final(node* n){
 int node_lenth(node* nh){
     int lenth=0;
     node* tmp=nh;
-    while( tmp->rlink != NULL || lenth>=999){
+    while( tmp->rlink != NULL && lenth<=999){
         tmp=tmp->rlink;
         lenth++;
     }
@@ -329,7 +336,7 @@ void nodep_change(node* n1, node* n2){
 node* nodep_head(node* n){
     int lenth=0;
     node* tmp=n;
-    while( tmp->link != NULL || lenth>=999){
+    while( tmp->link != NULL && lenth<=999){
         tmp=tmp->link;
         lenth++;
     }
@@ -348,4 +355,43 @@ void node_short(node* nh, int h, int f){
             nodep_change(node_address(nh,i),node_address(nh,i+1));
         }
 }
+
+void node_short(node* nh){
+    return node_short(nh,1,node_lenth(nh));
+}
+
+void node_short(node* nh,int p){
+    return node_short(nh,1,p);
+}
 //=========================================================
+int* str_split(const char* str, const char* sp){
+    // 計算字串長度
+    int slen=0;
+    while (str[slen]!=0 && slen<=999)
+        slen++;
+    // 計算字串內總共有幾個數
+    int ilen=1;
+    for (int i = 0; i < slen; ++i)
+        if ( str[i] == sp[0]) 
+            ilen++;
+    // 根據長度配置記憶體
+    int *ptr = new int[ilen+1];
+    *ptr = (int)(ilen);
+    // 開始切割
+    int tempflag=0,index=1;
+    char *temp = new char[1];
+    for (int i = 0; i <= slen; ++i){
+        if (str[i] == sp[0] || i==slen){
+            ilen++;
+            tempflag=0;
+            // printf("temp=%c%c\n",temp[0],temp[1] );
+            sscanf(temp, "%d", (ptr+index));
+            index++;
+            delete [] temp;
+            temp = new char[1];
+        }
+        else {temp[tempflag++]=str[i];}
+    } delete [] temp;
+    return ptr;
+}
+/* ================================================== */
