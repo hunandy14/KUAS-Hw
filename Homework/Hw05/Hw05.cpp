@@ -84,7 +84,11 @@ int main(int argc, char const *argv[]){
     // int len = sizeof(data)/sizeof(data[0]);
     // nodep_input(nh,data,len);
     char str[]="18,15,65,0,1,15,6,-4";
-    int *str_data=str_split(str,",")+1;
+    char const *ptr=str;
+    // 由外層輸入
+    if (argc > 1)
+    	ptr=argv[1];
+    int *str_data=str_split(ptr,",")+1;
     int len = *(str_data-1);
     nodep_input(nh,str_data,len);
     
@@ -96,7 +100,6 @@ int main(int argc, char const *argv[]){
     cout << "=====================================" <<endl;
     node_printalldata(nh);
     // node_printall(nh);  
-
 
     /* 釋放記憶體 */
     node_deleteall(nh);
