@@ -17,15 +17,14 @@
 
 0. 
 >切割字串 (要切割的字串,切割的符號)  
-字串的格式如 srt[]="1,2";  
-回傳值為陣列指標地址，陣列[0]是長度  
-<code>int* str_split(const char* str, const char* sp);  
+>字串的格式如 srt[]="1,2";  
+>回傳值為陣列指標地址，陣列[0]是長度  
+><code>int* str_split(const char* str, const char* sp);  
   
-00000  
 0.  
 >建立新節點並回傳節點地址 (節點的值)  
-<code>node* node_creat(int data);  
-  
+><code>node* node_creat(int data);  
+
 0. 
 >鏈結的長度 (鏈結的開頭)  
 <code>int node_lenth(node* nh);  
