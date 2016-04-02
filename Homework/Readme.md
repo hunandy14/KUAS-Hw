@@ -17,33 +17,33 @@
 
 0. 
 >切割字串 (要切割的字串,切割的符號)  
->字串的格式如 srt[]="1,2";  
->回傳值為陣列指標地址，陣列[0]是長度  
-><code>int* str_split(const char* str, const char* sp);</code>  
+字串的格式如 srt[]="1,2";  
+回傳值為陣列指標地址，陣列[0]是長度  
+<code>int* str_split(const char* str, const char* sp);</code>
   
 0.  
 >建立新節點並回傳節點地址 (節點的值)  
-><code>node* node_creat(int data);  
-
+<code>node* node_creat(int data);</code>
+  
 0. 
 >鏈結的長度 (鏈結的開頭)  
-<code>int node_lenth(node* nh);  
+<code>int node_lenth(node* nh);</code>
   
 0.  
 >尋找最後一個節點的地址 (任意節點)  
-<code>node* nodep_final(node* n);
-  
+<code>node* nodep_final(node* n);</code>
+ 
 0.  
 >印出節點的值 (任意節點)  
-<code>void nodep_printpt(node* n);
+<code>void nodep_printpt(node* n);</code>
   
 0.  
 >印所有節點的值 (鏈結開頭)  
-<code>void node_printall(node* nh);
+<code>void node_printall(node* nh);</code>
   
 0.  
 >印所有節點的資料 (鏈結開頭)  
-<code>void node_printalldata(node* nh);
+<code>void node_printalldata(node* nh);</code>
   
 0.  
 >印所有節點的地址 (鏈結開頭)  
