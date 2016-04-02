@@ -20,8 +20,8 @@ int* str_split(const char* str, const char* sp);
 //=========================================================
 /* API 說明文件*/
 
-// 建立新節點並回傳節點地址 (節點的值)
-node* node_creat(int data);
+ 建立新節點並回傳節點地址 (節點的值)
+`node* node_creat(int data);  
 // 鏈結的長度 (鏈結的開頭)
 int node_lenth(node* nh);
 // 尋找最後一個節點的地址 (任意節點)
