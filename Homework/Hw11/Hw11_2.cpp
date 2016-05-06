@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
+#include <string>
 #include "StringSplit.cpp"
 #include "file_inout.cpp"
 using namespace std;
@@ -51,14 +53,65 @@ int main(int argc, char const *argv[]){
 
     /* 切割多行數據,並取出欄位數值 */
     string *strarr;
-    int Field=2;
-    int *data_valu = new int[line_len];
+    int Field=2; //讀取哪一行
+    int *data_valu = new int[line_len]; // 讀取的行值
     for (int i = 1; i < line_len; ++i){
         strarr=str_split(data_arr[i].c_str());
         sscanf(strarr[Field].c_str(), "%d", &data_valu[i-1]);
-        cout << "   " << data_valu[i-1] << endl;
+        // istringstream is(strarr[Field]);
+        // is>>data_valu[i];
+        // cout << "   " << data_valu[i-1] << endl;
         // strarr_print(strarr);
     }
+
+    /* 找出讀取行的大到小排序 */
+    int data_temp, data_big=0, data_small=0;
+    //找出最大值
+    data_temp=data_valu[0];
+    for (int i = 1; i < line_len-1; ++i){//第一行不是數據
+        if (data_temp <= data_valu[i]){
+            data_temp=data_valu[i];
+            data_big=i;
+        }
+    }
+    // cout << data_big << endl;
+    //找出最小值
+    data_temp=data_valu[0];
+    for (int i = 1; i < line_len-1; ++i){//第一行不是數據
+        if (data_temp >= data_valu[i]){
+            data_temp=data_valu[i];
+            data_small=i;
+        }
+    }
+    // cout << data_small << endl;
+
+    // 找出順序
+    int *data_seq = new int[line_len]; // 讀取的行值排序
+    data_temp = data_valu[data_small];
+    // cout << data_temp << endl;
+    data_seq[0]=data_big;
+    for (int j = 1; j < 4; ++j){
+        for (int i = 0; i < line_len-1; ++i){
+            // cout << data_valu[i] << endl;
+            cout << data_valu[data_seq[j-1]] << endl;
+            // 檢測是否大於等於已經收入的數值
+            if (data_valu[i] >= data_valu[data_seq[j-1]]){
+                i++; //跳過
+            }
+            if (data_temp <= data_valu[i]){
+                data_temp=data_valu[i];
+                data_seq[j]=i;
+            }
+            // cout << "data_temp=" << data_valu[i] << endl;
+            // cout << "data_temp[data_seq[0]]=" << data_valu[data_seq[0]] << endl;
+            // cout << data_valu[data_seq[0]] << endl;
+        }
+        // cout << data_valu[data_seq[j]] << endl;
+        // cout << data_valu[data_seq[1]] << endl;
+        // cout << data_seq[j] << endl;
+        cout << "----" << endl;
+    }
+    // cout << data_seq[line_len-1] << endl;
 
 
 

@@ -7,6 +7,7 @@ int file_open(const char* filename);
 string file_readstr(const char* filename);
 string* file_data(string file_str,int line_len);
 void file_write(const char* filename,const char* str);
+string file_instr();
 /*====================================================*/
 string file_instr(){
     string indata[5];

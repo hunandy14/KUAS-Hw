@@ -72,9 +72,10 @@ string* str_split(const char* str){
 }
 
 void strarr_print(string* strarr, int len){
-    for (int i = 1; i <= len; ++i){
+    for (int i = 1; i <= len-1; ++i){
         cout << strarr[i] << ",";
-    }cout << endl;
+    }cout << strarr[len];
+    cout << endl;
 }
 
 void strarr_print(string* strarr){
