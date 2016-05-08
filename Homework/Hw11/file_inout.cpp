@@ -3,11 +3,7 @@
 #include <stdio.h>
 using namespace std;
 /*====================================================*/
-int file_open(const char* filename);
-string file_readstr(const char* filename);
-string* file_data(string file_str,int line_len);
-void file_write(const char* filename,const char* str);
-string file_instr();
+string head="[姓名],[年齡],[身高],[收入]";
 /*====================================================*/
 string file_instr(){
     string indata[5];
@@ -21,7 +17,7 @@ string file_instr(){
 void file_write(const char* filename,const char* str){
     fstream fp;
     fp.open(filename, ios::out|ios::app);//開啟檔案
-    fp << str << endl;//寫入字串
+    fp << endl << str;//寫入字串
     fp.close();//關閉檔案
 }
 
@@ -69,13 +65,31 @@ int file_open(const char* filename){
     fstream fp;
     fp.open(filename, ios::in);//開啟檔案
     if(!fp){//如果開啟檔案失敗，fp為0；成功，fp為非0
+        fp.close();//關閉檔案
         cout<<"No file."<<endl;
         cout<<"Creat new file."<<endl;
         fp.open(filename, ios::out);//開啟檔案
-        fp << "[姓名],[年齡],[身高],[收入]\n" << endl;//寫入字串
+        fp << head << endl;//寫入字串
     }
     fp.close();//關閉檔案
     return 1;
+}
+
+void write_seq(string filename, string* data_arr, int *data_seq){
+    int line_len = data_seq[0];
+    // cout << data_arr[0] << endl;
+    fstream fp;
+    fp.open(filename, ios::out);//開啟檔案
+    fp << head << endl;//寫入字串
+    // cout << data_seq[0] << endl;
+    for (int i = 1; i < line_len-1; ++i){
+        fp << data_arr[data_seq[i]] << endl;
+        // cout << data_arr[data_seq[i]] << endl;
+        // cout << data_seq[i] << endl;
+    }
+    fp << data_arr[data_seq[line_len-1]];
+    // cout << data_arr[data_seq[line_len-1]] << endl;
+    fp.close();//關閉檔案
 }
 /*====================================================*/
 
