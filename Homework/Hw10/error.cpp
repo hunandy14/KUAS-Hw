@@ -14,7 +14,7 @@ public:
     frac();
     frac(const T1 &num, const T1 &den);
     // 運算子重載
-    frac operator+(const frac &a, const frac &b);
+    frac operator+(const frac &b);
     // 印出
     void pri();
     // 取得
@@ -79,9 +79,9 @@ T1 frac<T1>::get_den(){
 
 // 運算子重載
 template <typename T1>
-frac<T1>::frac operator+(const frac &a, const frac &b){
-    int den = a.get_den() * b.get_den() ;
-    int num = a.get_num() * b.get_den() +
-              a.get_den() * b.get_num() ;
+frac<T1>::frac operator+(const frac &b){
+    int den = This->den * b.den ;
+    int num = This->num * b.den +
+              This->den * b.num ;
     return sum(num,den);
 }

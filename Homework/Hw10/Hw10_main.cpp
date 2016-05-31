@@ -8,13 +8,15 @@ Final: 2016/05/31
 #include "Hw10_fun.cpp"
 /*=======================================================*/
 int main(int argc, char const *argv[]){
-	frac<double> a(3, 4);
+	frac<int> a(2, 3);
 	a.pri();
-	frac<double> b(5, 4);
+	frac<int> b(3, 4);
 	b.pri();
-	frac<double> temp;
-	// temp = a+b;
-
+	frac<int> temp;
+	temp = a-b;
+	temp.pri();
+	// frac<int> c(2, 1, 3);
+	// c.pri();
 	return 0;
 }
 /*=======================================================*/
