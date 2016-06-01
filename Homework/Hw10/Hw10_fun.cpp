@@ -2,7 +2,7 @@
 Name : 
 Date : 2016/05/31
 By   : CharlotteHonG
-Final: 2016/05/31
+Final: 2016/06/01
 **********************************************************/
 #include <iostream>
 #include "Hw10_fun.h"
@@ -70,6 +70,8 @@ frac<T1> frac<T1>::operator+(const frac &p){
 	temp.num = this->num * p.den+
 			   this->den * p.num;
 	temp.den = this->den * p.den;
+	temp.mix = this->mix;
+	temp.flag = this->flag;
     return temp;
 }
 template <typename T1>
@@ -78,6 +80,8 @@ frac<T1> frac<T1>::operator-(const frac &p){
 	temp.num = this->num * p.den-
 			   this->den * p.num;
 	temp.den = this->den * p.den;
+	temp.mix = this->mix;
+	temp.flag = this->flag;
     return temp;
 }
 template <typename T1>
@@ -85,6 +89,8 @@ frac<T1> frac<T1>::operator*(const frac &p){
 	frac<T1> temp;
 	temp.num = this->num * p.num;
 	temp.den = this->den * p.den;
+	temp.mix = this->mix;
+	temp.flag = this->flag;
     return temp;
 }
 template <typename T1>
@@ -92,5 +98,27 @@ frac<T1> frac<T1>::operator/(const frac &p){
 	frac<T1> temp;
 	temp.num = this->num * p.den;
 	temp.den = this->den * p.num;
+	temp.mix = this->mix;
+	temp.flag = this->flag;
     return temp;
+}
+
+// ·Ö”µÞD“Q
+template <typename T1> // ¼Ù·Ö”µ
+frac<T1> frac<T1>::impro(){
+	frac<T1> temp;
+	temp.mix = 0;
+	temp.num = this->mix*this->den + this->num;
+	temp.den = this->den;
+	temp.flag = this->flag;
+	return temp;
+}
+template <typename T1> // Ž§·Ö”µ
+frac<T1> frac<T1>::mixed(){
+	frac<T1> temp;
+	temp.mix = this->num / this->den;
+	temp.num = this->num % this->den;
+	temp.den = this->den;
+	temp.flag = this->flag;
+	return temp;
 }

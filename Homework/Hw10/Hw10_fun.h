@@ -2,7 +2,7 @@
 Name : 
 Date : 2016/05/31
 By   : CharlotteHonG
-Final: 2016/05/31
+Final: 2016/06/01
 **********************************************************/
 using namespace std;
 
@@ -23,6 +23,9 @@ public:
     // 取得
     T1 get_num();
     T1 get_den();
+    // 分數轉換
+    frac impro();
+    frac mixed();
 private:
     T1 mix;
     T1 num;
