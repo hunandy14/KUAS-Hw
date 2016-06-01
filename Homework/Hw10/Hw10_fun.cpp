@@ -67,10 +67,17 @@ T1 frac<T1>::get_den(){
 template <typename T1>
 frac<T1> frac<T1>::operator+(const frac &p){
 	frac<T1> temp;
+	
+	frac<T1> t1,t2;
+	// t1=this->impro();
+	// t1.pri();
+	// t2=p.impro();
+	// t2.pri();
+
 	temp.num = this->num * p.den+
 			   this->den * p.num;
 	temp.den = this->den * p.den;
-	temp.mix = this->mix;
+	// temp.mix = this->mix;
 	temp.flag = this->flag;
     return temp;
 }
@@ -80,7 +87,7 @@ frac<T1> frac<T1>::operator-(const frac &p){
 	temp.num = this->num * p.den-
 			   this->den * p.num;
 	temp.den = this->den * p.den;
-	temp.mix = this->mix;
+	// temp.mix = this->mix;
 	temp.flag = this->flag;
     return temp;
 }
@@ -89,7 +96,7 @@ frac<T1> frac<T1>::operator*(const frac &p){
 	frac<T1> temp;
 	temp.num = this->num * p.num;
 	temp.den = this->den * p.den;
-	temp.mix = this->mix;
+	// temp.mix = this->mix;
 	temp.flag = this->flag;
     return temp;
 }
@@ -98,7 +105,7 @@ frac<T1> frac<T1>::operator/(const frac &p){
 	frac<T1> temp;
 	temp.num = this->num * p.den;
 	temp.den = this->den * p.num;
-	temp.mix = this->mix;
+	// temp.mix = this->mix;
 	temp.flag = this->flag;
     return temp;
 }

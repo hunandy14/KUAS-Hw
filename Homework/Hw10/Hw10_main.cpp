@@ -8,7 +8,7 @@ Final: 2016/06/01
 #include "Hw10_fun.cpp"
 /*=======================================================*/
 int main(int argc, char const *argv[]){
-	frac<int> a(1, 2);
+	frac<int> a(1, 1, 2);
 	cout<<"a      :";a.pri();
 	frac<int> b(1, 2);
 	cout<<"b      :";b.pri();
