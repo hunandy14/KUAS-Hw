@@ -30,7 +30,7 @@ int main(int argc, char const *argv[]){
     temp.pri();
     cout << "mixed  :";
     temp = temp.mixed();
-    temp.pri();
+    temp.ep(2).as().pri();
     return 0;
 }
 /*=======================================================*/

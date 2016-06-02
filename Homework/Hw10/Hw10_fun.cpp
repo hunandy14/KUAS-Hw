@@ -131,20 +131,41 @@ frac<T1> frac<T1>::mixed() const{
     return temp;
 }
 
-// 約分
+// 最大可約分的除數
 template <typename T1>
-frac<T1> frac<T1>::as() const{
-    frac temp = *this;
-    temp.num = this->num / gcd(this->num, this->den);
-    temp.den = this->den / gcd(this->num, this->den);
-    return temp;
-}
-// 最大公因數
-template <typename T1>
-T1 frac<T1>::gcd(T1 a, T1 b) const{
+T1 frac<T1>::gcd() const{
+    T1 a = this->num; 
+    T1 b = this->den;
     if(b){
         while((a %= b) && (b %= a));
     }
     return a + b;
+}
+// 約分
+template <typename T1>
+frac<T1> frac<T1>::as(T1 n) const{
+    // 已經是最簡不用再做
+    if (this->num == this->num / this->gcd())
+        return *this;
+    // 超過可除最大數，自動校正
+    if (n > this->gcd())
+        n = this->gcd();
+    frac temp = *this;
+    temp.num = this->num / n;
+    temp.den = this->den / n;
+    return temp;
+}
+template <typename T1>
+frac<T1> frac<T1>::as() const{
+    T1 n = this->gcd();
+    return this->as(n);
+}
+// 擴分
+template <typename T1>
+frac<T1> frac<T1>::ep(T1 n) const{
+    frac temp = *this;
+    temp.num = this->num * n;
+    temp.den = this->den * n;
+    return temp;
 }
 

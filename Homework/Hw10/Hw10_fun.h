@@ -28,12 +28,15 @@ public:
     frac mixed() const;
     // 約分
     frac as() const;
+    frac as(T1 n) const;
+    // 擴分
+    frac ep(T1 n) const;
 private:
     T1 mix;
     T1 num;
     T1 den;
     // 確認是否為有效分數
     int flag=0;
-    // 最大公因數
-    T1 gcd(T1 a, T1 b) const;
+    // 最大可約分的除數
+    T1 gcd() const;
 };
