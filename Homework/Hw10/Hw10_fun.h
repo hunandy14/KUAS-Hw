@@ -9,27 +9,31 @@ using namespace std;
 template <typename T1>
 class frac{
 public:
-    // 篶 
+    // 建構子 
     frac();
     frac(const T1 &num, const T1 &den);
     frac(const T1 &mix, const T1 &num, const T1 &den);
-    // 笲衡更
+    // 運算子重載
     frac operator+(const frac &p);
     frac operator-(const frac &p);
     frac operator*(const frac &p);
     frac operator/(const frac &p);
-    // 
+    // 印出
     void pri();
-    // 眔
+    // 取得
     T1 get_num();
     T1 get_den();
-    // だ计锣传
-    frac impro();
-    frac mixed();
+    // 分數轉換
+    frac impro() const;
+    frac mixed() const;
+    // 約分
+    frac as() const;
 private:
     T1 mix;
     T1 num;
     T1 den;
-    //絋﹚琌Τ块
+    // 確認是否為有效分數
     int flag=0;
+    // 最大公因數
+    T1 gcd(T1 a, T1 b) const;
 };

@@ -46,10 +46,12 @@ void frac<T1>::pri(){
         cout << "pri() Error!" << endl;
         return;
     }
-    cout << "[" << mix << ":";
-    cout << num << "/" << den << "]";
-    double temp = static_cast<double>(num)/ 
-                  static_cast<double>(den);
+    cout << "[" << this->mix << ":";
+    cout << num << "/" << this->den << "]";
+    double temp = static_cast<double>
+                    (this->impro().num)/
+                  static_cast<double>
+                    (this->impro().den);
     cout << " (" << temp << ")" << endl;
 }
 
@@ -67,65 +69,82 @@ T1 frac<T1>::get_den(){
 template <typename T1>
 frac<T1> frac<T1>::operator+(const frac &p){
     frac<T1> temp;
-    
-    frac<T1> t1,t2;
-    t1=this->impro();
-    t1.pri();
-    t2=p.impro();
-    t2.pri();
-
-    temp.num = this->num * p.den+
-               this->den * p.num;
-    temp.den = this->den * p.den;
-    // temp.mix = this->mix;
+    temp.num = this->impro().num * p.impro().den+
+               this->impro().den * p.impro().num;
+    temp.den = this->impro().den * p.impro().den;
+    temp.mix = this->impro().mix;
     temp.flag = this->flag;
+    temp = temp.as().mixed();
     return temp;
 }
 template <typename T1>
 frac<T1> frac<T1>::operator-(const frac &p){
     frac<T1> temp;
-    temp.num = this->num * p.den-
-               this->den * p.num;
-    temp.den = this->den * p.den;
-    // temp.mix = this->mix;
+    temp.num = this->impro().num * p.impro().den-
+               this->impro().den * p.impro().num;
+    temp.den = this->impro().den * p.impro().den;
+    temp.mix = this->impro().mix;
     temp.flag = this->flag;
+    temp = temp.as().mixed();
     return temp;
 }
 template <typename T1>
 frac<T1> frac<T1>::operator*(const frac &p){
     frac<T1> temp;
-    temp.num = this->num * p.num;
-    temp.den = this->den * p.den;
-    // temp.mix = this->mix;
+    temp.num = this->impro().num * p.impro().num;
+    temp.den = this->impro().den * p.impro().den;
+    temp.mix = this->impro().mix;
     temp.flag = this->flag;
+    temp = temp.as().mixed();
     return temp;
 }
 template <typename T1>
 frac<T1> frac<T1>::operator/(const frac &p){
     frac<T1> temp;
-    temp.num = this->num * p.den;
-    temp.den = this->den * p.num;
-    // temp.mix = this->mix;
+    temp.num = this->impro().num * p.impro().den;
+    temp.den = this->impro().den * p.impro().num;
+    temp.mix = this->impro().mix;
     temp.flag = this->flag;
+    temp = temp.as().mixed();
     return temp;
 }
 
 // 分數轉換
 template <typename T1> // 假分數
-frac<T1> frac<T1>::impro(){
+frac<T1> frac<T1>::impro() const{
     frac<T1> temp;
     temp.mix = 0;
     temp.num = this->mix*this->den + this->num;
     temp.den = this->den;
     temp.flag = this->flag;
+    temp = temp.as();
     return temp;
 }
 template <typename T1> // 帶分數
-frac<T1> frac<T1>::mixed(){
+frac<T1> frac<T1>::mixed() const{
     frac<T1> temp;
     temp.mix = this->num / this->den;
     temp.num = this->num % this->den;
     temp.den = this->den;
     temp.flag = this->flag;
+    temp = temp.as();
     return temp;
 }
+
+// 約分
+template <typename T1>
+frac<T1> frac<T1>::as() const{
+    frac temp = *this;
+    temp.num = this->num / gcd(this->num, this->den);
+    temp.den = this->den / gcd(this->num, this->den);
+    return temp;
+}
+// 最大公因數
+template <typename T1>
+T1 frac<T1>::gcd(T1 a, T1 b) const{
+    if(b){
+        while((a %= b) && (b %= a));
+    }
+    return a + b;
+}
+
