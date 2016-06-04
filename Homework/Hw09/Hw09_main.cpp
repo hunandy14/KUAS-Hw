@@ -6,7 +6,8 @@ Final: 2016/05/24
 **********************************************************/
 #include <iostream>
 #include <string>
-#include "Hw09_fun.cpp"
+#include "Hw09_fun.h"
+using namespace std;
 //=========================================================
 int main(int argc, char const *argv[]){
     char choose=0;
@@ -23,7 +24,7 @@ int main(int argc, char const *argv[]){
     // st_print(np[0]);
 
     // ¿ï³æ
-    int count=1;
+    int count=2;
     string s1,s2;
     int s3;
     while(choose!=-1){

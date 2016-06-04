@@ -4,7 +4,9 @@ Date : 2016/05/24
 By   : CharlotteHonG
 Final: 2016/05/24
 **********************************************************/
-#include "Hw09_fun.h"
+#include <iostream>
+#include <string>
+using namespace std;
 
 void print_menu(){
     cout << MainMenu;

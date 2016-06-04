@@ -4,6 +4,9 @@ Date : 2016/05/24
 By   : CharlotteHonG
 Final: 2016/05/24
 **********************************************************/
+#ifndef HW09_FUN_H
+#define HW09_FUN_H
+
 #define stlen 10
 using namespace std;
 
@@ -35,3 +38,6 @@ void print_multist(int len, st* stru);
 void print_multist(st* stru);
 void st_delete(st* stru,int id);
 //=========================================================
+#include "Hw09_fun.cpp"
+
+#endif
