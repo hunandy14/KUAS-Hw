@@ -5,7 +5,7 @@ By   : CharlotteHonG
 Final: 2016/05/19
 **********************************************************/
 #include <iostream>
-#include "fun/Hw14_fun.cpp"
+#include "fun/Hw14_fun"
 /*=======================================================*/
 int main(int argc, char const *argv[]){
     Demo<int*, int> arr;

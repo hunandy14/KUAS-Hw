@@ -5,7 +5,7 @@ By   : CharlotteHonG
 Final: 2016/06/01
 **********************************************************/
 #include <iostream>
-#include "Hw10_fun.cpp"
+#include "Hw10_fun"
 /*=======================================================*/
 int main(int argc, char const *argv[]){
     frac<int> a(2, 2, 3);

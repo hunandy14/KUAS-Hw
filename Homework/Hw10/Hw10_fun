@@ -4,8 +4,10 @@ Date : 2016/05/31
 By   : CharlotteHonG
 Final: 2016/06/01
 **********************************************************/
-using namespace std;
+#ifndef HW_10_FUN
+#define HW_10_FUN
 
+using namespace std;
 template <typename T1>
 class frac{
 public:
@@ -40,3 +42,6 @@ private:
     // 最大可約分的除數
     T1 gcd() const;
 };
+
+#include "Hw10_fun.cpp"
+#endif

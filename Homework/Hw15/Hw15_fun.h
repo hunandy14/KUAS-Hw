@@ -4,6 +4,10 @@ Date:2016/05/10
 Final:2016/05/11
 By CharlotteHong
 **********************************************************/
+#ifndef HW15_FUN_H
+#define HW15_FUN_H
+#include "Hw15_fun.cpp"
+
 using namespace std;
 char choose;
 string str_in;
@@ -21,3 +25,5 @@ string one(string str);
 string two(string str, int n);
 string three(string str);
 /* ===================================================== */
+
+#endif

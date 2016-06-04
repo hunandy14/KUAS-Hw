@@ -4,7 +4,6 @@ Date:2016/05/10
 Final:2016/05/11
 By CharlotteHong
 **********************************************************/
-#include "Hw15_fun.h"
 #include "stringsplit.cpp"
 /* ===================================================== */
 string one(string str){

@@ -5,7 +5,6 @@ By   : CharlotteHonG
 Final: 2016/06/01
 **********************************************************/
 #include <iostream>
-#include "Hw10_fun.h"
 
 // ½¨˜‹×Ó
 template <typename T1>

@@ -9,7 +9,7 @@ By CharlotteHong
 #include <string>
 #include <stdlib.h>
 #include <stdio.h>
-#include "Hw15_fun.cpp"
+#include "Hw15_fun.h"
 //=========================================================
 int main(int argc, char const *argv[]){
     while(choose!=-1){

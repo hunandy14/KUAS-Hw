@@ -5,7 +5,6 @@ By   : CharlotteHonG
 Final: 2016/05/19
 **********************************************************/
 #include <iostream>
-#include "Hw14_fun.h"
 
 /* setter */
 template <typename T1, typename T2>
