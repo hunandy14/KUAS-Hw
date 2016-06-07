@@ -8,12 +8,30 @@
 這次要模擬出一個小遊戲的架構  
 
 <pre>
-Organism(生物){ Summoner, Monster }  
-Summoner(主角){HP,SP,ATK,Bag}  
-Monster(怪物){HP,SP,ATK}  
-HP(生命)、SP(魔力)、ATK(攻擊力)  
-Equipment(背包){Food,Arms,Material}  
-Arms(武器)、Apparel (服飾)、Shoe(鞋子)  
+Organism(生物){
+	Summoner(男主角),
+	Monster(怪物)
+}
+
+Summoner(主角){
+	HP(生命),
+	SP(魔力),
+	ATK(攻擊力),
+	Bag(背包)
+}
+
+Monster(怪物){
+	HP(生命),
+	SP(魔力),
+	ATK(攻擊力)
+}
+
+Equipment(背包){
+	Food(食物),
+	Arms(武器),
+	Material(材料)
+}
+
 </pre>
 
 請問如何利用物件導向的方式界定各個資料間的關係？  
@@ -22,13 +40,18 @@ Arms(武器)、Apparel (服飾)、Shoe(鞋子)
 
 <pre>
 主角
-    主角的HP 
-    主角的 SP 
-    主角的ATK” 
+    主角的HP
+    主角的 SP
+    主角的ATK
 </pre>
 <pre>
 怪物：
-    怪物的 HP 
-    怪物的 SP 
-    怪物的 ATK” 
+    怪物的 HP
+    怪物的 SP
+    怪物的 ATK
 </pre>
+
+> [主角] 跟 [怪物]都是[生物]－－－－－－－－is  
+> [主角] 有 [生命、魔力、攻擊力、裝備]－－ has  
+> [怪物] 有 [生命、魔力、攻擊力]－－－－－ has  
+> [裝備] 有 [武器、服飾、鞋子]－－－－－－ has  
