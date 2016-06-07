@@ -1,0 +1,39 @@
+/**********************************************************
+Name : 
+Date : 2016/06/02
+By   : CharlotteHonG
+Final: 2016/06/02
+**********************************************************/
+class Organism {
+public:
+	void Summoner_set();
+	void Monster_set();
+private:
+	int HP;
+	int SP;
+	int ATK;
+};
+
+class Summoner: public Organism{
+public: 
+	Summoner(){
+		Summoner_set();
+	};
+private: 
+	Equipment *equipment;
+};
+
+class Monster: public Organism {
+public:
+	Monster(){
+		Monster_set();
+	};
+};
+
+class Equipment { 
+public:
+private:
+	Arms *arms;
+	Apparel *apparel;
+	Shoe *shoe;
+};
