@@ -1,0 +1,45 @@
+/**********************************************************
+Name : 
+Date : 2016/06/07
+By   : CharlotteHonG
+Final: 2016/06/07
+**********************************************************/
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Arms {
+public:
+    Arms(string n){
+        this->name = n;
+    }
+    string name;
+};
+
+class Apparel{
+public:
+    Apparel(string n){
+        this->name = n;
+    }
+    string name;
+};
+
+class Shoe {
+public:
+    Shoe(string n){
+        this->name = n;
+    }
+    string name;
+};
+
+class Equipment{
+public:
+    Equipment(Arms* arms, Apparel* apparel, Shoe* shoe){
+        this->arms = arms;
+        this->apparel = apparel;
+        this->shoe = shoe;
+    }
+    Arms *arms;
+    Apparel *apparel;
+    Shoe *shoe;
+};

@@ -9,27 +9,27 @@
 
 <pre>
 Organism(生物){
-	Summoner(男主角),
-	Monster(怪物)
+	Summoner (男主角),
+	Monster  (怪物)
 }
 
 Summoner(主角){
-	HP(生命),
-	SP(魔力),
-	ATK(攻擊力),
-	Bag(背包)
+	HP  (生命),
+	SP  (魔力),
+	ATK (攻擊力),
+	Bag (背包)
 }
 
 Monster(怪物){
-	HP(生命),
-	SP(魔力),
-	ATK(攻擊力)
+	HP  (生命),
+	SP  (魔力),
+	ATK (攻擊力)
 }
 
 Equipment(背包){
-	Food(食物),
-	Arms(武器),
-	Material(材料)
+	Food     (食物),
+	Arms     (武器),
+	Material (材料)
 }
 
 </pre>
@@ -40,9 +40,9 @@ Equipment(背包){
 
 <pre>
 主角
-    主角的HP
+    主角的 HP
     主角的 SP
-    主角的ATK
+    主角的 ATK
 </pre>
 <pre>
 怪物：

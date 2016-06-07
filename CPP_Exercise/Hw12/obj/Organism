@@ -1,0 +1,55 @@
+/**********************************************************
+Name : 
+Date : 2016/06/02
+By   : CharlotteHonG
+Final: 2016/06/07
+**********************************************************/
+#include <iostream>
+#include <string>
+#include "Equipment"
+using namespace std;
+
+class Organism {
+protected:
+    Organism(int hp=0, int sp=0, int atk=0){
+        this->hp = hp;
+        this->sp = sp;
+        this->atk = atk;
+    }
+    void pri(){
+        cout << "   hp :" << hp << endl;
+        cout << "   sp :" << sp << endl;
+        cout << "   atk:" << atk << endl;
+    }
+    int hp;
+    int sp;
+    int atk;
+};
+
+class Summoner: public Organism{
+public: 
+    Summoner(int hp, int sp, int atk,
+    Equipment* equipment)
+    :Organism(hp, sp, atk){
+        this->equipment = equipment;
+    }
+    void pri(){
+        this->Organism::pri();
+        cout << "   qeui:";
+        cout << equipment->arms->name << endl;
+        cout << "        " << equipment->apparel->name << endl;
+        cout << "        " << equipment->shoe->name << endl;
+    }
+private: 
+    Equipment* equipment;
+};
+
+class Monster: public Organism {
+public:
+    Monster(int hp, int sp, int atk)
+    :Organism(hp, sp, atk){
+    }
+    void pri(){
+        this->Organism::pri();
+    }
+};
