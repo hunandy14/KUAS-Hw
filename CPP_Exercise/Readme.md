@@ -1,40 +1,86 @@
 ## KUAS-Hw
 
-### ä½œæ¥­ç·´ç¿’ - æª”æ¡ˆé€£çµ
-* [è¨“ç·´æ•™æ](https://www.dropbox.com/sh/avlzdupy7zqsdl3/AABu3z8NFW3J1ugirk2HOHFXa?dl=0)
-* [ä½œæ¥­1-8](https://www.dropbox.com/sh/vj86aw5ff4vxvgt/AAA7GE0cikzOGepjlqNOpe3oa?dl=0)
-* [ä½œæ¥­9-16](https://www.dropbox.com/sh/n4pbft6vjxukshl/AAD6Z7zY4KFjSNP152LNuJFya?dl=0)
-* [ä½œæ¥­17-20](https://www.dropbox.com/sh/cno6kzzj7p5wf41/AAA02oxmanSILZ2t51AgTcPxa?dl=0)
+### §@·~½m²ß - ÀÉ®×³sµ²
+* [°V½m±Ð§÷](https://www.dropbox.com/sh/avlzdupy7zqsdl3/AABu3z8NFW3J1ugirk2HOHFXa?dl=0)
+* [§@·~1-8](https://www.dropbox.com/sh/vj86aw5ff4vxvgt/AAA7GE0cikzOGepjlqNOpe3oa?dl=0)
+* [§@·~9-16](https://www.dropbox.com/sh/n4pbft6vjxukshl/AAD6Z7zY4KFjSNP152LNuJFya?dl=0)
+* [§@·~17-20](https://www.dropbox.com/sh/cno6kzzj7p5wf41/AAA02oxmanSILZ2t51AgTcPxa?dl=0)
 
-#### 9 é¡žåˆ¥åˆæ­¥ - çµæ§‹
-æœ¬æ¬¡ä½œæ¥­å…§å®¹ä¸»è¦æ˜¯ç†Ÿæ‚‰ çµæ§‹ çš„ä½¿ç”¨æ–¹æ³•ã€‚  
-è«‹è¨­è¨ˆä¸€å€‹å­¸ç”Ÿæˆç¸¾æŸ¥è©¢ç³»çµ±ï¼Œåˆ©ç”¨çµæ§‹ä¾†è£½ä½œ  
-å­¸ç”Ÿè³‡æ–™åŒ…å«å§“åã€å­¸è™Ÿã€æˆç¸¾ï¼Œ  
-éœ€è¦èƒ½å¤ æ–°å¢žã€åˆªé™¤ã€é¡¯ç¤ºå­¸ç”Ÿè³‡æ–™ ã€‚ 
+#### 1 °ò¥»µ{¦¡³]­p¾É½×
+¥»¦¸§@·~¤º®e¥D­n¬O¼ô±xµ{¦¡³]­p¡C   
+½Ð¥Îµ{¦¡³]­p¼g¥X¥H¤Uªº¨Ò¤l¡A¨Ï¥Î ASCII ½X¨Ó¿é¥X¡uHello Word¡v¡C  
 
-#### 11 é‹ç®—å­è¦†è¼‰
-æœ¬æ¬¡ä½œæ¥­å…§å®¹ä¸»è¦æ˜¯ç†Ÿæ‚‰ é‹ç®—å­è¦†è¼‰ çš„ä½¿ç”¨æ–¹æ³•ã€‚  
-è«‹æ’°å¯«ä¸€å€‹åˆ†æ•¸ (Fraction) é¡žåˆ¥ï¼Œ  
-åˆ©ç”¨é‹ç®—å­è¦†è¼‰çš„è§€å¿µï¼Œå°‡è¼¸å…¥åˆ†æ•¸ä½¿ç”¨çš„è§€å¿µï¼Œ  
-å¼·åˆ¶åž‹åˆ¥è½‰æ›ç‚ºæ•´æ•¸æˆ–å°æ•¸ã€‚
+#### 2 µ{¦¡¬[ºc
+¥»¦¸§@·~¤º®e¥D­n¬O¼ô±xµ{¦¡³]­p¡C   
+½Ð¥Îµ{¦¡³]­p¼g¥X¥H¤Uªº¨Ò¤l¡A½Ð¿é¤J¬Y­Ó¼Æªº  
+1¡B2¡B3 ¦¸¤è¡A¨Ò¦p¡G¿é¤J 10¡A 1 ¦¸¤è¬° 10¡A 
+2 ¦¸¤è¬° 100¡A3 ¦¸¤è¬° 1000¡C   
 
-#### 12 é¡žåˆ¥é–“çš„é—œä¿‚ â€“ åµŒå…¥èˆ‡ç¹¼æ‰¿
-æœ¬æ¬¡ä½œæ¥­ä¸»è¦æ˜¯ç†Ÿæ‚‰é¡žåˆ¥ç‰©ä»¶é–“ä½¿ç”¨ç¹¼æ‰¿ä¾†é”æˆä¹‹é–“é—œä¿‚ã€‚  
-é€™æ¬¡è¦æ¨¡æ“¬å‡ºä¸€å€‹å°éŠæˆ²çš„æž¶æ§‹ 
+#### 3 «¬§O»Pºâ¤l
+¥»¦¸§@·~¤º®e¥D­n¬O¼ô±x«¬§O»Pºâ¤lªº¨Ï¥Î¤èªk¡C  
+½Ð¥Îµ{¦¡³]­p¼g¥X¥H¤Uªº¨Ò¤l¡A¿é¤J¨â­Ó¯BÂI¼Æ X¡BY¡A²Ä¤@­Ó¯BÂI¼Æ X  
+¬O­n¨Ï¥Îªº­È¡A²Ä¤G­Ó¯BÂI Y ¼Æ¥Nªíºë½T«×¡A  
+¨Ò¦p X=0.1234¡BY=0.01¡A¿é¥X 0.1200¡C   
 
-#### 13 é¡žåˆ¥é–“çš„é—œä¿‚ â€“ åµŒå…¥èˆ‡ç¹¼æ‰¿
-æœ¬æ¬¡ä½œæ¥­ä¸»è¦æ˜¯ç†Ÿæ‚‰å¹¾ä½•æŽ¨ç†ç”¨åœ¨é¡žåˆ¥ç‰©ä»¶çš„æ‡‰ç”¨  
-è«‹ç”¢ç”Ÿä¸€å€‹ç‰©ä»¶ç‚ºä¸‰è§’å½¢ï¼Œä½¿ç”¨å‡½å¼è®“ç‰©ä»¶å¯ä»¥åšä»¥ä¸‹å‹•ä½œ
+#### 4 ÅÞ¿è»P°j°é
+1. ¥»¦¸§@·~¤º®e¥D­n¬O¼ô±xÅÞ¿è»P°j°éªº¨Ï¥Î¤èªk¡C  
+½Ð¥Îµ{¦¡³]­p¼g¥X¥H¤Uªº¨Ò¤l¡A¿é¤J¨â­Ó¾ã¼Æ¡A­pºâ¨â¼Æªº³Ì¤j¤½¦]¼Æ¡B³Ì¤p¤½­¿¼Æ¡C  
+2. ¥»¦¸§@·~¤º®e¥D­n¬O¼ô±xÅÞ¿è»P°j°éªº¨Ï¥Î¤èªk¡C  
+½Ð¥Îµ{¦¡³]­p¼g¥X¥H¤Uªº¨Ò¤l¡A¿é¤J¨â­Ó¼Æ­È¡A¥i¥H¦Û­qªø¼e¡C  
+¨Ï¥Î°j°éÅã¥Ü¤@­Ó¶¶®ÉÄÁ±ÛÂàªº¼Æ¦C¡A 
 
-#### 14 æ¨£æ¿(template)
-æœ¬æ¬¡ä½œæ¥­å…§å®¹ä¸»è¦æ˜¯ç†Ÿæ‚‰æ¨£æ¿çš„åŸºæœ¬ä½¿ç”¨æ–¹æ³•ã€‚   
-è«‹è¨­è¨ˆä¸€å€‹å°ç¨‹å¼ï¼Œèƒ½å¤ è¨ˆç®—é™£åˆ—è£¡çš„å…ƒç´ ä¹‹
+#### 5 «ü¼Ð
+¥»§@·~¤º®e¥D­n¼ô±x«ü¼Ðªº¨Ï¥Î¡A¦ÓÃìµ²¦ê¦Cªº·§©À´N¬O±q«ü¼Ð¶}©l¡A  
+½Ð°µ¥X¤@­Ó¤pµ{¦¡¡A°ò¥»¥\¯à¬°·s¼W¤@¥iÀx¦s¸ê®ÆªºÃìµ²¦ê¦C¡A  
+¨Ãµ²§ô¿é¤J®É§âÃìµ²¦ê¦Cªº¥þ³¡¸ê®Æ¦C¦L¥X¨Ó  
 
-#### 15 C++å­—ä¸²
-æœ¬æ¬¡ä½œæ¥­å…§å®¹ä¸»è¦æ˜¯ç†Ÿæ‚‰ C++è£¡çš„å­—ä¸²ä½¿ç”¨æ–¹æ³•(éžå‚³çµ±å­—ä¸²ç”¨æ³•)ã€‚  
-è«‹è¨­è¨ˆä¸€å€‹å°ç¨‹å¼ï¼Œ2 ç¨®å­—ä¸²è™•ç†åŠŸèƒ½
+#### 6 °}¦C
+¥»§@·~¬°°}¦Cªº¹ê§@½m²ß¡A­n¨D¨Ï¥ÎªÌ§Q¥Î°}¦Cµ²¦X«ü¼Ðªº·§©À¡A  
+¹ê²{¤@­Ó¤Gºû°}¦C¡A¦b¦¹°}¦C¤¤²£¥Í 1~50 ªºÀH¾÷¶Ã¼Æ¡A  
+§â¦¹°}¦C¶ñº¡¡A¤§«á§â°}¦Cªº²Ä¤@¦æ»P²Ä¤G¦æ¬Û¥[«á  
+¦s©ñ¦b²Ä¤G¦æªº¦ì¸m¡A¨Ì¦¹Ãþ±À¦Ü°}¦Cµ²§À¡A±µµÛ¦A§â°}¦C¦C¦L¥X¨Ó¡C  
 
-#### 16 ç•°å¸¸è™•ç†
-æœ¬æ¬¡ä½œæ¥­å…§å®¹ä¸»è¦æ˜¯ç†Ÿæ‚‰ åŸºæœ¬ç•°å¸¸è™•ç†  
-è«‹è¨­è¨ˆä¸€å€‹å°ç¨‹å¼ ï¼Œåˆ©ç”¨æœ¬ç« æ‰€ä»‹ç´¹çš„  
-ç•°å¸¸è™•ç†æ©Ÿåˆ¶æ’°å¯«æ•¸å­¸éšŽå±¤å‡½ï¼Œä»¥é¿å…è¼¸å‡ºæ•¸å­—éŽå¤§ 
+#### 7 ¦r¤¸°}¦C»P¦r¦ê
+¥»¦¸§@·~¤º®e¥D­n¬O¼ô±x¦r¦ê»P¦r¤¸°}¦Cªº¨Ï¥Î¤èªk¡C  
+½Ð°µ¥X¤@­Ó¤pµ{¦¡¡A°ò¥»¥\¯à¬°µ{¦¡¤@ª½°õ¦æ¡A  
+§iª¾¨Ï¥ÎªÌ¥Ø«e¦r¦ê¨Ã¥B´£¨Ñ¿ï¶µ¡A»Ý­n¦³ 4 ºØ¿ï¶µ¡A  
+§ó§ï¦r¦ê¡BÂà¤j¼g¡BÂà¤p¼g¤ÎÂ÷¶}¡C   
+°£¤F¤W­z¥|ºØ¿ï¶µ¡A½Ð·Q¥X²Ä 5 ¶µ¥\¯à¡A  
+¦¹¶µ¥\¯à­n»P¦r¦ê©Î¦r¤¸°}¦CªºÀ³¥Î¬ÛÃö¡C   
+¨Ò¦p¡G§ì¥X³æ¤@¦r¤¸§@Âà´«¡B¿é¤J¨ä¥L»y¨¥°µÀ³¥Îµ¥¡C  
+
+#### 8 ¨ç¦¡
+½Ð§Q¥Î»¼°j¨ç¦¡°µ¥Xªe¤º¶ð¡C
+
+#### 9 Ãþ§Oªì¨B - µ²ºc
+¥»¦¸§@·~¤º®e¥D­n¬O¼ô±x µ²ºc ªº¨Ï¥Î¤èªk¡C  
+½Ð³]­p¤@­Ó¾Ç¥Í¦¨ÁZ¬d¸ß¨t²Î¡A§Q¥Îµ²ºc¨Ó»s§@  
+¾Ç¥Í¸ê®Æ¥]§t©m¦W¡B¾Ç¸¹¡B¦¨ÁZ¡A  
+»Ý­n¯à°÷·s¼W¡B§R°£¡BÅã¥Ü¾Ç¥Í¸ê®Æ ¡C 
+
+#### 11 ¹Bºâ¤lÂÐ¸ü
+¥»¦¸§@·~¤º®e¥D­n¬O¼ô±x ¹Bºâ¤lÂÐ¸ü ªº¨Ï¥Î¤èªk¡C  
+½Ð¼¶¼g¤@­Ó¤À¼Æ (Fraction) Ãþ§O¡A  
+§Q¥Î¹Bºâ¤lÂÐ¸üªºÆ[©À¡A±N¿é¤J¤À¼Æ¨Ï¥ÎªºÆ[©À¡A  
+±j¨î«¬§OÂà´«¬°¾ã¼Æ©Î¤p¼Æ¡C
+
+#### 12 Ãþ§O¶¡ªºÃö«Y ¡V ´O¤J»PÄ~©Ó
+¥»¦¸§@·~¥D­n¬O¼ô±xÃþ§Oª«¥ó¶¡¨Ï¥ÎÄ~©Ó¨Ó¹F¦¨¤§¶¡Ãö«Y¡C  
+³o¦¸­n¼ÒÀÀ¥X¤@­Ó¤p¹CÀ¸ªº¬[ºc 
+
+#### 13 Ãþ§O¶¡ªºÃö«Y ¡V ´O¤J»PÄ~©Ó
+¥»¦¸§@·~¥D­n¬O¼ô±x´X¦ó±À²z¥Î¦bÃþ§Oª«¥óªºÀ³¥Î  
+½Ð²£¥Í¤@­Óª«¥ó¬°¤T¨¤§Î¡A¨Ï¥Î¨ç¦¡Åýª«¥ó¥i¥H°µ¥H¤U°Ê§@
+
+#### 14 ¼ËªO(template)
+¥»¦¸§@·~¤º®e¥D­n¬O¼ô±x¼ËªOªº°ò¥»¨Ï¥Î¤èªk¡C   
+½Ð³]­p¤@­Ó¤pµ{¦¡¡A¯à°÷­pºâ°}¦C¸Ìªº¤¸¯À¤§
+
+#### 15 C++¦r¦ê
+¥»¦¸§@·~¤º®e¥D­n¬O¼ô±x C++¸Ìªº¦r¦ê¨Ï¥Î¤èªk(«D¶Ç²Î¦r¦ê¥Îªk)¡C  
+½Ð³]­p¤@­Ó¤pµ{¦¡¡A2 ºØ¦r¦ê³B²z¥\¯à
+
+#### 16 ²§±`³B²z
+¥»¦¸§@·~¤º®e¥D­n¬O¼ô±x °ò¥»²§±`³B²z  
+½Ð³]­p¤@­Ó¤pµ{¦¡ ¡A§Q¥Î¥»³¹©Ò¤¶²Ðªº  
+²§±`³B²z¾÷¨î¼¶¼g¼Æ¾Ç¶¥¼h¨ç¡A¥HÁ×§K¿é¥X¼Æ¦r¹L¤j 
