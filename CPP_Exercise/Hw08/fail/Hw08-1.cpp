@@ -114,7 +114,7 @@ int main(int argc, char const *argv[]){
     ht[1] = node_creat(-1);
     ht[2] = node_creat(-1);
     /* 批次匯入節點 */
-    int len = 6, *data = new int[len];
+    int len = 3, *data = new int[len];
     for (int i = 0; i < len; ++i)
         data[i] = len-i;
     nodep_input(ht[0], data, len);
