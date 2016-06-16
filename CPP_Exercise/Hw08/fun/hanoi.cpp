@@ -1,5 +1,5 @@
 /**********************************************************
-Name : 
+Name : hanoi
 Date : 2016/06/15
 By   : CharlotteHonG
 Final: 2016/06/15
@@ -15,7 +15,7 @@ int hanoi_checkmove(node* nh1, node* nh2){
         // cout << "   n1 is link head." << endl;
         return 0;
     }
-    if (nodep_final(nh2)->link != NULL){
+    else if (nodep_final(nh2)->link != NULL){
         if (nodep_final(nh1)->data > nodep_final(nh2)->data){
             // cout << "hanoi_move Error!!" << endl;
             // cout << "   n1 value > n2." << endl;
@@ -62,7 +62,7 @@ int hanoi_sent(node** ht){
         }
     }
     // 雙數
-    if (hanoi_lenth(ht)%2 == 0) {
+    else if (hanoi_lenth(ht)%2 == 0) {
         if (hanoi_checkmove(ht[0],ht[1])==1){
             // 如果重複上一步的話(另一個收也算)
             if (hanoi_logchk(ht[0],ht[1])==1 ||
@@ -96,7 +96,7 @@ int hanoi_receive(node** ht, int mode){
             hanoi_move(ht[1],ht[0]);
         }
     }
-    if (mode==1){ //大收回
+    else if (mode==1){ //大收回
         if (nodep_final(ht[1])->data < \
             nodep_final(ht[2])->data){
             if (hanoi_logchk(ht[2],ht[0])==1)
