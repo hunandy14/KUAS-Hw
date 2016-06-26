@@ -6,6 +6,7 @@ Final: 2016/06/07
 **********************************************************/
 #include <iostream>
 #include "obj\Organism"
+#include "obj\Equipment"
 using namespace std;
 /*=======================================================*/
 int main(int argc, char const *argv[]){

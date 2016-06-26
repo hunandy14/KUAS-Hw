@@ -4,6 +4,9 @@ Date : 2016/06/02
 By   : CharlotteHonG
 Final: 2016/06/07
 **********************************************************/
+#ifndef ORGANISM
+#define ORGANISM
+
 #include <iostream>
 #include <string>
 #include "Equipment"
@@ -53,3 +56,5 @@ public:
         this->Organism::pri();
     }
 };
+
+#endif

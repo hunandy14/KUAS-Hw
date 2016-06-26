@@ -6,6 +6,7 @@ Final: 2016/05/24
 **********************************************************/
 #include <iostream>
 #include <string>
+#include <stdlib.h>
 #include "Hw09_fun.h"
 using namespace std;
 //=========================================================

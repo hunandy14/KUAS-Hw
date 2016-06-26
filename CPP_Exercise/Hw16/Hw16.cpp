@@ -5,6 +5,7 @@ By   : CharlotteHonG
 Final: 2016/05/15
 **********************************************************/
 #include <iostream>
+#include <stdlib.h>
 #define floor 13
 using namespace std;
 

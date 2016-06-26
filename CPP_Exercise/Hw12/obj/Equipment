@@ -4,6 +4,9 @@ Date : 2016/06/07
 By   : CharlotteHonG
 Final: 2016/06/07
 **********************************************************/
+#ifndef EQUIPMENT
+#define EQUIPMENT
+
 #include <iostream>
 #include <string>
 using namespace std;
@@ -43,3 +46,5 @@ public:
     Apparel *apparel;
     Shoe *shoe;
 };
+
+#endif
