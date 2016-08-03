@@ -1,0 +1,30 @@
+/**********************************************************
+Name : 
+Date : 2016/08/04
+By   : CharlotteHonG
+Final: 2016/08/04
+**********************************************************/
+#ifndef OPEN_RAW
+#define OPEN_RAW
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+using namespace std;
+
+class imgraw{
+public:
+    imgraw(string filename);
+    void read();
+    void write(string filename);
+private:
+    string filename;
+    fstream img;
+    vector<char> img_data;
+    int x;
+    int y;
+    ifstream::pos_type filesize;
+};
+#include "OpenRAW.cpp"
+
+#endif
