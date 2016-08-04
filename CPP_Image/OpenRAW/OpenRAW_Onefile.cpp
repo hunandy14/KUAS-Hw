@@ -42,8 +42,7 @@ int main(int argc, char const *argv[]){
 
     // 每個點-40 (整體會變黑)
     for (int i = 0; i < filesize; ++i){
-        if (img_data[i]>=0+40 && img_data[i]<=255-40)
-        {
+        if (img_data[i]>=0+40 && img_data[i]<=255-40){
             img_data[i]-=40;
         }else if(img_data[i]<=0+40){
             img_data[i]=0;

@@ -4,7 +4,14 @@ Date : 2016/08/03
 By   : CharlotteHonG
 Final: 2016/08/03
 **********************************************************/
-imgraw::imgraw(string filename){
+imgraw::imgraw(int y, int x){
+    this->width = x;
+    this->high = y;
+    this->img_data.resize(x*y);
+    this->filesize = x*y;
+}
+
+void imgraw::read(string filename){
     this->filename = filename;
     // 二進位模式開檔測試
     img.open(filename, ios::in | ios::binary);
@@ -17,9 +24,6 @@ imgraw::imgraw(string filename){
     else{
         cout << "File ok." << endl;
     }img.close();
-}
-
-void imgraw::read(){
     // 二進位模式讀檔
         // 取得總長
     img.open(this->filename, ios::in | ios::binary);
@@ -37,4 +41,20 @@ void imgraw::write(string filename){
     img.open(filename, ios::out | ios::binary);
     img.write(&img_data[0], this->filesize);
     img.close();
+}
+
+vector<char> imgraw::point_read(int y, int x){
+    int pos = (y*this->width)+x;
+
+    vector<char> temp(1);
+    temp[0] = this->img_data[pos];
+    cout << temp[0] << endl;
+    return temp;
+}
+
+void imgraw::point_write(int y, int x, vector<char> value){
+    int pos = (y*this->width)+x;
+    // cout << value[0] << endl;
+    this->img_data[pos] = value[0];
+    cout << img_data[pos] << endl;
 }

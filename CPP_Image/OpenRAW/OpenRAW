@@ -10,19 +10,24 @@ Final: 2016/08/04
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <string>
 using namespace std;
 
 class imgraw{
 public:
-    imgraw(string filename);
-    void read();
+    imgraw(int x, int y);
+    void read(string filename);
     void write(string filename);
+
+    vector<char> point_read(int x, int y);
+    void point_write(int x, int y, vector<char> value);
+
 private:
     string filename;
     fstream img;
     vector<char> img_data;
-    int x;
-    int y;
+    int width;
+    int high;
     ifstream::pos_type filesize;
 };
 #include "OpenRAW.cpp"
