@@ -7,30 +7,29 @@ Final: 2016/08/04
 #ifndef OPEN_RAW
 #define OPEN_RAW
 
-
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <string>
 using namespace std;
 
-class imgraw {
+class imgraw{
 public:
     imgraw(int x, int y);
+    ~imgraw();
     void read(string filename);
     void write(string filename);
-    vector<char> point_read(int x, int y);
-    void point_write(int x, int y, vector<char> value);
+    char point_read(int x, int y);
+    void point_write(int x, int y, const char* value);
 
 private:
-    fstream img;
-    ifstream::pos_type filesize;
     string filename;
-    vector<char> img_data;
+    fstream img;
+    char* img_data;
     int width;
     int high;
+    ifstream::pos_type filesize;
 };
-
-
 #include "OpenRAW.cpp"
+
 #endif

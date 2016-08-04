@@ -4,57 +4,56 @@ Date : 2016/08/03
 By   : CharlotteHonG
 Final: 2016/08/03
 **********************************************************/
-imgraw::imgraw(int y, int x) {
+imgraw::imgraw(int y, int x){
     this->width = x;
     this->high = y;
-    this->img_data.resize(x*y);
     this->filesize = x*y;
+    this->img_data = new char[x*y];
+}
+imgraw::~imgraw(){
+    delete [] this->img_data;
 }
 
-// ¶×¤JÀÉ®×
-void imgraw::read(string filename) {
+
+void imgraw::read(string filename){
     this->filename = filename;
-    // ¤G¶i¦ì¼Ò¦¡¶}ÀÉ´ú¸Õ
+    // äºŒé€²ä½æ¨¡å¼é–‹æª”æ¸¬è©¦
     img.open(filename, ios::in | ios::binary);
-    // ¦pªG¶}±ÒÀÉ®×¥¢±Ñ¡Afp¬°0¡F¦¨¥\¡Afp¬°«D0
-    if(!img) {
+        //å¦‚æœé–‹å•Ÿæª”æ¡ˆå¤±æ•—ï¼Œfpç‚º0ï¼›æˆåŠŸï¼Œfpç‚ºé0
+    if(!img){
         img.close();
         cout << "No file." << endl;
         exit(1);
     }
-    else {
+    else{
         cout << "File ok." << endl;
-    } img.close();
-    // ¤G¶i¦ì¼Ò¦¡ÅªÀÉ
-    // ¨ú±oÁ`ªø
+    }img.close();
+    // äºŒé€²ä½æ¨¡å¼è®€æª”
+        // å–å¾—ç¸½é•·
     img.open(this->filename, ios::in | ios::binary);
     img.seekg(0, ios::end);
     this->filesize = img.tellg();
     img.seekg(0, ios::beg);
-    // Åª¨ú­È
-    this->img_data.resize(this->filesize);
-    img.read(&this->img_data[0], this->filesize);
+        // è®€å–å€¼
+    delete [] this->img_data;
+    this->img_data = new char[this->filesize];
+    img.read(this->img_data, this->filesize);
     img.close();
 }
 
-// ±N°O¾ĞÅé¸ê®Æ¶×¥X
-void imgraw::write(string filename) {
-    // ¶i¦ì¼Ò¦¡¼gÀÉ
+void imgraw::write(string filename){
+    // é€²ä½æ¨¡å¼å¯«æª”
     img.open(filename, ios::out | ios::binary);
-    img.write(&img_data[0], this->filesize);
+    img.write(img_data, this->filesize);
     img.close();
 }
 
-// ÅªÀÉ³æÂI
-vector<char> imgraw::point_read(int y, int x) {
+char imgraw::point_read(int y, int x){
     int pos = (y*this->width)+x;
-    vector<char> temp(1);
-    temp[0] = this->img_data[pos];
-    return temp;
+    return this->img_data[pos];
 }
 
-// ¼g¤J°O¾ĞÅé³æÂI
-void imgraw::point_write(int y, int x, vector<char> value) {
+void imgraw::point_write(int y, int x, const char* value){
     int pos = (y*this->width)+x;
     this->img_data[pos] = value[0];
 }

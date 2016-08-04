@@ -16,18 +16,18 @@ using namespace std;
 #define Pic_y 256
 
 int main(int argc, char const *argv[]) {
-    imgraw img(Pic_y, Pic_x);
-    imgraw img2(Pic_y, Pic_x);
+    imgraw img(Pic_y, Pic_x),img2(Pic_y, Pic_x);
     img.read(Pic_name_in);
+    img.write(Pic_name_out);
 
-    // 單點操作
     for(int j = 0; j < Pic_y; ++j){
         for(int i = 0; i < Pic_x; ++i) {
-            img2.point_write(j, i, img.point_read(j, i));
+            char temp = img.point_read(j, i);
+            img2.point_write(j, i, &temp);
         }
     }
-    
+
     img2.write(Pic_name_out);
-    // system(Pic_name_out);
     return 0;
 }
+
