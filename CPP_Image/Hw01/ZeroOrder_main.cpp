@@ -14,14 +14,12 @@ using namespace std;
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 256
 #define Pic_y 256
-#define Ratio 3.5
-
+#define Ratio 2.5
 
 int GCD(int a, int b) {
     if(b) while((a %= b) && (b %= a));
     return a + b;
 }
-
 
 int main(int argc, char const *argv[]) {
     imgraw img(Pic_y, Pic_x);
@@ -38,11 +36,11 @@ int main(int argc, char const *argv[]) {
         for(int j=0, yp=0; j < Pic_y; ++j) {
             for(int i=0, xp=0; i < Pic_x; ++i) {
                 img2.point_write(j+yp, i+xp, img.point_read(j, i));
-                xp+=white; //跳著填入
                 // 補同樣的點
                 for(int k = 0; k < white; ++k) {
-                    img2.point_write(j+yp, (i+xp)+k+2, img.point_read(j, i));
+                    img2.point_write(j+yp, (i+xp)+k+1, img.point_read(j, i));
                 }
+                xp+=white; //跳著填入
             }
             // 補排(複製上一排)
             for (int i = 0; i < white; ++i){
@@ -58,7 +56,8 @@ int main(int argc, char const *argv[]) {
         black = Pic_x/apend_p;
         white = 1;
     }
-    cout << "apend_p = " << apend_p << endl;
+    cout << "pix = " << apend_p+Pic_x << endl;
+    cout << "apend_p = "   << apend_p   << endl;
     cout << "Pic_x = "   << Pic_x   << endl;
     cout << "black = "   << black   << endl;
     cout << "white = "   << white   << endl;
