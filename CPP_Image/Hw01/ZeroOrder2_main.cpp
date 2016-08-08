@@ -13,12 +13,12 @@ black算法沒辦法平均
 #include "OpenRAW"
 using namespace std;
 
-#define AutoOpen 0
+#define AutoOpen 1
 #define Pic_name_in "IMG.raw"
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 256
 #define Pic_y 256
-#define Ratio 0.25
+#define Ratio 0.6
 
 int main(int argc, char const *argv[]) {
     if(Ratio < 0) {
@@ -26,6 +26,7 @@ int main(int argc, char const *argv[]) {
         return 0;
     }
     imgraw img(Pic_y, Pic_x);
+    // imgraw img2(Pic_y, Pic_x);
     imgraw img2(Pic_y*Ratio, Pic_x*Ratio);
     img.read(Pic_name_in);
     //=========================================
@@ -98,35 +99,30 @@ int main(int argc, char const *argv[]) {
             }
         }
     } else { // 縮小
-        int jmp=3; // 每讀幾點跳過
-        // jmp = (1 / (1-(float)Ratio)) * (1-(float)Ratio);
+        int jmp=0; // 每讀幾點跳過
+        jmp = (1 / (1-(float)Ratio));
         cout << "jmp=" << jmp << endl;
-
-        for(int j = 0, yp = 0; j < (int)(Pic_y*Ratio); ++j){
+        limx = (int)(Pic_x*Ratio);
+        limy = (int)(Pic_y*Ratio);
+        for(int j = 0, yp = 0; j < Pic_y; ++j){
             // 列
-            for(int i = 0,xp = 0; i < (int)(Pic_x*Ratio); ++i){
-                if ((i+1)%jmp==0){// 每隔 jmp 點就跳過
-                    ++xp;
-                    debug++;
+            limx_c=0;
+            for(int i = 0,xp = 0; i < Pic_x; ++i){
+                if ((i+1)%jmp!=0){// 每隔 jmp 點就跳過
+                    img2.point_write(yp, xp, img.point_read(j, i));
+                    limx_c+=1;
+                    xp+=1;
+                    // 這裡的次數太少
                 }
-                img2.point_write(j, i, img.point_read(j+yp, i+xp));
-            }img2.point_write(j, (int)(Pic_x*Ratio), img.point_read(j+yp, Pic_x));
-
+            }
             // 排
-            if ((j+1)%jmp==0){
-                ++yp;
+            if ((j+1)%jmp!=0 && limy_c< (int)(Pic_x*Ratio)-1){
+                // if (limy_c<limy){
+                    limy_c+=1;
+                    yp+=1;
+                // }
             }
         }
-        // 補最後一排
-        // for(int i = 0,xp = 0; i < (int)(Pic_x*Ratio); ++i){
-        //     if ((i+1)%jmp==0){// 每隔 jmp 點就跳過
-        //         ++xp;
-        //         debug++;
-        //     }
-        //     img2.point_write((int)(Pic_x*Ratio)-1, i, img.point_read(Pic_x-1, i+xp));
-        // }
-        // img2.point_write((int)(Pic_x*Ratio)-1, (int)(Pic_x*Ratio)-1,
-        //     img.point_read(Pic_y-1, Pic_x-1));
     }
 
     cout << "pix = " << (int)(Pic_x*Ratio) << endl;
@@ -138,14 +134,14 @@ int main(int argc, char const *argv[]) {
     cout << "limy = "   << limy   << endl;
     cout << "limx_c = "   << limx_c   << endl;
     cout << "limy_c = "   << limy_c   << endl;
-    cout << "debug = "   << debug/(int)(Pic_y*Ratio)   << endl;
-    cout << "t = "   << ((float)Ratio-(int)Ratio)   << endl;
+    cout << "debug = "   << debug   << endl;
+    // cout << "t = "   << ((float)Ratio-(int)Ratio)   << endl;
     //=========================================
 
 
 
     img2.write(Pic_name_out);
-    // if (AutoOpen==1)
+    if (AutoOpen==1)
         system(Pic_name_out);
     return 0;
 }
