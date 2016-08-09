@@ -10,6 +10,7 @@ black算法沒辦法平均
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <math.h>
 #include "OpenRAW"
 using namespace std;
 
@@ -18,7 +19,7 @@ using namespace std;
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 256
 #define Pic_y 256
-#define Ratio 0.6
+#define Ratio 2.9
 
 int main(int argc, char const *argv[]) {
     if(Ratio < 0) {
@@ -36,12 +37,14 @@ int main(int argc, char const *argv[]) {
     int limx=0,limy=0, limx_c=0,limy_c=0;
     int debug=0;
 
+    double rat = Ratio;
     apend_p = Pic_x*(Ratio-1);
     if(Ratio>1) {
         white = ((int)Ratio)-1;
         if(((float)Ratio-(int)Ratio) > 0) {
             black = 1/((float)Ratio-(int)Ratio);
-            cout << "**" << (int)Ratio <<endl;
+            cout << "   **" << ((float)Ratio-(int)Ratio) <<endl;
+            cout << "   black = " << black <<endl;
             limx = Pic_x * ((float)Ratio-(int)Ratio);
             limy = Pic_y * ((float)Ratio-(int)Ratio);
         }

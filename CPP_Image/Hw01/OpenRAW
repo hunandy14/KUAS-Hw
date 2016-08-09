@@ -21,6 +21,7 @@ public:
     void write(string filename);
     vector<char> point_read(int x, int y);
     void point_write(int x, int y, vector<char> value);
+    void resize_zero(float Ratio);
 
 private:
     fstream img;
