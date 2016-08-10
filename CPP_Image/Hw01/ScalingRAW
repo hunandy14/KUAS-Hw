@@ -2,7 +2,7 @@
 Name : OpenRaw 1.0
 Date : 2016/08/04
 By   : CharlotteHonG
-Final: 2016/08/04
+Final: 2016/08/10
 **********************************************************/
 #ifndef OPEN_RAW
 #define OPEN_RAW
@@ -23,18 +23,22 @@ public:
     vector<char> point_read(int x, int y);
     void point_write(int x, int y, vector<char> value);
     void resize_canvas(int x, int y);
+    // imgraw(const imgraw& p);
     // 新增的功能
     void resize_zero(float Ratio);
+    void resize_first(float Ratio);
 
 private:
+    int dim(int x, int y);
     fstream img;
-    ifstream::pos_type filesize;
     string filename;
+
+    ifstream::pos_type filesize;
     vector<char> img_data;
     int width;
     int high;
 };
 
 
-#include "OpenRAW.cpp"
+#include "ScalingRAW.cpp"
 #endif

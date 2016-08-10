@@ -59,6 +59,11 @@ void imgraw::point_write(int y, int x, vector<char> value) {
     this->img_data[pos] = value[0];
 }
 
+void imgraw::resize_canvas(int x, int y){
+    this->width = x;
+    this->high = y;
+}
+
 // ZroOrder調整大小
 void imgraw::resize_zero(float Ratio){
     //=========================================
@@ -68,12 +73,10 @@ void imgraw::resize_zero(float Ratio){
     imgraw img2(Pic_y*Ratio, Pic_x*Ratio);
 
     float rat_r = floor(rat);
-    int apend_p=0; // 需要補的點
     int white=0; //幾個原點 (黑) 補一個新點 (白)
     int black=0; //處理放大倍率小數點，每幾個原點多補一個新點
     int limx=0,limy=0, limx_c=0,limy_c=0;
-    int debug=0;
-    apend_p = Pic_x*(rat-1);
+    // int debug=0;
 
     if(rat>1) {
         white = (rat_r)-1;
@@ -164,16 +167,15 @@ void imgraw::resize_zero(float Ratio){
         }
     }
 
-    cout << "pix = " << (int)(Pic_x*Ratio) << endl;
-    cout << "apend_p = "   << apend_p   << endl;
-    cout << "Pic_x = "   << Pic_x   << endl;
-    cout << "white = "   << white   << endl;
-    cout << "black = "   << black   << endl;
-    cout << "limx = "   << limx   << endl;
-    cout << "limy = "   << limy   << endl;
-    cout << "limx_c = "   << limx_c   << endl;
-    cout << "limy_c = "   << limy_c   << endl;
-    cout << "debug = "   << debug   << endl;
+    cout << "pix = " << floor(Pic_x*Ratio) << endl;
+    // cout << "Pic_x = "   << Pic_x   << endl;
+    // cout << "white = "   << white   << endl;
+    // cout << "black = "   << black   << endl;
+    // cout << "limx = "   << limx   << endl;
+    // cout << "limy = "   << limy   << endl;
+    // cout << "limx_c = "   << limx_c   << endl;
+    // cout << "limy_c = "   << limy_c   << endl;
+    // cout << "debug = "   << debug   << endl;
     // cout << "t = "   << ((float)Ratio-(int)Ratio)   << endl;
 
     // 將暫存寫回主檔

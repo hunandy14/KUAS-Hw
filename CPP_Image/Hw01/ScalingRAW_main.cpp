@@ -1,18 +1,15 @@
 /**********************************************************
-Name : ZeroOrder.cpp
+Name : ScalingRAW.cpp
 Date : 2016/08/03
 By   : CharlotteHonG
-Final: 2016/08/03
-
-已知小數點補法沒有平均
-black算法沒辦法平均
+Final: 2016/08/10
 **********************************************************/
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <string>
 #include <math.h>
-#include "OpenRAW"
+#include "ScalingRAW"
 using namespace std;
 
 #define AutoOpen 0
@@ -20,7 +17,7 @@ using namespace std;
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 256
 #define Pic_y 256
-#define Ratio 1.3
+#define Ratio 0.6
 
 int main(int argc, char const *argv[]) {
     if(Ratio < 0) {
@@ -31,13 +28,17 @@ int main(int argc, char const *argv[]) {
     imgraw img(Pic_y, Pic_x);
     // 讀檔
     img.read(Pic_name_in);
-    // 更改大小
+
+
+    imgraw img2=img;
+
     
-    // img.resize_zero(Ratio);
+    // 更改大小
+    img.resize_zero(Ratio);
     // 寫檔
     img.write(Pic_name_out);
     // 開檔
-    if (AutoOpen==1)
+    if(AutoOpen==1)
         system(Pic_name_out);
     return 0;
 }
