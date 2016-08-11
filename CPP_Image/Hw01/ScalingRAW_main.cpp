@@ -12,12 +12,12 @@ Final: 2016/08/10
 #include "ScalingRAW"
 using namespace std;
 
-#define AutoOpen 0
+#define AutoOpen 1
 #define Pic_name_in "IMG.raw"
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 256
 #define Pic_y 256
-#define Ratio 0.6
+#define Ratio 2.9
 
 int main(int argc, char const *argv[]) {
     if(Ratio < 0) {
@@ -28,17 +28,14 @@ int main(int argc, char const *argv[]) {
     imgraw img(Pic_y, Pic_x);
     // 讀檔
     img.read(Pic_name_in);
-
-
-    imgraw img2=img;
-
-    
     // 更改大小
     img.resize_zero(Ratio);
     // 寫檔
     img.write(Pic_name_out);
+    cout << "img.w()=" << img.w() << endl;
+        
     // 開檔
     if(AutoOpen==1)
-        system(Pic_name_out);
+        // system(Pic_name_out);
     return 0;
 }

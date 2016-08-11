@@ -29,3 +29,7 @@ if (float temp = ((float)Ratio-(int)Ratio) > 0){
 ### macro
 > macro當參數用最好不要大於兩個以上
 > 如果會反覆用到，用一個變數導入
+
+### fstream
+fstream類別不能被複製
+[[問題] 類別的複製 資料裡面有fstream 報錯](https://www.ptt.cc/bbs/C_and_CPP/M.1470845062.A.D86.html)
