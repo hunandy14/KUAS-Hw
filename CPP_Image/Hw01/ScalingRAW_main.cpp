@@ -17,7 +17,7 @@ using namespace std;
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 256
 #define Pic_y 256
-#define Ratio 2.9
+#define Ratio 3
 
 int main(int argc, char const *argv[]) {
     if(Ratio < 0) {
@@ -29,13 +29,13 @@ int main(int argc, char const *argv[]) {
     // 讀檔
     img.read(Pic_name_in);
     // 更改大小
-    img.resize_zero(Ratio);
+    img.resize_first(Ratio);
     // 寫檔
     img.write(Pic_name_out);
     cout << "img.w()=" << img.w() << endl;
         
     // 開檔
     if(AutoOpen==1)
-        // system(Pic_name_out);
+        system(Pic_name_out);
     return 0;
 }
