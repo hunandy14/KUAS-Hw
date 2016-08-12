@@ -1,4 +1,4 @@
-## 問題
+# 問題
 macro的轉換似乎有著某種關係  
 
 ```
@@ -26,10 +26,21 @@ if (float temp = ((float)Ratio-(int)Ratio) > 0){
 > 或者是計算浮點數時會忽略些什麼
 > 注意以後不可以用 macro 計算非整數
 
-### macro
+## macro
 > macro當參數用最好不要大於兩個以上
 > 如果會反覆用到，用一個變數導入
 
-### fstream
+## fstream
 fstream類別不能被複製
 [[問題] 類別的複製 資料裡面有fstream 報錯](https://www.ptt.cc/bbs/C_and_CPP/M.1470845062.A.D86.html)
+
+## 無號字串
+原本使用char來儲存圖片，後來發現這會造成問題
+有些char的數值會是負號的，必須使用 `unsigned char`
+使用的時候造成不少困擾，整個代碼的調整以及
+`fstream` 只吃 `char` 參數，爬文之後發現可以
+直接`cast`轉過去就好了
+
+`img.read((char*)&this->img_data[0], this->filesize);`
+
+像這樣在最前方加入 `(char*)` 最後有成功解決
