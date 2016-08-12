@@ -5,29 +5,33 @@ By   : CharlotteHonG
 Final: 2016/08/12
 **********************************************************/
 #include <iostream>
-#include <fstream>
-#include <vector>
 #include "OpenRAW"
 using namespace std;
 
+#define AutoOpen 1
 #define Pic_name_in "IMG.raw"
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 256
 #define Pic_y 256
 
 int main(int argc, char const *argv[]) {
+    // ³Ğ«Øµe¥¬
     imgraw img(Pic_y, Pic_x);
     imgraw img2(Pic_y, Pic_x);
+    // Åª¨úÀÉ®×
     img.read(Pic_name_in);
-
-    // å–®é»æ“ä½œ
+    // ³æÂI¾Ş§@
     for(int j = 0; j < Pic_y; ++j){
         for(int i = 0; i < Pic_x; ++i) {
             img2.point_write(j, i, img.point_read(j, i));
         }
     }
-    
+    // ´£¥Ü°T®§
+    cout << "µe¥¬¼e«× = " << img.w() << endl;
+    // ¿é¥XÀÉ®×
     img2.write(Pic_name_out);
-    system(Pic_name_out);
+    // ¶}±ÒÀÉ®×
+    if(AutoOpen==1)
+        system(Pic_name_out);
     return 0;
 }
