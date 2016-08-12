@@ -2,17 +2,22 @@
 Name :
 Date : 2016/08/03
 By   : CharlotteHonG
-Final: 2016/08/10
+Final: 2016/08/12
 **********************************************************/
 // FisrtOrder調整大小
 void imgraw::resize_first(float Ratio){
+    if(Ratio <= 0) {
+        cout << "Ratio more than the zero." << endl;
+        return;
+    }
     int w=floor(this->width * Ratio);
     int h=floor(this->high * Ratio);
     imgraw img2(h, w);
-    unsigned char A, B, C, D;//附近的四個點
+    unsigned char A, B, C, D;// 附近的四個點
     unsigned char AB, CD, X;
-    int oy, ox;//對應到原圖的座標
+    int oy, ox;// 對應到原圖的座標
     double a, b;// 公式的a與b
+
     for(int j=0; j < h; ++j) {
         for(int i=0; i < w; ++i) {
             oy=j/Ratio; ox=i/Ratio;
@@ -30,10 +35,12 @@ void imgraw::resize_first(float Ratio){
     }
     *this = img2;
 }
-
-
 // ZroOrder調整大小
 void imgraw::resize_zero(float Ratio) {
+    if(Ratio <= 0) {
+        cout << "Ratio more than the zero." << endl;
+        return;
+    }
     int w=floor(this->width * Ratio);
     int h=floor(this->high * Ratio);
     imgraw img2(h, w);
@@ -45,7 +52,6 @@ void imgraw::resize_zero(float Ratio) {
     }
     *this = img2;
 }
-
 //=========================================================
 imgraw::imgraw(int y, int x) {
     this->width = x;
@@ -63,11 +69,11 @@ void imgraw::read(string filename) {
     // 如果開啟檔案失敗，fp為0；成功，fp為非0
     if(!img) {
         img.close();
-        cout << "No file." << endl;
+        cout << "No File." << endl;
         exit(1);
     }
     else {
-        cout << "File ok." << endl;
+        // cout << "File ok." << endl;
     } img.close();
     // 二進位模式讀檔
     // 取得總長
