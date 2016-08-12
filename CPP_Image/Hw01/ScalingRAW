@@ -20,8 +20,8 @@ public:
     imgraw(int y, int x);
     void read(string filename);
     void write(string filename);
-    vector<char> point_read(int y, int x);
-    void point_write(int y, int x, vector<char> value);
+    unsigned char point_read(int y, int x);
+    void point_write(int y, int x, unsigned char value);
     void resize_canvas(int y, int x);
     int w();
     int h();
@@ -32,7 +32,7 @@ public:
 private:
     string filename;
     ifstream::pos_type filesize;
-    vector<char> img_data;
+    vector<unsigned char> img_data;
     int width;
     int high;
 };
