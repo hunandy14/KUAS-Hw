@@ -23,7 +23,6 @@ int main(int argc, char const *argv[]) {
     // 單點操作
     for(int j = 0; j < Pic_y; ++j){
         for(int i = 0; i < Pic_x; ++i) {
-            // cout << img.point_read(j, i) << endl;
             img2.point_write(j, i, img.point_read(j, i));
         }
     }
