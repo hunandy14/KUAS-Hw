@@ -16,11 +16,11 @@ using namespace std;
 
 class imgraw {
 public:
-    imgraw(int x, int y);
+    imgraw(int y, int x);
     void read(string filename);
     void write(string filename);
-    unsigned char point_read(int x, int y);
-    void point_write(int x, int y, unsigned char value);
+    unsigned char point_read(int y, int x);
+    void point_write(int y, int x, unsigned char value);
     void resize_canvas(int y, int x);
     int w();
     int h();
