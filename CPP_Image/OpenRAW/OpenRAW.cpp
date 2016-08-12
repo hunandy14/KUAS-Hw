@@ -73,5 +73,4 @@ int imgraw::w() {
 // Àò±o°ª
 int imgraw::h() {
     return this->high;
-
 }
