@@ -2,7 +2,7 @@
 Name : OpenRAW.cpp
 Date : 2016/08/03
 By   : CharlotteHonG
-Final: 2016/08/03
+Final: 2016/08/12
 **********************************************************/
 #include <iostream>
 #include <fstream>
@@ -23,11 +23,12 @@ int main(int argc, char const *argv[]) {
     // 單點操作
     for(int j = 0; j < Pic_y; ++j){
         for(int i = 0; i < Pic_x; ++i) {
+            // cout << img.point_read(j, i) << endl;
             img2.point_write(j, i, img.point_read(j, i));
         }
     }
     
     img2.write(Pic_name_out);
-    // system(Pic_name_out);
+    system(Pic_name_out);
     return 0;
 }

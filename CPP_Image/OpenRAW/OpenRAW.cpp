@@ -1,8 +1,8 @@
 /**********************************************************
-Name : 
+Name : OpenRaw 2.0
 Date : 2016/08/03
 By   : CharlotteHonG
-Final: 2016/08/03
+Final: 2016/08/12
 **********************************************************/
 imgraw::imgraw(int y, int x) {
     this->width = x;
@@ -15,6 +15,7 @@ imgraw::imgraw(int y, int x) {
 void imgraw::read(string filename) {
     this->filename = filename;
     // 二進位模式開檔測試
+    fstream img;
     img.open(filename, ios::in | ios::binary);
     // 如果開啟檔案失敗，fp為0；成功，fp為非0
     if(!img) {
@@ -33,28 +34,44 @@ void imgraw::read(string filename) {
     img.seekg(0, ios::beg);
     // 讀取值
     this->img_data.resize(this->filesize);
-    img.read(&this->img_data[0], this->filesize);
+    img.read((char*)&this->img_data[0], this->filesize);
     img.close();
 }
 
 // 將記憶體資料匯出
 void imgraw::write(string filename) {
     // 進位模式寫檔
+    fstream img;
     img.open(filename, ios::out | ios::binary);
-    img.write(&img_data[0], this->filesize);
+    img.write((char*)&img_data[0], this->filesize);
     img.close();
 }
 
 // 讀檔單點
-vector<char> imgraw::point_read(int y, int x) {
+unsigned char imgraw::point_read(int y, int x) {
     int pos = (y*this->width)+x;
-    vector<char> temp(1);
-    temp[0] = this->img_data[pos];
-    return temp;
+    return this->img_data[pos];
 }
 
 // 寫入記憶體單點
-void imgraw::point_write(int y, int x, vector<char> value) {
+void imgraw::point_write(int y, int x, unsigned char value) {
     int pos = (y*this->width)+x;
-    this->img_data[pos] = value[0];
+    this->img_data[pos] = value;
+}
+
+// 調整畫布大小
+void imgraw::resize_canvas(int y, int x) {
+    this->width = x;
+    this->high = y;
+}
+
+// 獲得寬
+int imgraw::w() {
+    return this->width;
+}
+
+// 獲得高
+int imgraw::h() {
+    return this->high;
+
 }

@@ -1,8 +1,8 @@
 /**********************************************************
-Name : OpenRaw 1.0
+Name : OpenRaw 2.0
 Date : 2016/08/04
 By   : CharlotteHonG
-Final: 2016/08/04
+Final: 2016/08/12
 **********************************************************/
 #ifndef OPEN_RAW
 #define OPEN_RAW
@@ -19,14 +19,16 @@ public:
     imgraw(int x, int y);
     void read(string filename);
     void write(string filename);
-    vector<char> point_read(int x, int y);
-    void point_write(int x, int y, vector<char> value);
+    unsigned char point_read(int x, int y);
+    void point_write(int x, int y, unsigned char value);
+    void resize_canvas(int y, int x);
+    int w();
+    int h();
 
 private:
-    fstream img;
     ifstream::pos_type filesize;
     string filename;
-    vector<char> img_data;
+    vector<unsigned char> img_data;
     int width;
     int high;
 };
