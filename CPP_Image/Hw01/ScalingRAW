@@ -12,7 +12,7 @@ Final: 2016/08/12
 #include <fstream>
 #include <vector>
 #include <string>
-#include <math.h>
+#include <cmath>
 using namespace std;
 
 class imgraw {
@@ -28,6 +28,7 @@ public:
     // 新增的功能
     void resize_zero(float Ratio);
     void resize_first(float Ratio);
+    void resize_bicubic(float Ratio);
 
 private:
     string filename;
@@ -35,6 +36,11 @@ private:
     vector<unsigned char> img_data;
     int width;
     int high;
+    // 新增的功能
+    unsigned char cubicInterpolate_char(
+        unsigned char p[4], double x);
+    unsigned char bicubicInterpolate_char(
+        unsigned char p[4][4], double y, double x);
 };
 
 
