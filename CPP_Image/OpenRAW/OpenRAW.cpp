@@ -1,5 +1,5 @@
 /**********************************************************
-Name : OpenRaw 2.0
+Name : OpenRaw 2.02
 Date : 2016/08/03
 By   : CharlotteHonG
 Final: 2016/08/12
@@ -50,13 +50,13 @@ void imgraw::write(string filename) {
 // 讀檔單點
 unsigned char imgraw::point_read(int y, int x) {
     int pos = (y*this->width)+x;
-    return this->img_data[pos];
+    return this->img_data.at(pos);
 }
 
 // 寫入記憶體單點
 void imgraw::point_write(int y, int x, unsigned char value) {
     int pos = (y*this->width)+x;
-    this->img_data[pos] = value;
+    this->img_data.at(pos) = value;
 }
 
 // 調整畫布大小
