@@ -8,15 +8,21 @@ Final: 2016/08/17
 using namespace std;
 typedef unsigned char imch;
 
-// Bicubic char
+// Bicubic 插值核心運算
 imch cubicInterpolate (imch* p, double x) {
-    return p[1] + 0.5 * x*(p[2] - p[0] + x*(2.0*p[0] - 5.0*p[1] + 4.0*p[2] - p[3] + x*(3.0*(p[1] - p[2]) + p[3] - p[0])));
+    double temp = (double)(p[1] + 0.5 * 
+        x*(p[2] - p[0] +x*(2.0*p[0] - 5.0*p[1] + 4.0*p[2] - 
+            p[3] + x*(3.0*(p[1] - p[2]) + p[3] - p[0]))));
+    if (temp > 255){temp = 255;}
+    else if (temp < 0){temp = 0;}
+    return (imch)temp;
 }
-imch bicubicInterpolate (imch** p, double x, double y) {
+// Bicubic 輸入16點與插入位置，取得目標值
+imch bicubicInterpolate (imch** p, double y, double x) {
     imch* arr = new imch[4];
     for (int i = 0; i < 4; ++i)
-        arr[i] = cubicInterpolate(p[i], y);
-    return cubicInterpolate(arr, x);
+        arr[i] = cubicInterpolate(p[i], x);
+    return cubicInterpolate(arr, y);
 }
 int main(int argc, char const *argv[]){
     imch p_char[4][4] = {
