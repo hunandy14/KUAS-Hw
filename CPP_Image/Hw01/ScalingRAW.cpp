@@ -30,17 +30,6 @@ void imgraw::resize_bicubic(float Ratio) {
             img2.point_write(j, i, X);
         }
     }
-
-    mask = this->getMask(51, 158);
-    for (int j = 0; j < 4; ++j)
-    {
-        for (int i = 0; i < 4; ++i)
-        {
-            cout << (int)mask[j][i];
-        }
-        cout << endl;
-    }
-
     // 輸出暫存
     *this = img2;
     // 釋放記憶體
