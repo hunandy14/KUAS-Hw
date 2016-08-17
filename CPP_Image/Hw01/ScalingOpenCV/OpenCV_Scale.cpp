@@ -4,7 +4,7 @@ Date : 2016/08/12
 By   : CharlotteHonG
 Final: 2016/08/12
 **********************************************************/
-#define Ratio 0.618
+#define Ratio 5
 #include <opencv.hpp>
 
 int main(int argc, char const *argv[]){
@@ -22,13 +22,11 @@ int main(int argc, char const *argv[]){
     // 創建影像
     dst = cvCreateImage( dst_cvsize, src->depth, src->nChannels);
 
-
     // 調整影像大小
     // cvResize(src,dst,CV_INTER_NN); // CV_INTER_NN - 最鄰近插值
     cvResize(src,dst,CV_INTER_LINEAR); // CV_INTER_LINEAR - 雙線性插值
     // cvResize(src,dst,CV_INTER_AREA); //CV_INTER_AREA - 像素關係重採樣(縮小可避免波紋)
     // cvResize(src,dst,CV_INTER_CUBIC); //CV_INTER_CUBIC - 立方插值
-    
 
     // 匯出圖片
     cvSaveImage("IMG_OUT.jpg", dst);
