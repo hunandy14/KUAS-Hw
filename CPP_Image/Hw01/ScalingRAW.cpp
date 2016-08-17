@@ -12,28 +12,48 @@ void imgraw::resize_bicubic(float Ratio) {
     int oy, ox;// 對應到原圖的座標
     double a, b;// 公式的 a 與 b
     imch** mask;
-
-    for(int j = 0; j < 4; ++j) {
-        for(int i = 0; i < 4; ++i) {
+    imch X;
+    int debug=0;
+    for(int j = 0; j < h; ++j) {
+        for(int i = 0; i < w; ++i) {
             oy=(int)j/Ratio; ox=(int)i/Ratio;
             a = (i-ox*Ratio)/(Ratio);
             b = (j-oy*Ratio)/(Ratio);
-            cout << this->point_read(j, i) << ' ';
+            // this->point_read(oy, ox);
+            mask=this->getMask(oy, ox);
+            X = bicubicInterpolate(mask, b, a);
+            // X = X>=255? X=255: X<0? X=0: X;
+            if (X == 255){
+                X=0;
+                ++debug;
+            }else if (X < 0){
+                X=255;
+                ++debug;
+            }
+
+            // cout << this->point_read(j, i) << ' ';
+            img2.point_write(j, i, X);
         }
-        cout << endl;
-        // continue;
+        // cout << endl;
     }
-
-    mask=this->getMask(0, 0);
-    cout << "mask = " << endl;
-    for (int j = 0; j < 4; ++j){
-        for (int i = 0; i < 4; ++i){
-        cout << mask[j][i] << ' ';
-        } cout << endl;
-    }
-
-
+    cout << "debug=" << debug << endl;
+    imch t=255;
+    cout << "t = " << (int)t  << '|' << t << endl;
+    ++t;
+    ++t;
+    cout << "t = " << (int)t  << '|' << t << endl;
+    
         
+    // mask=this->getMask(0, 0);
+    // cout << "mask = " << endl;
+    // for (int j = 0; j < 4; ++j){
+    //     for (int i = 0; i < 4; ++i){
+    //     cout << (int)mask[j][i] << ' ';
+    //     } cout << endl;
+    // }
+    // cout << "bi = " << (int)bicubicInterpolate(mask,1,1) << endl;
+
+    *this = img2;
     // 釋放記憶體
     for (int i = 0; i < 4; ++i)
         delete [] mask[i];
