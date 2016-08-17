@@ -13,20 +13,13 @@ using namespace std;
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 256
 #define Pic_y 256
-#define Ratio 4
+#define Ratio 2
 
 int main(int argc, char const *argv[]) {
     // 創建畫布
     imgraw img(Pic_y, Pic_x);
     // 讀取檔案
     img.read(Pic_name_in);
-
-    // for (int j = 0; j < 4; ++j){
-    //     for (int i = 0; i < 4; ++i){
-    //         cout << img.point_read(j,i);
-    //     }
-    // }
-
     // 更改大小
     // img.resize_zero(Ratio);
     // img.resize_first(Ratio);

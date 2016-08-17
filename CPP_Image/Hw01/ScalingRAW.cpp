@@ -5,56 +5,43 @@ By   : CharlotteHonG
 Final: 2016/08/12
 **********************************************************/
 // Bicubic調整大小
-int debug2=0;
 void imgraw::resize_bicubic(float Ratio) {
+    if(Ratio <= 0) {
+        cout << "Ratio more than the zero." << endl;
+        return;
+    }
     int w=floor(this->width * Ratio);
     int h=floor(this->high * Ratio);
     imgraw img2(h, w);
-    int oy, ox;// 對應到原圖的座標
-    double a, b;// 公式的 a 與 b
-    imch** mask;
-    imch X;
-    int debug=0;
+    int oy, ox; // 對應到原圖的座標
+    double a, b;// 插入的比例位置
+    imch** mask;// 遮罩(周圍的16點)
+    imch X;     // 暫存
     for(int j = 0; j < h; ++j) {
         for(int i = 0; i < w; ++i) {
             oy=(int)j/Ratio; ox=(int)i/Ratio;
             a = (i-ox*Ratio)/(Ratio);
             b = (j-oy*Ratio)/(Ratio);
-            // this->point_read(oy, ox);
-            mask=this->getMask(oy, ox);
+            // 取得周圍16點
+            mask = this->getMask(oy, ox);
+            // 導入周圍16點與插入的比例位置
             X = bicubicInterpolate(mask, b, a);
-            // X = X>=255? X=255: X<0? X=0: X;
-            if (X == 255){
-                // X=0;
-                // ++debug;
-            }else if (X < 0){
-                // X=255;
-                // ++debug;
-            }
-
-            // cout << this->point_read(j, i) << ' ';
+            // 寫入暫存內
             img2.point_write(j, i, X);
         }
-        // cout << endl;
     }
-    // cout << "debug=" << debug << endl;
-    cout << "debug2=" << debug2 << endl;
-    imch t=255;
-    cout << "t = " << (int)t  << '|' << t << endl;
-    ++t;
-    ++t;
-    cout << "t = " << (int)t  << '|' << t << endl;
 
-        
-    // mask=this->getMask(0, 0);
-    // cout << "mask = " << endl;
-    // for (int j = 0; j < 4; ++j){
-    //     for (int i = 0; i < 4; ++i){
-    //     cout << (int)mask[j][i] << ' ';
-    //     } cout << endl;
-    // }
-    // cout << "bi = " << (int)bicubicInterpolate(mask,1,1) << endl;
+    mask = this->getMask(51, 158);
+    for (int j = 0; j < 4; ++j)
+    {
+        for (int i = 0; i < 4; ++i)
+        {
+            cout << (int)mask[j][i];
+        }
+        cout << endl;
+    }
 
+    // 輸出暫存
     *this = img2;
     // 釋放記憶體
     for (int i = 0; i < 4; ++i)
@@ -90,15 +77,19 @@ imch imgraw::cubicInterpolate (imch* p, double x) {
     double temp = (double)(p[1] + 0.5 * 
         x*(p[2] - p[0] +x*(2.0*p[0] - 5.0*p[1] + 4.0*p[2] - 
             p[3] + x*(3.0*(p[1] - p[2]) + p[3] - p[0]))));
-    temp = temp>255? temp=255:temp<0? temp=0:temp;
+    if (temp > 255){
+        temp = 255;
+    }else if (temp < 0){
+        temp = 0;
+    }
     return (imch)temp;
 }
 // Bicubic 輸入16點與插入位置，取得目標值
-imch imgraw::bicubicInterpolate (imch** p, double x, double y) {
+imch imgraw::bicubicInterpolate (imch** p, double y, double x) {
     imch* arr = new imch[4];
     for (int i = 0; i < 4; ++i)
-        arr[i] = cubicInterpolate(p[i], y);
-    return cubicInterpolate(arr, x);
+        arr[i] = cubicInterpolate(p[i], x);
+    return cubicInterpolate(arr, y);
 }
 
 
