@@ -44,3 +44,4 @@ fstream類別不能被複製
 `img.read((char*)&this->img_data[0], this->filesize);`
 
 像這樣在最前方加入 `(char*)` 最後有成功解決
+[\[問題\] C++讀.raw灰階圖檔](https://goo.gl/45nSe2)
