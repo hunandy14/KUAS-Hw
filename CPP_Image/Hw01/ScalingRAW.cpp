@@ -5,6 +5,7 @@ By   : CharlotteHonG
 Final: 2016/08/12
 **********************************************************/
 // Bicubic調整大小
+int debug2=0;
 void imgraw::resize_bicubic(float Ratio) {
     int w=floor(this->width * Ratio);
     int h=floor(this->high * Ratio);
@@ -24,11 +25,11 @@ void imgraw::resize_bicubic(float Ratio) {
             X = bicubicInterpolate(mask, b, a);
             // X = X>=255? X=255: X<0? X=0: X;
             if (X == 255){
-                X=0;
-                ++debug;
+                // X=0;
+                // ++debug;
             }else if (X < 0){
-                X=255;
-                ++debug;
+                // X=255;
+                // ++debug;
             }
 
             // cout << this->point_read(j, i) << ' ';
@@ -36,13 +37,14 @@ void imgraw::resize_bicubic(float Ratio) {
         }
         // cout << endl;
     }
-    cout << "debug=" << debug << endl;
+    // cout << "debug=" << debug << endl;
+    cout << "debug2=" << debug2 << endl;
     imch t=255;
     cout << "t = " << (int)t  << '|' << t << endl;
     ++t;
     ++t;
     cout << "t = " << (int)t  << '|' << t << endl;
-    
+
         
     // mask=this->getMask(0, 0);
     // cout << "mask = " << endl;
@@ -85,7 +87,11 @@ imch** imgraw::getMask(int oy, int ox){
 }
 // Bicubic 插值核心運算
 imch imgraw::cubicInterpolate (imch* p, double x) {
-    return p[1] + 0.5 * x*(p[2] - p[0] + x*(2.0*p[0] - 5.0*p[1] + 4.0*p[2] - p[3] + x*(3.0*(p[1] - p[2]) + p[3] - p[0])));
+    double temp = (double)(p[1] + 0.5 * 
+        x*(p[2] - p[0] +x*(2.0*p[0] - 5.0*p[1] + 4.0*p[2] - 
+            p[3] + x*(3.0*(p[1] - p[2]) + p[3] - p[0]))));
+    temp = temp>255? temp=255:temp<0? temp=0:temp;
+    return (imch)temp;
 }
 // Bicubic 輸入16點與插入位置，取得目標值
 imch imgraw::bicubicInterpolate (imch** p, double x, double y) {

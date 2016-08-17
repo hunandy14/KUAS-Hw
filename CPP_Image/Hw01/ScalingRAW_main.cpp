@@ -8,7 +8,7 @@ Final: 2016/08/12
 #include "ScalingRAW"
 using namespace std;
 
-#define AutoOpen 0
+#define AutoOpen 1
 #define Pic_name_in "IMG.raw"
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 256
