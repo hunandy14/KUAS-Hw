@@ -45,3 +45,52 @@ fstream類別不能被複製
 
 像這樣在最前方加入 `(char*)` 最後有成功解決
 [\[問題\] C++讀.raw灰階圖檔](https://goo.gl/45nSe2)
+
+## 副程式的陣列傳遞
+
+### 先處理多重指標連結的問題
+這一篇發問 [[問題] 雙重 指標存取字串](https://www.ptt.cc/bbs/C_and_CPP/M.1459748840.A.555.html)
+與版主的這一篇解答 [Re: [問題]雙重 指標存取字串](https://www.ptt.cc/bbs/C_and_CPP/M.1459819483.A.4D0.html)
+
+主要的差異在於
+
+這是有錯的
+
+```
+    char **ptr;
+    int n,m;
+    char *temp;
+    char *string1 = "BOOK";
+    char *string2 = "FOR";
+    char *string3 = "YOU";
+    ptr = temp;
+```
+
+連結方式應該為
+
+```
+    temp = string1;
+    *ptr = temp;
+    *(ptr + 1) = string2;
+    *(ptr + 2) = string3;
+```
+
+### 副程式的傳遞
+指標的指標傳遞方式
+[[問題] c語言新手指標問題!](https://www.ptt.cc/bbs/C_and_CPP/M.1463820406.A.81D.html)
+[RE:[問題] c語言新手指標問題!](https://www.ptt.cc/bbs/C_and_CPP/M.1464282013.A.4D8.html)
+
+重點擷取
+> 推 loveflames: int *a[row]是指標陣列
+> → loveflames: int (*a)[row]是指向陣列的指標
+
+副程式傳出可能比較沒問題
+傳入的部分要嘛規矩的兩個星星傳入
+否則就要使用 指標陣列
+
+1. 指標陣列 => 創建的陣列可以存指標
+2. 指標的指標 => 用來儲存指標
+
+不同的是2是完全動態的(x,y)
+1則是只有半動態，只有一個可動態
+相比之下1的創建就比較簡單
