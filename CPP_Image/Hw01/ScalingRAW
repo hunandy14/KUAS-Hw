@@ -1,5 +1,5 @@
 /**********************************************************
-Name : OpenRaw 2.0
+Name : OpenRaw
 Date : 2016/08/04
 By   : CharlotteHonG
 Final: 2016/08/12
@@ -14,14 +14,16 @@ Final: 2016/08/12
 #include <string>
 #include <cmath>
 using namespace std;
+// 儲存圖片的型態宣告
+typedef unsigned char imch;
 
 class imgraw {
 public:
     imgraw(int y, int x);
     void read(string filename);
     void write(string filename);
-    unsigned char point_read(int y, int x);
-    void point_write(int y, int x, unsigned char value);
+    imch point_read(int y, int x);
+    void point_write(int y, int x, imch value);
     void resize_canvas(int y, int x);
     int w();
     int h();
@@ -33,14 +35,13 @@ public:
 private:
     string filename;
     ifstream::pos_type filesize;
-    vector<unsigned char> img_data;
+    vector<imch> img_data;
     int width;
     int high;
     // 新增的功能
-    unsigned char cubicInterpolate_char(
-        unsigned char p[4], double x);
-    unsigned char bicubicInterpolate_char(
-        unsigned char p[4][4], double y, double x);
+    imch** getMask(int y, int x);
+    imch cubicInterpolate(imch* p, double x);
+    imch bicubicInterpolate(imch** p, double x, double y);
 };
 
 

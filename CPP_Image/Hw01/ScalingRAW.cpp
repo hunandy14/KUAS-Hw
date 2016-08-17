@@ -5,67 +5,79 @@ By   : CharlotteHonG
 Final: 2016/08/12
 **********************************************************/
 // Bicubic調整大小
-void imgraw::resize_bicubic(float Ratio){
+void imgraw::resize_bicubic(float Ratio) {
     int w=floor(this->width * Ratio);
     int h=floor(this->high * Ratio);
     imgraw img2(h, w);
     int oy, ox;// 對應到原圖的座標
     double a, b;// 公式的 a 與 b
+    imch** mask;
 
-    for(int j = 0; j < h; ++j) {
-        for(int i = 0; i < w; ++i) {
-            oy=j/Ratio; ox=i/Ratio;
+    for(int j = 0; j < 4; ++j) {
+        for(int i = 0; i < 4; ++i) {
+            oy=(int)j/Ratio; ox=(int)i/Ratio;
             a = (i-ox*Ratio)/(Ratio);
             b = (j-oy*Ratio)/(Ratio);
-            unsigned char X;
-            // 目標像素值
-            for (int m = -1; m < 2; ++m){
-                for (int n = -1; n < 2; ++n){
-                    X = this->point_read(oy, ox);
+            cout << this->point_read(j, i) << ' ';
+        }
+        cout << endl;
+        // continue;
+    }
 
-                }
-            }
+    mask=this->getMask(0, 0);
+    cout << "mask = " << endl;
+    for (int j = 0; j < 4; ++j){
+        for (int i = 0; i < 4; ++i){
+        cout << mask[j][i] << ' ';
+        } cout << endl;
+    }
+
+
+        
+    // 釋放記憶體
+    for (int i = 0; i < 4; ++i)
+        delete [] mask[i];
+    delete [] mask;
+}
+// Bicubic 取得周圍16點
+imch** imgraw::getMask(int oy, int ox){
+    imch** mask = new imch*[4];
+    for (int i = 0; i < 4; ++i)
+        mask[i] = new imch[4];
+    // 超過邊界修復
+    if (oy<=0 && ox<=0){
+        oy=1; ox=1;
+    }else if(oy>=this->high && ox>=this->width){
+        oy=this->high - 3;
+        ox=this->width - 3;
+    }
+    // 取得周圍16點
+    for (int j = 0; j < 4; ++j){
+        for (int i = 0; i < 4; ++i){
+            mask[j][i] = this->point_read(oy+(j-1), ox+(i-1));
         }
     }
+    // 釋放記憶體
+    // for (int i = 0; i < 4; ++i)
+    //     delete [] mask[i];
+    // delete [] mask;
+    return mask;
 }
-unsigned char cubicInterpolate_char (unsigned char p[4], double x) {
+// Bicubic 插值核心運算
+imch imgraw::cubicInterpolate (imch* p, double x) {
     return p[1] + 0.5 * x*(p[2] - p[0] + x*(2.0*p[0] - 5.0*p[1] + 4.0*p[2] - p[3] + x*(3.0*(p[1] - p[2]) + p[3] - p[0])));
 }
-unsigned char bicubicInterpolate_char (unsigned char p[4][4], double y, double x) {
-    unsigned char arr[4];
+// Bicubic 輸入16點與插入位置，取得目標值
+imch imgraw::bicubicInterpolate (imch** p, double x, double y) {
+    imch* arr = new imch[4];
     for (int i = 0; i < 4; ++i)
-        arr[i] = cubicInterpolate_char(p[i], y);
-    return cubicInterpolate_char(arr, x);
-}
-
-
-// 目標像素值
-unsigned char imgraw::bic(int y, int x){
-    unsigned char X=0;
-    return X;
-}
-// Convolution運算
-double imgraw::hc(double x){
-    x=abs(x);
-    if (0<=x && x<1){
-        return (
-            (1 - 2*pow(x, 2)) + 
-            pow(x, 3)
-        ); 
-    }else if (1<=x && x<2){
-        return (
-            (4 - 8*x) +
-            (5*pow(x, 2)) -
-            (pow(x, 3))
-        );
-    }else{
-        return 0;
-    }
+        arr[i] = cubicInterpolate(p[i], y);
+    return cubicInterpolate(arr, x);
 }
 
 
 // FisrtOrder調整大小
-void imgraw::resize_first(float Ratio){
+void imgraw::resize_first(float Ratio) {
     if(Ratio <= 0) {
         cout << "Ratio more than the zero." << endl;
         return;
@@ -73,8 +85,8 @@ void imgraw::resize_first(float Ratio){
     int w=floor(this->width * Ratio);
     int h=floor(this->high * Ratio);
     imgraw img2(h, w);
-    unsigned char A, B, C, D;// 附近的四個點
-    unsigned char AB, CD, X;
+    imch A, B, C, D;// 附近的四個點
+    imch AB, CD, X;
     int oy, ox;// 對應到原圖的座標
     double a, b;// 公式的 a 與 b
 
@@ -85,7 +97,7 @@ void imgraw::resize_first(float Ratio){
             B = this->point_read(oy, ox+1);
             C = this->point_read(oy+1, ox);
             D = this->point_read(oy+1, ox+1);
-            a = (i-ox*Ratio)/(Ratio); 
+            a = (i-ox*Ratio)/(Ratio);
             b = (j-oy*Ratio)/(Ratio);
             AB = (A*(1.0-a)) + (B*a);
             CD = (C*(1.0-a)) + (D*a);
@@ -106,7 +118,7 @@ void imgraw::resize_zero(float Ratio) {
     int w=floor(this->width * Ratio);
     int h=floor(this->high * Ratio);
     imgraw img2(h, w);
-        
+
     for(int j = 0; j < h; ++j) {
         for(int i = 0; i < w; ++i) {
             img2.point_write(j, i, this->point_read(j/Ratio, i/Ratio));
@@ -159,13 +171,13 @@ void imgraw::write(string filename) {
 }
 
 // 讀檔單點
-unsigned char imgraw::point_read(int y, int x) {
+imch imgraw::point_read(int y, int x) {
     int pos = (y*this->width)+x;
     return this->img_data[pos];
 }
 
 // 寫入記憶體單點
-void imgraw::point_write(int y, int x, unsigned char value) {
+void imgraw::point_write(int y, int x, imch value) {
     int pos = (y*this->width)+x;
     this->img_data[pos] = value;
 }
