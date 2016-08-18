@@ -2,7 +2,7 @@
 Name : ScalingRAW.cpp
 Date : 2016/08/03
 By   : CharlotteHonG
-Final: 2016/08/12
+Final: 2016/08/18
 **********************************************************/
 #include <iostream>
 #include "ScalingRAW"
@@ -13,7 +13,7 @@ using namespace std;
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 256
 #define Pic_y 256
-#define Ratio 2
+#define Ratio 4
 
 int main(int argc, char const *argv[]) {
     // ³Ð«Øµe¥¬

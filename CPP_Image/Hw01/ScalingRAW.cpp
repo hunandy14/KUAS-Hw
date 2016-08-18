@@ -2,7 +2,7 @@
 Name :
 Date : 2016/08/03
 By   : CharlotteHonG
-Final: 2016/08/12
+Final: 2016/08/18
 **********************************************************/
 // Bicubic調整大小
 void imgraw::resize_bicubic(float Ratio) {
@@ -42,17 +42,23 @@ imch** imgraw::getMask(int oy, int ox){
     imch** mask = new imch*[4];
     for (int i = 0; i < 4; ++i)
         mask[i] = new imch[4];
-    // 超過邊界修復
-    if (oy<=0 && ox<=0){
-        oy=1; ox=1;
-    }else if(oy>=this->high && ox>=this->width){
-        oy=this->high - 3;
-        ox=this->width - 3;
-    }
     // 取得周圍16點
+    int foy,fox; // 修復後的原始座標
     for (int j = 0; j < 4; ++j){
         for (int i = 0; i < 4; ++i){
-            mask[j][i] = this->point_read(oy+(j-1), ox+(i-1));
+            foy=oy+(j-1); fox=ox+(i-1);
+            // 超過左邊界修復
+            if (foy<0){foy=1;}
+            // 超過上邊界修復
+            if (fox<0){fox=1;}
+            // 超過下邊界修復
+            if(foy==this->high){foy-=2;}
+            if(foy==this->high-1){foy-=1;}
+            // 超過右邊界修復
+            if (fox==this->width){fox-=2;}
+            if (fox==this->width-1){fox-=1;}
+            // 紀錄對應的指標
+            mask[j][i] = this->point_read(foy, fox);
         }
     }
     // 釋放記憶體
