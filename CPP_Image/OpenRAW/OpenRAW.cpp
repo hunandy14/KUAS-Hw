@@ -16,7 +16,7 @@ imgraw::imgraw(ImrSize size=ImrSize(0,0)) {
     int y=size.high;
     this->width = x;
     this->high = y;
-    this->img_data.resize(x*y);
+    this->img_data.vector::resize(x*y);
     this->filesize = x*y;
 }
 
@@ -42,7 +42,7 @@ void imgraw::read(string filename) {
     this->filesize = img.tellg();
     img.seekg(0, ios::beg);
     // 讀取值
-    this->img_data.resize(this->filesize);
+    this->img_data.vector::resize(this->filesize);
     img.read((char*)&this->img_data[0], this->filesize);
     img.close();
 }
@@ -65,7 +65,7 @@ imch imgraw::point_read(int y, int x) {
 // 寫入記憶體單點
 void imgraw::point_write(int y, int x, imch value) {
     int pos = (y*this->width)+x;
-    this->img_data.at(pos) = value;
+    this->img_data.vector::at(pos) = value;
 }
 
 // 調整畫布大小
