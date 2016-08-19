@@ -20,7 +20,22 @@ ImrSize::ImrSize(int high=0, int width=0){
 void imgraw::shrink(ImrIntv intv){
     // 取得數據極值
     this->extremum();
-    
+    int y=this->high;
+    int x=this->width;
+
+    double par = ((intv.max - intv.min) / 
+        ((double)this->max - (double)this->min));
+
+    double temp; imch orig;
+    for (int j = 0; j < y; ++j){
+        for (int i = 0; i < x; ++i){
+            orig = this->point_read(j,i);
+            temp = par*((double)orig - 
+                    (double)this->min) + 
+                    (double)intv.min;
+            this->point_write(j, i, (imch)temp);
+        }
+    }
 }
 // 取得數據極值
 void imgraw::extremum(){
@@ -37,8 +52,6 @@ void imgraw::extremum(){
             }
         }
     }
-    // cout << "max=" << (int)this->max << endl;
-    // cout << "min=" << (int)this->min << endl;
 }
 
 //========================================================
