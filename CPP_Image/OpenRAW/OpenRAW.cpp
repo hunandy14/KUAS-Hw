@@ -1,10 +1,19 @@
 /**********************************************************
-Name : OpenRaw 2.02
+Name : OpenRaw 2.11
 Date : 2016/08/03
 By   : CharlotteHonG
-Final: 2016/08/12
+Final: 2016/08/19
 **********************************************************/
-imgraw::imgraw(int y, int x) {
+// size建構子
+ImrSize::ImrSize(int high=0, int width=0){
+    this->high  = high;
+    this->width = width;
+}
+
+// imgraw建構子
+imgraw::imgraw(ImrSize size=ImrSize(0,0)) {
+    int x=size.width;
+    int y=size.high;
     this->width = x;
     this->high = y;
     this->img_data.resize(x*y);
@@ -48,19 +57,23 @@ void imgraw::write(string filename) {
 }
 
 // 讀檔單點
-unsigned char imgraw::point_read(int y, int x) {
+imch imgraw::point_read(int y, int x) {
     int pos = (y*this->width)+x;
     return this->img_data.at(pos);
 }
 
 // 寫入記憶體單點
-void imgraw::point_write(int y, int x, unsigned char value) {
+void imgraw::point_write(int y, int x, imch value) {
     int pos = (y*this->width)+x;
     this->img_data.at(pos) = value;
 }
 
 // 調整畫布大小
-void imgraw::resize_canvas(int y, int x) {
+void imgraw::resize_canvas(ImrSize size) {
+    int x = size.width;
+    int y = size.high;
+    // cout << "x=" << x << endl;
+    // cout << "y=" << y << endl;
     this->width = x;
     this->high = y;
 }
