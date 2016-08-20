@@ -42,6 +42,7 @@ namespace imr{
         int h();
         // 新增的
         void shrink(ImrIntv intv);
+        void stretch(ImrIntv intv);
 
     private:
         ifstream::pos_type filesize;

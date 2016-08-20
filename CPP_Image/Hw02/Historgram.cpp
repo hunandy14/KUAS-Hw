@@ -17,20 +17,45 @@ ImrSize::ImrSize(int high=0, int width=0){
 }
 
 //========================================================
+
+// 還原
+void imgraw::stretch(ImrIntv intv){
+    // 取得數據極值
+    this->extremum();
+    int y=this->high;
+    int x=this->width;
+
+    double temp; imch orig;
+    double par = (1/((double)this->max - (double)this->min)) *
+        ((double)intv.max - (double)intv.min) + (double)intv.min;
+    for (int j = 0; j < y; ++j){
+        for (int i = 0; i < x; ++i){
+            orig = (double)this->point_read(j,i);
+            temp = (orig - (double)this->min) * par;
+            if (temp > 255){
+                temp=255;
+            }else if (temp < 0){
+                temp=0;
+            }
+            this->point_write(j, i, (imch)temp);
+        }
+    }
+}
+// 收縮
 void imgraw::shrink(ImrIntv intv){
     // 取得數據極值
     this->extremum();
     int y=this->high;
     int x=this->width;
 
-    double par = ((intv.max - intv.min) / 
+    double par = (((double)intv.max - (double)intv.min) / 
         ((double)this->max - (double)this->min));
 
     double temp; imch orig;
     for (int j = 0; j < y; ++j){
         for (int i = 0; i < x; ++i){
-            orig = this->point_read(j,i);
-            temp = par*((double)orig - 
+            orig = (double)this->point_read(j,i);
+            temp = par*(orig - 
                     (double)this->min) + 
                     (double)intv.min;
             this->point_write(j, i, (imch)temp);

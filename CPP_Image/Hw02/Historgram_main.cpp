@@ -22,6 +22,7 @@ int main(int argc, char const *argv[]){
     img.read(Pic_name_in);
     // 收縮
     img.shrink(ImrIntv(100,200));
+    img.stretch(ImrIntv(1,237));
     // 提示訊息
     cout << "畫布寬度 = " << img.w() << endl;
     // 輸出檔案

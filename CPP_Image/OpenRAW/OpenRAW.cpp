@@ -1,22 +1,13 @@
 /**********************************************************
-Name : OpenRaw 2.11
+Name : OpenRaw 2.02
 Date : 2016/08/03
 By   : CharlotteHonG
-Final: 2016/08/19
+Final: 2016/08/12
 **********************************************************/
-// size建構子
-ImrSize::ImrSize(int high=0, int width=0){
-    this->high  = high;
-    this->width = width;
-}
-
-// imgraw建構子
-imgraw::imgraw(ImrSize size=ImrSize(0,0)) {
-    int x=size.width;
-    int y=size.high;
+imgraw::imgraw(int y, int x) {
     this->width = x;
     this->high = y;
-    this->img_data.vector::resize(x*y);
+    this->img_data.resize(x*y);
     this->filesize = x*y;
 }
 
@@ -42,7 +33,7 @@ void imgraw::read(string filename) {
     this->filesize = img.tellg();
     img.seekg(0, ios::beg);
     // 讀取值
-    this->img_data.vector::resize(this->filesize);
+    this->img_data.resize(this->filesize);
     img.read((char*)&this->img_data[0], this->filesize);
     img.close();
 }
@@ -57,23 +48,19 @@ void imgraw::write(string filename) {
 }
 
 // 讀檔單點
-imch imgraw::point_read(int y, int x) {
+unsigned char imgraw::point_read(int y, int x) {
     int pos = (y*this->width)+x;
     return this->img_data.at(pos);
 }
 
 // 寫入記憶體單點
-void imgraw::point_write(int y, int x, imch value) {
+void imgraw::point_write(int y, int x, unsigned char value) {
     int pos = (y*this->width)+x;
-    this->img_data.vector::at(pos) = value;
+    this->img_data.at(pos) = value;
 }
 
 // 調整畫布大小
-void imgraw::resize_canvas(ImrSize size) {
-    int x = size.width;
-    int y = size.high;
-    // cout << "x=" << x << endl;
-    // cout << "y=" << y << endl;
+void imgraw::resize_canvas(int y, int x) {
     this->width = x;
     this->high = y;
 }
