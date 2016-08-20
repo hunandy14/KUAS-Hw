@@ -7,6 +7,7 @@ Final: 2016/08/12
 #include <iostream>
 #include "OpenRAW"
 using namespace std;
+using namespace imr;
 
 #define AutoOpen 1
 #define Pic_name_in "IMG.raw"
@@ -16,8 +17,8 @@ using namespace std;
 
 int main(int argc, char const *argv[]) {
     // 創建畫布
-    imgraw img(Pic_y, Pic_x);
-    imgraw img2(Pic_y, Pic_x);
+    imgraw img(ImrSize(Pic_y, Pic_x));
+    imgraw img2(ImrSize(Pic_y, Pic_x));
     // 讀取檔案
     img.read(Pic_name_in);
     // 單點操作
@@ -27,7 +28,7 @@ int main(int argc, char const *argv[]) {
         }
     }
     // 提示訊息
-    cout << "畫布寬度 = " << img.w() << endl;
+    cout << "畫布寬度 = " << img2.w() << endl;
     // 輸出檔案
     img2.write(Pic_name_out);
     // 開啟檔案
