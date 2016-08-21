@@ -9,7 +9,7 @@ Final: 2016/08/19
 using namespace std;
 using namespace imr;
 
-#define AutoOpen 1
+#define AutoOpen 0
 #define Pic_name_in "IMG.raw"
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 256
@@ -21,8 +21,9 @@ int main(int argc, char const *argv[]){
     // 讀取檔案
     img.read(Pic_name_in);
     // 收縮
-    img.shrink(ImrIntv(100,200));
-    img.stretch(ImrIntv(1,237));
+    // img.shrink(ImrIntv(100,200));
+    // img.stretch(ImrIntv(1,237));
+    img.histogram();
     // 提示訊息
     cout << "畫布寬度 = " << img.w() << endl;
     // 輸出檔案

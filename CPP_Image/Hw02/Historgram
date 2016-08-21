@@ -12,6 +12,7 @@ Final: 2016/08/19
 #include <fstream>
 #include <vector>
 #include <string>
+#include <iomanip>
 using namespace std;
 typedef unsigned char imch;
 
@@ -43,6 +44,7 @@ namespace imr{
         // 新增的
         void shrink(ImrIntv intv);
         void stretch(ImrIntv intv);
+        void histogram();
 
     private:
         ifstream::pos_type filesize;
@@ -54,6 +56,7 @@ namespace imr{
         imch max;
         imch min;
         void extremum();
+        int htg_data[255];
     };
 
 #include "Historgram.cpp"
