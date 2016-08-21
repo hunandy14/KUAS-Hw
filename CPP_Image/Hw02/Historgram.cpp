@@ -17,17 +17,9 @@ ImrSize::ImrSize(int high=0, int width=0){
 }
 
 //========================================================
-void imgraw::histogram(){
-    int s=this->width * this->high;
-    int temp;
-    // 歸零
-    for (int i = 0; i < 256; ++i)
-        htg_data[i]=0;
+void imgraw::pri_htg(){
     // 取得數據
-    for (int i = 0; i < s; ++i){
-        temp = this->img_data.at(i);
-        ++this->htg_data[temp];
-    }
+    this->histogram();
     // 壓縮數據
     int htg_comp[32]={0};
     for (int i = 0; i < 32; ++i){
@@ -58,19 +50,36 @@ void imgraw::histogram(){
     string str[32][32];
     for (int j = 0; j < 32; ++j){
         for (int i = 0; i < htg_rate[j]; ++i){
-            str[j][i]+="▉ ";
+            str[j][i]+=" ▌";
         }
     }
     // 印出
     for (int i = 31; i >= 0; --i){
         cout << setw(3) << (i+1) << " ";
         for (int j = 0; j < 32; ++j){
-            cout << str[j][i];
-        }cout << endl;   
+            cout << setw(3) <<str[j][i];
+        }
+        cout << endl;   
     }
-    for (int i = 0; i < 33; ++i){
-        cout << setw(3) << (i);  
-    }cout << " <=[256/32]" << endl;
+    // 數據說明欄
+    cout << setw(3) << "";
+    for (int i = 0; i < 32/2; ++i){
+        cout << setw(6) << (i+1)*16;  
+    }
+    cout << "" << endl;
+}
+
+void imgraw::histogram(){
+    int s=this->width * this->high;
+    int temp;
+    // 歸零
+    for (int i = 0; i < 256; ++i)
+        htg_data[i]=0;
+    // 取得數據
+    for (int i = 0; i < s; ++i){
+        temp = (int)this->img_data.at(i);
+        ++this->htg_data[temp];
+    }
 }
 
 // 還原
