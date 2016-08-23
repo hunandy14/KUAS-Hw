@@ -12,6 +12,7 @@ Final: 2016/08/19
 #include <fstream>
 #include <vector>
 #include <string>
+#include <iomanip>
 using namespace std;
 typedef unsigned char imch;
 
@@ -33,6 +34,7 @@ namespace imr{
         void resize_canvas(ImrSize size);
         int w();
         int h();
+        void pri_htg(string title);
 
     private:
         ifstream::pos_type filesize;
@@ -40,6 +42,11 @@ namespace imr{
         vector<imch> img_data;
         int width;
         int high;
+        imch max;
+        imch min;
+        int htg_data[255];
+        void histogram();
+        void extremum();
     };
 
 #include "OpenRAW.cpp"

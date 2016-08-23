@@ -29,6 +29,8 @@ int main(int argc, char const *argv[]) {
     }
     // 提示訊息
     cout << "畫布寬度 = " << img2.w() << endl;
+    // 印出直方圖
+    img2.pri_htg("Original");
     // 輸出檔案
     img2.write(Pic_name_out);
     // 開啟檔案

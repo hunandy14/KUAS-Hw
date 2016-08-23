@@ -87,3 +87,86 @@ int imgraw::w() {
 int imgraw::h() {
     return this->high;
 }
+// 印出直方圖
+void imgraw::pri_htg(string title=""){
+    // 取得數據
+    this->histogram();
+    // 壓縮數據
+    int htg_comp[32]={0};
+    for (int i = 0; i < 32; ++i){
+        htg_comp[i]=(
+            htg_data[(i*8)+0]+
+            htg_data[(i*8)+1]+ 
+            htg_data[(i*8)+2]+ 
+            htg_data[(i*8)+3]+
+            htg_data[(i*8)+4]+
+            htg_data[(i*8)+5]+
+            htg_data[(i*8)+6]+
+            htg_data[(i*8)+7]
+        );
+    }
+    // 找最高值
+    int htg_high=0;
+    for (int i = 0; i < 32; ++i){
+        if (htg_comp[i]>htg_high){
+            htg_high = htg_comp[i];
+        }
+    }
+    // 轉換等比
+    int htg_rate[32]={0};
+    for (int i = 0; i < 32; ++i){
+        htg_rate[i] = (int)((double)htg_comp[i]/(double)htg_high*32);
+    }
+    // 轉換字串
+    string str[32][32];
+    for (int j = 0; j < 32; ++j){
+        for (int i = 0; i < htg_rate[j]; ++i){
+            str[j][i]+=" ▌";
+        }
+    }
+    // 印出
+    cout << endl << setw((64-3)-(title.length()/2));
+    cout << title << endl;
+    for (int i = 31; i >= 0; --i){
+        cout << setw(3) << (i+1) << " ";
+        for (int j = 0; j < 32; ++j){
+            cout << setw(3) <<str[j][i];
+        }
+        cout << endl;   
+    }
+    // 數據說明欄
+    cout << setw(3) << "";
+    for (int i = 0; i < 32/2; ++i){
+        cout << setw(6) << (i+1)*16;  
+    }
+    cout << "" << endl;
+}
+// 取得數據統計
+void imgraw::histogram(){
+    int s=this->width * this->high;
+    int temp;
+    // 歸零
+    for (int i = 0; i < 256; ++i)
+        this->htg_data[i]=0;
+    // 取得數據
+    for (int i = 0; i < s; ++i){
+        temp = (int)this->img_data.at(i);
+        ++this->htg_data[temp];
+    }
+}
+// 取得數據極值
+void imgraw::extremum(){
+    imch temp;
+    this->min=255;
+    this->max=0;
+    for (int j = 0; j < this->high; ++j){
+        for (int i = 0; i < this->width; ++i){
+            temp = this->point_read(j,i);
+            if (temp > this->max){
+                this->max = temp;
+            }else if (temp < this->min){
+                this->min = temp;
+            }
+        }
+    }
+}
