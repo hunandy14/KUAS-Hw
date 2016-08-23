@@ -46,7 +46,6 @@ namespace imr{
         void stretch(ImrIntv intv);
         void equalization();
         void pri_htg(string title);
-        void histogram();
     private:
         ifstream::pos_type filesize;
         string filename;
@@ -56,8 +55,9 @@ namespace imr{
         // 新增的
         imch max;
         imch min;
-        void extremum();
         int htg_data[255];
+        void histogram();
+        void extremum();
     };
 
 #include "Historgram.cpp"
