@@ -44,8 +44,9 @@ namespace imr{
         // 新增的
         void shrink(ImrIntv intv);
         void stretch(ImrIntv intv);
+        void equalization();
+        void pri_htg(string title);
         void histogram();
-        void pri_htg();
     private:
         ifstream::pos_type filesize;
         string filename;

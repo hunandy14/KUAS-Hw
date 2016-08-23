@@ -17,7 +17,69 @@ ImrSize::ImrSize(int high=0, int width=0){
 }
 
 //========================================================
-void imgraw::pri_htg(){
+void imgraw::shrink(ImrIntv intv){
+    // 取得數據極值
+    this->extremum();
+    int y=this->high;
+    int x=this->width;
+
+    double par = (((double)intv.max - (double)intv.min) / 
+        ((double)this->max - (double)this->min));
+
+    double temp; imch orig;
+    for (int j = 0; j < y; ++j){
+        for (int i = 0; i < x; ++i){
+            orig = (double)this->point_read(j,i);
+            temp = par*(orig - 
+                    (double)this->min) + 
+                    (double)intv.min;
+            this->point_write(j, i, (imch)temp);
+        }
+    }
+}
+void imgraw::stretch(ImrIntv intv){
+    // 取得數據極值
+    this->extremum();
+    int y=this->high;
+    int x=this->width;
+
+    double temp; imch orig;
+    double par = (1/((double)this->max - (double)this->min)) *
+        ((double)intv.max - (double)intv.min) + (double)intv.min;
+    for (int j = 0; j < y; ++j){
+        for (int i = 0; i < x; ++i){
+            orig = (double)this->point_read(j,i);
+            temp = (orig - (double)this->min) * par;
+            if (temp > 255){
+                temp=255;
+            }else if (temp < 0){
+                temp=0;
+            }
+            this->point_write(j, i, (imch)temp);
+        }
+    }
+}
+void imgraw::equalization(){
+    // 取得數據統計
+    this->histogram();
+    // 找最極值
+    this->extremum();
+    // 取得分母
+    int n = this->width * this->high;
+    // 取得分子
+    double grand=0,S[255];
+    for (int j = 0; j < 255; ++j){
+        grand += this->htg_data[j];
+        S[j] = grand/n;
+    }
+    // 導入數據
+    double temp;
+    for (int i = 0; i < n; ++i){
+        temp = S[(int)img_data.at(i)];
+        img_data.at(i) = (int)(temp * (double)this->max);
+    }
+}
+void imgraw::pri_htg(string title=""){
     // 取得數據
     this->histogram();
     // 壓縮數據
@@ -54,6 +116,8 @@ void imgraw::pri_htg(){
         }
     }
     // 印出
+    cout << endl << setw((64-3)-(title.length()/2));
+    cout << title << endl;
     for (int i = 31; i >= 0; --i){
         cout << setw(3) << (i+1) << " ";
         for (int j = 0; j < 32; ++j){
@@ -68,62 +132,17 @@ void imgraw::pri_htg(){
     }
     cout << "" << endl;
 }
-
+// 取得數據統計
 void imgraw::histogram(){
     int s=this->width * this->high;
     int temp;
     // 歸零
     for (int i = 0; i < 256; ++i)
-        htg_data[i]=0;
+        this->htg_data[i]=0;
     // 取得數據
     for (int i = 0; i < s; ++i){
         temp = (int)this->img_data.at(i);
         ++this->htg_data[temp];
-    }
-}
-
-// 還原
-void imgraw::stretch(ImrIntv intv){
-    // 取得數據極值
-    this->extremum();
-    int y=this->high;
-    int x=this->width;
-
-    double temp; imch orig;
-    double par = (1/((double)this->max - (double)this->min)) *
-        ((double)intv.max - (double)intv.min) + (double)intv.min;
-    for (int j = 0; j < y; ++j){
-        for (int i = 0; i < x; ++i){
-            orig = (double)this->point_read(j,i);
-            temp = (orig - (double)this->min) * par;
-            if (temp > 255){
-                temp=255;
-            }else if (temp < 0){
-                temp=0;
-            }
-            this->point_write(j, i, (imch)temp);
-        }
-    }
-}
-// 收縮
-void imgraw::shrink(ImrIntv intv){
-    // 取得數據極值
-    this->extremum();
-    int y=this->high;
-    int x=this->width;
-
-    double par = (((double)intv.max - (double)intv.min) / 
-        ((double)this->max - (double)this->min));
-
-    double temp; imch orig;
-    for (int j = 0; j < y; ++j){
-        for (int i = 0; i < x; ++i){
-            orig = (double)this->point_read(j,i);
-            temp = par*(orig - 
-                    (double)this->min) + 
-                    (double)intv.min;
-            this->point_write(j, i, (imch)temp);
-        }
     }
 }
 // 取得數據極值
