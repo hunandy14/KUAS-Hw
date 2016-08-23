@@ -17,6 +17,7 @@ ImrSize::ImrSize(int high=0, int width=0){
 }
 
 //========================================================
+// 收縮
 void imgraw::shrink(ImrIntv intv){
     // 取得數據極值
     this->extremum();
@@ -37,6 +38,7 @@ void imgraw::shrink(ImrIntv intv){
         }
     }
 }
+// 還原
 void imgraw::stretch(ImrIntv intv){
     // 取得數據極值
     this->extremum();
@@ -59,6 +61,7 @@ void imgraw::stretch(ImrIntv intv){
         }
     }
 }
+// 均質
 void imgraw::equalization(){
     // 取得數據統計
     this->histogram();
@@ -79,6 +82,7 @@ void imgraw::equalization(){
         img_data.at(i) = (int)(temp * (double)this->max);
     }
 }
+// 印出直方圖
 void imgraw::pri_htg(string title=""){
     // 取得數據
     this->histogram();
