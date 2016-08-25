@@ -13,6 +13,7 @@ Final: 2016/08/19
 #include <vector>
 #include <string>
 #include <iomanip>
+#include <sstream>
 using namespace std;
 typedef unsigned char imch;
 

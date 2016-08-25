@@ -124,11 +124,18 @@ void imgraw::pri_htg(string title=""){
             str[j][i]+=" ▌";
         }
     }
+    // 取得整數長度
+    string temp;
+    stringstream ss;
+    ss << htg_high;
+    temp.clear();
+    ss >> temp;
+    ss.clear();
     // 印出
     cout << endl << setw((64-3)-(title.length()/2));
     cout << title << endl;
     for (int i = 31; i >= 0; --i){
-        cout << setw(3) << (i+1) << " ";
+        cout << setw(temp.length()) << htg_high/32*(i+1) << " ";
         for (int j = 0; j < 32; ++j){
             cout << setw(3) <<str[j][i];
         }
