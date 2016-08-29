@@ -9,7 +9,7 @@ Final: 2016/08/12
 using namespace std;
 using namespace imr;
 
-#define AutoOpen 1
+#define AutoOpen 0
 #define Pic_name_in "IMG.raw"
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 256
@@ -22,11 +22,14 @@ int main(int argc, char const *argv[]) {
     // 讀取檔案
     img.read(Pic_name_in);
     // 胡椒鹽
-    img.salt_pepper(1,10);
+    // img.salt_pepper(1,10);
+    // 低通
+    img.low_pass();
+    // img.getMask(0,0);
     // 提示訊息
     cout << "畫布寬度 = " << img2.w() << endl;
     // 印出直方圖
-    img.pri_htg("Original");
+    // img.pri_htg("Original");
     // 輸出檔案
     img.write(Pic_name_out);
     // 開啟檔案

@@ -38,7 +38,11 @@ namespace imr{
         int h();
         void pri_htg(string title);
         // 新增
-        void salt_pepper(unsigned int white, unsigned int black);
+        void salt_pepper(unsigned int white,
+            unsigned int black);
+        imch** getMask(int oy, int ox,
+            ImrSize size, int sy, int sx);
+        void low_pass(ImrSize size);
 
     private:
         ifstream::pos_type filesize;

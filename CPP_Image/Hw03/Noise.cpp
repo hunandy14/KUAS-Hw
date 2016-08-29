@@ -21,6 +21,57 @@ imgraw::imgraw(ImrSize size=ImrSize(0,0)) {
     this->filesize = x*y;
 }
 //=========================================================
+// 低通
+void imgraw::low_pass(ImrSize size=ImrSize(3,3)){
+    imch** mask;
+    mask = this->getMask(0, 0, size, 0, 0);
+
+    for (int j = 0; j < size.high; ++j){
+        for (int i = 0; i < size.width; ++i){
+            cout << mask[j][i];
+        }cout << endl;
+    }
+    // 釋放記憶體
+    for (int i = 0; i < size.high ; ++i)
+        delete [] mask[i];
+    delete [] mask;
+}
+// 取得遮罩(座標, 大小, 遮罩偏移的位置)
+imch** imgraw::getMask(int oy, int ox,
+        ImrSize size=ImrSize(3,3),
+        int sy=0, int sx=0){
+    // cout << size.high << endl;
+    // cout << size.width << endl;
+    // 創建動態陣列
+    imch** mask;
+    mask = new imch*[size.high];
+    for (int i = 0; i < size.high; ++i)
+        mask[i] = new imch[size.width];
+    // 取得周圍16點
+    int foy,fox; // 修復後的原始座標
+    for (int j = 0; j < size.high; ++j){
+        for (int i = 0; i < size.width; ++i){
+            foy=oy+(j+(sy)); fox=ox+(i+(sx));
+            // 超過左邊界修復
+            if (foy<0){foy=1;}
+            // 超過上邊界修復
+            if (fox<0){fox=1;}
+            // 超過下邊界修復
+            if(foy==this->high){foy-=2;}
+            if(foy==this->high-1){foy-=1;}
+            // 超過右邊界修復
+            if (fox==this->width){fox-=2;}
+            if (fox==this->width-1){fox-=1;}
+            // 紀錄對應的指標
+            mask[j][i] = this->point_read(foy, fox);
+        }
+    }
+    // 釋放記憶體
+    // for (int i = 0; i < 4; ++i)
+    //     delete [] mask[i];
+    // delete [] mask;
+    return mask;
+}
 // 胡椒鹽雜訊
 void imgraw::salt_pepper(unsigned int white, unsigned int black=0){
     srand((unsigned)time(NULL));
