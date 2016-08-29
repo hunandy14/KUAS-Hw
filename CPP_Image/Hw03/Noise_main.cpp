@@ -9,7 +9,7 @@ Final: 2016/08/12
 using namespace std;
 using namespace imr;
 
-#define AutoOpen 0
+#define AutoOpen 1
 #define Pic_name_in "IMG.raw"
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 256
@@ -18,16 +18,16 @@ using namespace imr;
 int main(int argc, char const *argv[]) {
     // 創建畫布
     imgraw img(ImrSize(Pic_y, Pic_x));
-    imgraw img2(ImrSize(Pic_y, Pic_x));
+    // imgraw img2(ImrSize(Pic_y, Pic_x));
     // 讀取檔案
     img.read(Pic_name_in);
     // 胡椒鹽
-    // img.salt_pepper(1,10);
+    img.salt_pepper(1);
     // 低通
     img.low_pass();
     // img.getMask(0,0);
     // 提示訊息
-    cout << "畫布寬度 = " << img2.w() << endl;
+    cout << "畫布寬度 = " << img.w() << endl;
     // 印出直方圖
     // img.pri_htg("Original");
     // 輸出檔案

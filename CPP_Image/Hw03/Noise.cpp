@@ -24,13 +24,38 @@ imgraw::imgraw(ImrSize size=ImrSize(0,0)) {
 // 低通
 void imgraw::low_pass(ImrSize size=ImrSize(3,3)){
     imch** mask;
-    mask = this->getMask(0, 0, size, 0, 0);
+    imgraw img2(ImrSize(this->high, this->width));
 
-    for (int j = 0; j < size.high; ++j){
-        for (int i = 0; i < size.width; ++i){
-            cout << mask[j][i];
-        }cout << endl;
+    // 印出遮罩
+    // mask = this->getMask(2, 2, size, -1, -1);
+    // for (int j = 0; j < size.high; ++j){
+    //     for (int i = 0; i < size.width; ++i){
+    //         cout << mask[j][i];
+    //     }cout << endl;
+    // }
+    cout << "mask[1][1]" << this->point_read(2, 2) << endl;
+    // int debug=0;
+    for (int j = 0; j < this->high; ++j){
+        for (int i = 0; i < this->width; ++i){
+            mask = this->getMask(j, i, size, -1, -1);
+            double temp=0;
+            for (int l = 0; l < size.high; ++l){
+                for (int k = 0; k < size.width; ++k){
+                    temp+=(double)mask[l][k];
+                }
+            }
+            temp/=size.high*size.width;
+            // temp=mask[1][1];
+            // temp=(double)this->point_read(j, i);
+            // if (temp > 200){
+            //     ++debug;
+            // }
+            img2.point_write(j,i,(imch)temp);
+            // img2.point_write(j,i,this->point_read(j, i));
+        }
     }
+    // cout << "debug=" << debug << endl;
+    *this=img2;
     // 釋放記憶體
     for (int i = 0; i < size.high ; ++i)
         delete [] mask[i];
@@ -39,9 +64,7 @@ void imgraw::low_pass(ImrSize size=ImrSize(3,3)){
 // 取得遮罩(座標, 大小, 遮罩偏移的位置)
 imch** imgraw::getMask(int oy, int ox,
         ImrSize size=ImrSize(3,3),
-        int sy=0, int sx=0){
-    // cout << size.high << endl;
-    // cout << size.width << endl;
+        int sy=-1, int sx=-1){
     // 創建動態陣列
     imch** mask;
     mask = new imch*[size.high];
@@ -53,9 +76,9 @@ imch** imgraw::getMask(int oy, int ox,
         for (int i = 0; i < size.width; ++i){
             foy=oy+(j+(sy)); fox=ox+(i+(sx));
             // 超過左邊界修復
-            if (foy<0){foy=1;}
+            if (foy<0){foy=0;}
             // 超過上邊界修復
-            if (fox<0){fox=1;}
+            if (fox<0){fox=0;}
             // 超過下邊界修復
             if(foy==this->high){foy-=2;}
             if(foy==this->high-1){foy-=1;}
