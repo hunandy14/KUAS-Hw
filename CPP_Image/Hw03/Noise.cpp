@@ -21,11 +21,48 @@ imgraw::imgraw(ImrSize size=ImrSize(0,0)) {
     this->filesize = x*y;
 }
 //=========================================================
+// 中值(尚未優化)
+void imgraw::median_filter(ImrSize size=ImrSize(3,3)){
+    imch** mask;
+    imgraw img2(ImrSize(this->high, this->width));
+    for (int j = 0; j < this->high; ++j){
+        for (int i = 0; i < this->width; ++i){
+            mask = this->getMask(j, i, size, -1, -1);
+            // 建立一個臨時陣列排序用(優化時要修掉)
+            imch* temp=new imch[size.high*size.width];
+            // 二維轉一為
+            int pos=0;
+            for (int j = 0; j < size.high; ++j){
+                for (int i = 0; i < size.width; ++i){
+                    temp[pos] = mask[j][i];
+                    ++pos;
+                }
+            }
+            // 排序
+            this->sort(temp, size.high*size.width);
+            img2.point_write(j,i,temp[4]);
+        }
+    } *this=img2;
+    // 釋放記憶體
+    for (int i = 0; i < size.high ; ++i)
+        delete [] mask[i];
+    delete [] mask;
+}
+// 排序
+void imgraw::sort(imch arr[], int len){
+    imch temp;
+    int i, j;
+    for (i = 1; i < len; i++) {
+        temp = arr[i];
+        for (j = i - 1; j >= 0 && arr[j] > temp; j--)
+            arr[j + 1] = arr[j];
+        arr[j + 1] = temp;
+    }
+}
 // 低通
 void imgraw::low_pass(ImrSize size=ImrSize(3,3)){
     imch** mask;
     imgraw img2(ImrSize(this->high, this->width));
-
     // 印出遮罩
     // mask = this->getMask(2, 2, size, -1, -1);
     // for (int j = 0; j < size.high; ++j){
@@ -33,8 +70,7 @@ void imgraw::low_pass(ImrSize size=ImrSize(3,3)){
     //         cout << mask[j][i];
     //     }cout << endl;
     // }
-    cout << "mask[1][1]" << this->point_read(2, 2) << endl;
-    // int debug=0;
+    // 平均遮罩的的數值並寫入
     for (int j = 0; j < this->high; ++j){
         for (int i = 0; i < this->width; ++i){
             mask = this->getMask(j, i, size, -1, -1);
@@ -43,19 +79,10 @@ void imgraw::low_pass(ImrSize size=ImrSize(3,3)){
                 for (int k = 0; k < size.width; ++k){
                     temp+=(double)mask[l][k];
                 }
-            }
-            temp/=size.high*size.width;
-            // temp=mask[1][1];
-            // temp=(double)this->point_read(j, i);
-            // if (temp > 200){
-            //     ++debug;
-            // }
+            }temp/=size.high*size.width;
             img2.point_write(j,i,(imch)temp);
-            // img2.point_write(j,i,this->point_read(j, i));
         }
-    }
-    // cout << "debug=" << debug << endl;
-    *this=img2;
+    } *this=img2;
     // 釋放記憶體
     for (int i = 0; i < size.high ; ++i)
         delete [] mask[i];

@@ -43,6 +43,7 @@ namespace imr{
         imch** getMask(int oy, int ox,
             ImrSize size, int sy, int sx);
         void low_pass(ImrSize size);
+        void median_filter(ImrSize size);
 
     private:
         ifstream::pos_type filesize;
@@ -57,9 +58,10 @@ namespace imr{
         void extremum();
         // 新增
         int rand_int(int low, int up);
+        void sort(imch arr[], int len);
     };
 
-#include "Noise.cpp"
+    #include "Noise.cpp"
 };
 
 

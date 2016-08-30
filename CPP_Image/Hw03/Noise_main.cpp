@@ -24,8 +24,9 @@ int main(int argc, char const *argv[]) {
     // 胡椒鹽
     img.salt_pepper(1);
     // 低通
-    img.low_pass();
-    // img.getMask(0,0);
+    // img.low_pass();
+    // 中值
+    img.median_filter();
     // 提示訊息
     cout << "畫布寬度 = " << img.w() << endl;
     // 印出直方圖
