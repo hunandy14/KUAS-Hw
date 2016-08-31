@@ -26,6 +26,16 @@ namespace imr{
         imint high;
     };
 
+    class ImrMask{
+    public:
+        ImrMask();
+        ~ImrMask();
+    private:
+        imch* mask;
+        imint high;
+        imint width;
+    };
+
     class imgraw {
     public:
         imgraw(ImrSize size);
@@ -37,6 +47,7 @@ namespace imr{
         imint w();
         imint h();
         void pri_htg(string title);
+        imch** getMask(int oy, int ox, ImrSize size, int sy, int sx);
 
     private:
         ifstream::pos_type filesize;
