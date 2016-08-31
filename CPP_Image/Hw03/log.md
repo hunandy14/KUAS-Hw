@@ -28,7 +28,9 @@ http://stackoverflow.com/questions/5637679/default-argument-in-the-middle-of-par
 
 > 參數列有設預設值一定要放在最後方
 
-
+## 遮罩 存取方式
+1. 複製周圍的點
+2. 算出相對應的座標
 
 
 
