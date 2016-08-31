@@ -21,6 +21,33 @@ imgraw::imgraw(ImrSize size=ImrSize(0,0)) {
     this->filesize = x*y;
 }
 //=========================================================
+// 高斯
+void imgraw::gaussian(double dev=2){
+    // 係數
+    double sq_12 = sqrt((double)12);
+    double sq_10 = sqrt((double)10);
+    // 高斯係數
+    double gau = (sq_12*dev)/sq_10;
+
+
+    for (int j = 0; j < this->high; ++j){
+        for (int i = 0; i < this->width; ++i){
+            // 取亂數
+            int ran = rand_int(-dev,dev+1);
+            // 雜訊值
+            double noise = gau*ran;
+            // 寫入圖檔
+            double temp = (double)this->point_read(j,i);
+            temp += noise;
+            if (temp > 255)
+                temp = 255;
+            else if (temp < 0)
+                temp = 0;
+            this->point_write(j, i, (imch)temp);
+        }
+    }
+
+}
 // 中值(尚未優化)
 void imgraw::median_filter(ImrSize size=ImrSize(3,3)){
     imch** mask;
@@ -164,10 +191,12 @@ void imgraw::salt_pepper(unsigned int white, unsigned int black=0){
     }
     // *this = img2;
 }
-// 取亂數
+// 取亂數(不包含up)
 int imgraw::rand_int(int low, int up){
-    int temp = (int)((rand() / (RAND_MAX+1.0))
-                     * (up - low) + low);
+    int temp;
+    if (low < 0)
+        low-=1;
+    temp = (int)((rand() / (RAND_MAX+1.0)) * (up - low) + low);
     return temp;
 }
 //=========================================================

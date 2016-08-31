@@ -22,15 +22,17 @@ int main(int argc, char const *argv[]) {
     // 讀取檔案
     img.read(Pic_name_in);
     // 胡椒鹽
-    img.salt_pepper(1);
+    // img.salt_pepper(1);
     // 低通
     // img.low_pass();
     // 中值
-    img.median_filter();
+    // img.median_filter();
+    // 高斯
+    img.gaussian();
     // 提示訊息
     cout << "畫布寬度 = " << img.w() << endl;
     // 印出直方圖
-    // img.pri_htg("Original");
+    img.pri_htg("Original");
     // 輸出檔案
     img.write(Pic_name_out);
     // 開啟檔案
