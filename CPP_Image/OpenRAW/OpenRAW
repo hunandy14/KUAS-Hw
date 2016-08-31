@@ -1,5 +1,5 @@
 /**********************************************************
-Name : OpenRaw 2.2
+Name : OpenRaw 2.21
 Date : 2016/08/04
 By   : CharlotteHonG
 Final: 2016/08/25
@@ -16,13 +16,14 @@ Final: 2016/08/25
 #include <sstream>
 using namespace std;
 typedef unsigned char imch;
+typedef unsigned int imint;
 
 namespace imr{
     class ImrSize{
     public:
-        ImrSize(int y, int x);
-        int width;
-        int high;
+        ImrSize(imint y, imint x);
+        imint width;
+        imint high;
     };
 
     class imgraw {
@@ -30,19 +31,19 @@ namespace imr{
         imgraw(ImrSize size);
         void read(string filename);
         void write(string filename);
-        imch point_read(int y, int x);
-        void point_write(int y, int x, imch value);
+        imch point_read(imint y, imint x);
+        void point_write(imint y, imint x, imch value);
         void resize_canvas(ImrSize size);
-        int w();
-        int h();
+        imint w();
+        imint h();
         void pri_htg(string title);
 
     private:
         ifstream::pos_type filesize;
         string filename;
         vector<imch> img_data;
-        int width;
-        int high;
+        imint width;
+        imint high;
         imch max;
         imch min;
         int htg_data[255];

@@ -1,19 +1,19 @@
 /**********************************************************
-Name : OpenRaw 2.2
+Name : OpenRaw 2.21
 Date : 2016/08/03
 By   : CharlotteHonG
 Final: 2016/08/25
 **********************************************************/
 // size建構子
-ImrSize::ImrSize(int high=0, int width=0){
+ImrSize::ImrSize(imint high=0, imint width=0){
     this->high  = high;
     this->width = width;
 }
 
 // imgraw建構子
 imgraw::imgraw(ImrSize size=ImrSize(0,0)) {
-    int x=size.width;
-    int y=size.high;
+    imint x=size.width;
+    imint y=size.high;
     this->width = x;
     this->high = y;
     this->img_data.vector::resize(x*y);
@@ -57,21 +57,21 @@ void imgraw::write(string filename) {
 }
 
 // 讀檔單點
-imch imgraw::point_read(int y, int x) {
-    int pos = (y*this->width)+x;
+imch imgraw::point_read(imint y, imint x) {
+    imint pos = (y*this->width)+x;
     return this->img_data.at(pos);
 }
 
 // 寫入記憶體單點
-void imgraw::point_write(int y, int x, imch value) {
-    int pos = (y*this->width)+x;
+void imgraw::point_write(imint y, imint x, imch value) {
+    imint pos = (y*this->width)+x;
     this->img_data.vector::at(pos) = value;
 }
 
 // 調整畫布大小
 void imgraw::resize_canvas(ImrSize size) {
-    int x = size.width;
-    int y = size.high;
+    imint x = size.width;
+    imint y = size.high;
     // cout << "x=" << x << endl;
     // cout << "y=" << y << endl;
     this->width = x;
@@ -79,12 +79,12 @@ void imgraw::resize_canvas(ImrSize size) {
 }
 
 // 獲得寬
-int imgraw::w() {
+imint imgraw::w() {
     return this->width;
 }
 
 // 獲得高
-int imgraw::h() {
+imint imgraw::h() {
     return this->high;
 }
 // 印出直方圖
@@ -148,7 +148,7 @@ void imgraw::pri_htg(string title=""){
     }
     cout << "" << endl;
 }
-// 取得數據統計
+// 取得數據統計(數值0~255有幾個)
 void imgraw::histogram(){
     int s=this->width * this->high;
     int temp;
@@ -166,8 +166,8 @@ void imgraw::extremum(){
     imch temp;
     this->min=255;
     this->max=0;
-    for (int j = 0; j < this->high; ++j){
-        for (int i = 0; i < this->width; ++i){
+    for (int j = 0; j < (int)this->high; ++j){
+        for (int i = 0; i < (int)this->width; ++i){
             temp = this->point_read(j,i);
             if (temp > this->max){
                 this->max = temp;
