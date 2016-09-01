@@ -35,9 +35,14 @@ http://stackoverflow.com/questions/5637679/default-argument-in-the-middle-of-par
 ## 指標
 重新認識了指標
 
+## 資料結構切割
+想了好久最終分了兩部分
+1. 主類別內直接取得遮罩數值
+2. 次類別用來儲存指標陣列
 
-
-
+## size_type
+http://blog.csdn.net/lzx_bupt/article/details/6558566
+http://stackoverflow.com/questions/2550774/what-is-size-t-in-c
 
 
 
