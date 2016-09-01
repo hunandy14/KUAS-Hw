@@ -44,6 +44,58 @@ http://stackoverflow.com/questions/5637679/default-argument-in-the-middle-of-par
 http://blog.csdn.net/lzx_bupt/article/details/6558566
 http://stackoverflow.com/questions/2550774/what-is-size-t-in-c
 
+## 類別內建構會智能解構
+假設
+`img.getMask(ImrCoor(1,1));`
+回傳一個動態一維陣列
+
+如果沒有任何東西接住他，那麼在該行執行結束解構子就會被執行
+`ImrMask mask = img.getMask(ImrCoor(1,1));`
+如果你接住他了，那麼在整個主程式跑完時
+結束主類別時將會在那那時候啟動解構子
+
+## 指標的意義
+```
+class ImrMask{
+public:
+    ImrMask(ImrSize masksize);
+    ~ImrMask();
+    imch & operator[](const size_t __n);
+    imch & at2d(size_t y, size_t x);
+    void sort(size_t len, size_t start);
+
+    imch* mask;
+    ImrSize masksize;
+};
+```
+
+`ImrMask mask(ImrSize(4,4));`
+> 創建一個4x4長度的動態陣列
+
+`ImrMask mask2 = mask;`
+本來以為會複製16個數值過去頭痛不已
+以為要想辦法傳參考出去了，偏偏參考又傳不出去
+後來想想不對呀，`imch* mask;`
+我只有複製一個指標，複製類別不存在效率問題
+只怕被解構子解掉了，實驗一下，會智能解構
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
