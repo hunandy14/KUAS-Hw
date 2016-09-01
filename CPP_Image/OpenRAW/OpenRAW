@@ -16,7 +16,7 @@ Final: 2016/08/25
 #include <sstream>
 using namespace std;
 typedef unsigned char imch;
-typedef unsigned int imint;
+typedef size_t imint;
 
 namespace imr{
     class ImrSize{
@@ -35,15 +35,15 @@ namespace imr{
         int y;
         int x;
     };
-    // class ImrMask{
-    // public:
-    //     ImrMask();
-    //     ~ImrMask();
-    // private:
-    //     imch* mask;
-    //     imint high;
-    //     imint width;
-    // };
+    class ImrMask{
+    public:
+        ImrMask(ImrSize masksize);
+        ~ImrMask();
+        imch& operator[](const size_t __n);
+        imch& at2d(size_t y, size_t x);
+        imch* mask;
+        ImrSize masksize;
+    };
 
     class imgraw {
     public:

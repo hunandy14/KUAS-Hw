@@ -24,29 +24,39 @@ int main(int argc, char const *argv[]) {
     // 取得遮罩
     ImrSize masksize(2,2);
     img.setMaskSize(masksize);
-    
+
+    // std::vector<char> v(3);
+    ImrMask mask(ImrSize(3,3));
+    for (int j = 0; j < 9; ++j)
+    {   
+        mask[j]=j;
+    }
+    // cout << (int)mask[1] << endl;
+    mask.at2d(0,0)=5;
+    cout << "mask[=" << (int)mask[0] << endl;
+
     // mask
-    cout << endl<< "mask" << endl;
-    for(int j = 0; j < 3; ++j){
-        for(int i = 0; i < 3; ++i) {
-            ImrCoor ori(256,256);
-            ImrCoor tar(j,i);
-            cout << img.mask(ori,tar);
-        }cout << endl;
-    }
-    // 源圖
-    cout << endl<< "Original" << endl;
-    for(int j = 250; j < 256; ++j){
-        for(int i = 250; i < 256; ++i) {
-            cout << img.point_read(j, i);
-        }cout << endl;
-    }
-    // 單點操作
-    // for(int j = 0; j < Pic_y; ++j){
-    //     for(int i = 0; i < Pic_x; ++i) {
-    //         img2.point_write(j, i, img.point_read(j, i));
-    //     }
+    // cout << endl<< "mask" << endl;
+    // for(int j = 0; j < 3; ++j){
+    //     for(int i = 0; i < 3; ++i) {
+    //         ImrCoor ori(256,256);
+    //         ImrCoor tar(j,i);
+    //         cout << img.mask(ori,tar);
+    //     }cout << endl;
     // }
+    // 源圖
+    // cout << endl<< "Original" << endl;
+    // for(int j = 250; j < 256; ++j){
+    //     for(int i = 250; i < 256; ++i) {
+    //         cout << img.point_read(j, i);
+    //     }cout << endl;
+    // }
+    // 單點操作
+    for(int j = 0; j < Pic_y; ++j){
+        for(int i = 0; i < Pic_x; ++i) {
+            img2.point_write(j, i, img.point_read(j, i));
+        }
+    }
     // 提示訊息
     // cout << "畫布寬度 = " << img2.w() << endl;
     // 印出直方圖

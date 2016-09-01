@@ -4,12 +4,6 @@ Date : 2016/08/03
 By   : CharlotteHonG
 Final: 2016/08/25
 **********************************************************/
-// ImrMask建解構子
-// ImrMask::ImrMask(){
-// }
-// ImrMask::~ImrMask(){
-// }
-
 // ImrSize建構子
 ImrSize::ImrSize(imint high=0, imint width=0){
     this->high  = high;
@@ -22,6 +16,14 @@ ImrCoor::ImrCoor(int y=0, int x=0){
     this->x = x;
 }
 
+// ImrMask建解構子
+ImrMask::ImrMask(ImrSize masksize){
+    this->mask = new imch[masksize.high * masksize.width];
+    this->masksize = masksize;
+}
+ImrMask::~ImrMask(){
+    delete [] mask;
+}
 // imgraw建構子
 imgraw::imgraw(ImrSize size=ImrSize(0,0)) {
     imint x = size.width;
@@ -31,6 +33,12 @@ imgraw::imgraw(ImrSize size=ImrSize(0,0)) {
     this->img_data.vector::resize(x*y);
     this->filesize = x*y;
     this->masksize = ImrSize(0,0);
+}
+//=========================================================
+// 以二維方式讀取
+imch& ImrMask::at2d(size_t y, size_t x){
+    size_t pos = (y*this->masksize.width) + x;
+    return mask[pos];
 }
 //=========================================================
 // 取得遮罩值 (原點，遮罩座標，位移)
@@ -58,31 +66,7 @@ imch imgraw::mask(ImrCoor ori, ImrCoor mas,
 void imgraw::setMaskSize(ImrSize masksize){
     this->masksize = masksize;
 }
-// 取得遮罩地址
-// imch** imgraw::getMask(int oy, int ox,
-        // ImrSize size=ImrSize(3,3), int sy=-1, int sx=-1){
-    // 創建動態陣列
-    // imch** mask;
-    // mask = new imch*[(int)size.high];
-    // for (int i = 0; i < (int)size.high; ++i)
-        // mask[i] = new imch[(int)size.width];
-    // 取得周圍16點
-    // int foy,fox; // 修復後的原始座標
-    // for (int j = 0; j < size.high; ++j){
-    //     for (int i = 0; i < size.width; ++i){
-    //         foy=oy+(j+(sy)); fox=ox+(i+(sx));
-    //         // 超過邊界修復
 
-    //         // 紀錄對應的指標
-    //         mask[j][i] = this->point_read(foy, fox);
-    //     }
-    // }
-    // 釋放記憶體
-    // for (int i = 0; i < 4; ++i)
-    //     delete [] mask[i];
-    // delete [] mask;
-    // return mask;
-// }
 //=========================================================
 // 匯入檔案
 void imgraw::read(string filename) {
@@ -242,7 +226,7 @@ void imgraw::extremum(){
     }
 }
 //=========================================================
-// 運算子重載
+// ImrCoor運算子重載
 ImrCoor ImrCoor::operator+(const ImrCoor &p){
     ImrCoor temp;
     temp.y = this->y + p.y;
@@ -266,4 +250,8 @@ ImrCoor ImrCoor::operator/(const ImrCoor &p){
     temp.y = (int)((double)this->y / (double)p.y);
     temp.x = (int)((double)this->x / (double)p.x);
     return temp;
+}
+// ImrMask運算子重載
+imch& ImrMask::operator[](size_t __n){
+    return mask[__n];
 }
