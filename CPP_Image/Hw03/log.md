@@ -11,7 +11,7 @@ return (str.length());
 ```
 
 ## 亂數問題
-[http://goo.gl/DrTtr](http://goo.gl/DrTtr)
+[http://goo.gl/DrTtr](http://edisonx.pixnet.net/blog/post/91314418-%5B%E4%BA%82%E6%95%B8%5D-%3C%E7%B4%B0%E8%AA%AA%3E-c-c%2B%2B-%E4%BA%82%E6%95%B8%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E8%88%87%E5%B8%B8%E8%A6%8B%E5%95%8F%E9%A1%8C)
 `rand() / (RAND_MAX+1.0)) * (up - low + 1.0) + low`
 
 ## 亂數撒點
@@ -31,6 +31,11 @@ http://stackoverflow.com/questions/5637679/default-argument-in-the-middle-of-par
 ## 遮罩 存取方式
 1. 複製周圍的點
 2. 算出相對應的座標
+
+## 指標
+重新認識了指標
+
+
 
 
 
