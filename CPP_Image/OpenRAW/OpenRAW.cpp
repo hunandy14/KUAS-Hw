@@ -20,9 +20,11 @@ ImrCoor::ImrCoor(int y=0, int x=0){
 ImrMask::ImrMask(ImrSize masksize=ImrSize(0,0)){
     this->mask = new imch[masksize.high * masksize.width];
     this->masksize = masksize;
+    // cout << "create" << endl;
 }
 ImrMask::~ImrMask(){
     delete [] this->mask;
+    // cout << "delete" << endl;
 }
 // imgraw建構子
 imgraw::imgraw(ImrSize size=ImrSize(0,0)) {
@@ -97,17 +99,20 @@ imch imgraw::maskVal(ImrCoor ori, ImrCoor mas,
 // 取得遮罩，回傳一維陣列(原點位置，位移維度)
 ImrMask imgraw::getMask(ImrCoor ori, 
         ImrCoor shi = ImrCoor(-1,-1)){
+    if (this->masksize.high == 0
+        && this->masksize.width == 0){
+        cout << "Error! Uninit masksize." << endl;
+        return ImrMask();
+    }
     // 創建動態陣列
-    ImrMask mask(masksize);
-
-    // cout << this->maskVal(ori,ImrCoor(0,0))  << endl;
-    // cout << this->masksize.width << endl;
+    ImrMask mask = ImrMask(this->masksize);
+    // 複製遮罩
     for (int j = 0; j < (int)this->masksize.high; ++j){
         for (int i = 0; i < (int)this->masksize.width; ++i){
             // 遮罩位置
             ImrCoor mas(j,i);
             // 複製遮罩數值
-            mask.at2d(j,i)=this->maskVal(ori, mas);
+            mask.at2d(j,i)=this->maskVal(ori, mas, shi);
         }
     }
     // 印出
@@ -116,7 +121,6 @@ ImrMask imgraw::getMask(ImrCoor ori,
     //         cout << mask.at2d(j,i);
     //     }cout << endl;
     // }
-    // ImrMask* temp = &mask;
     return mask;
 }
 
@@ -161,18 +165,21 @@ void imgraw::write(string filename) {
     img.close();
 }
 
-// 讀檔單點
+// 讀檔單點(檢查邊界)
 imch imgraw::point_read(imint y, imint x) {
     imint pos = (y*this->width)+x;
     return this->img_data.at(pos);
 }
-
-// 寫入記憶體單點
+// 寫入記憶體單點(檢查邊界)
 void imgraw::point_write(imint y, imint x, imch value) {
     imint pos = (y*this->width)+x;
     this->img_data.vector::at(pos) = value;
 }
-
+// 以二維方式讀取或寫入(檢查邊界)
+imch& imgraw::at2d(size_t y, size_t x){
+    size_t pos = (y*this->width)+x;
+    return this->img_data.at(pos);
+}
 // 調整畫布大小
 void imgraw::resize_canvas(ImrSize size) {
     imint x = size.width;
@@ -316,7 +323,11 @@ ImrCoor ImrCoor::operator/(const ImrCoor &p){
     temp.x = (int)((double)this->x / (double)p.x);
     return temp;
 }
-// ImrMask運算子重載
-imch& ImrMask::operator[](size_t __n){
+// ImrMask 運算子重載
+imch& ImrMask::operator[](const size_t __n){
     return this->mask[__n];
+}
+// imgraw 運算子重載
+imch& imgraw::operator[](const size_t __n){
+    return this->img_data[__n];
 }

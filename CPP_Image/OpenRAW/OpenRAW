@@ -39,10 +39,10 @@ namespace imr{
     public:
         ImrMask(ImrSize masksize);
         ~ImrMask();
-        imch& operator[](const size_t __n);
-        imch& at2d(size_t y, size_t x);
+        imch & operator[](const size_t __n);
+        imch & at2d(size_t y, size_t x);
         void sort(size_t len, size_t start);
-
+    private:
         imch* mask;
         ImrSize masksize;
     };
@@ -54,6 +54,7 @@ namespace imr{
         void write(string filename);
         imch point_read(imint y, imint x);
         void point_write(imint y, imint x, imch value);
+        imch & at2d(size_t y, size_t x);
         void resize_canvas(ImrSize size);
         imint w();
         imint h();
@@ -61,7 +62,7 @@ namespace imr{
         void setMaskSize(ImrSize masksize);
         imch maskVal(ImrCoor ori, ImrCoor mas, ImrCoor shi);
         ImrMask getMask(ImrCoor ori, ImrCoor shi);
-
+        imch & operator[](const size_t __n);
     private:
         ifstream::pos_type filesize;
         string filename;
