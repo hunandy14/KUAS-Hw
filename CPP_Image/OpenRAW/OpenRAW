@@ -25,16 +25,21 @@ namespace imr{
         imint width;
         imint high;
     };
-
-    class ImrMask{
+    class ImrCoor{
     public:
-        ImrMask();
-        ~ImrMask();
-    private:
-        imch* mask;
-        imint high;
-        imint width;
+        ImrCoor(imint y, imint x);
+        imint y;
+        imint x;
     };
+    // class ImrMask{
+    // public:
+    //     ImrMask();
+    //     ~ImrMask();
+    // private:
+    //     imch* mask;
+    //     imint high;
+    //     imint width;
+    // };
 
     class imgraw {
     public:
@@ -47,7 +52,9 @@ namespace imr{
         imint w();
         imint h();
         void pri_htg(string title);
-        imch** getMask(int oy, int ox, ImrSize size, int sy, int sx);
+        void setMaskSize(ImrSize masksize);
+        imch mask(ImrCoor ori, ImrCoor tar,
+             int sy, int sx);
 
     private:
         ifstream::pos_type filesize;
@@ -60,6 +67,7 @@ namespace imr{
         int htg_data[255];
         void histogram();
         void extremum();
+        ImrSize masksize;
     };
 
 #include "OpenRAW.cpp"

@@ -5,35 +5,61 @@ By   : CharlotteHonG
 Final: 2016/08/25
 **********************************************************/
 // ImrMask建解構子
-ImrMask::ImrMask(){
-}
-ImrMask::~ImrMask(){
-}
+// ImrMask::ImrMask(){
+// }
+// ImrMask::~ImrMask(){
+// }
 
-// size建構子
+// ImrSize建構子
 ImrSize::ImrSize(imint high=0, imint width=0){
     this->high  = high;
     this->width = width;
 }
 
+// ImrCoor建構子
+ImrCoor::ImrCoor(imint y=0, imint x=0){
+    this->y = y;
+    this->x = x;
+}
+
 // imgraw建構子
 imgraw::imgraw(ImrSize size=ImrSize(0,0)) {
-    imint x=size.width;
-    imint y=size.high;
+    imint x = size.width;
+    imint y = size.high;
     this->width = x;
     this->high = y;
     this->img_data.vector::resize(x*y);
     this->filesize = x*y;
+    this->masksize = ImrSize(0,0);
 }
 //=========================================================
+// 取得遮罩值
+imch imgraw::mask(ImrCoor ori, ImrCoor tar, 
+        int sy=-1, int sx=-1){
+    // 判斷遮罩大小是否初始化
+    if (this->masksize.high == 0 
+        && this->masksize.width == 0){
+        cout << "masksize uninit." << endl;
+        return 0;
+    }
+    imch temp=0;
+    ImrCoor pos;
+    // pos=ori+tar;
+    // this->point_read()
+    return temp;
+}
+// 設定遮罩
+void imgraw::setMaskSize(ImrSize masksize){
+    this->masksize = masksize;
+}
 // 取得遮罩地址
-imch** imgraw::getMask(int oy, int ox,
-        ImrSize size=ImrSize(3,3), int sy=-1, int sx=-1){
+// imch** imgraw::getMask(int oy, int ox,
+        // ImrSize size=ImrSize(3,3), int sy=-1, int sx=-1){
     // 創建動態陣列
-    imch** mask;
-    mask = new imch*[(int)size.high];
-    for (int i = 0; i < (int)size.high; ++i)
-        mask[i] = new imch[(int)size.width];
+    // imch** mask;
+    // mask = new imch*[(int)size.high];
+    // for (int i = 0; i < (int)size.high; ++i)
+        // mask[i] = new imch[(int)size.width];
     // 取得周圍16點
     // int foy,fox; // 修復後的原始座標
     // for (int j = 0; j < size.high; ++j){
@@ -49,8 +75,8 @@ imch** imgraw::getMask(int oy, int ox,
     // for (int i = 0; i < 4; ++i)
     //     delete [] mask[i];
     // delete [] mask;
-    return mask;
-}
+    // return mask;
+// }
 //=========================================================
 // 匯入檔案
 void imgraw::read(string filename) {
@@ -65,7 +91,7 @@ void imgraw::read(string filename) {
         exit(1);
     }
     else {
-        cout << "File ok." << endl;
+        // cout << "File ok." << endl;
     } img.close();
     // 二進位模式讀檔
     // 取得總長

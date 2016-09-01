@@ -22,22 +22,27 @@ int main(int argc, char const *argv[]) {
     // 讀取檔案
     img.read(Pic_name_in);
     // 取得遮罩
-    ImrSize size_m(3,3);
-    imch** mask;
-    mask=img.getMask(1, 1, size_m);
+    ImrSize masksize(3,3);
+    img.setMaskSize(masksize);
+    ImrCoor ori(1,1);
+    ImrCoor tar(0,0);
+    img.mask(ori,tar);
+    // img.mask();
+    // imch** mask;
+    // mask=img.getMask(1, 1, size_m);
     
     // mask
-    for(int j = 0; j < 3; ++j){
-        for(int i = 0; i < 3; ++i) {
-            cout << mask[j][i];
-        }cout << endl;
-    }
+    // for(int j = 0; j < 3; ++j){
+    //     for(int i = 0; i < 3; ++i) {
+    //         cout << mask[j][i];
+    //     }cout << endl;
+    // }
     // 源圖
-    for(int j = 0; j < 3; ++j){
-        for(int i = 0; i < 3; ++i) {
-            cout << img.point_read(j, i);
-        }cout << endl;
-    }
+    // for(int j = 0; j < 3; ++j){
+    //     for(int i = 0; i < 3; ++i) {
+    //         cout << img.point_read(j, i);
+    //     }cout << endl;
+    // }
     // 單點操作
     // for(int j = 0; j < Pic_y; ++j){
     //     for(int i = 0; i < Pic_x; ++i) {
