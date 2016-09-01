@@ -17,7 +17,7 @@ ImrSize::ImrSize(imint high=0, imint width=0){
 }
 
 // ImrCoor建構子
-ImrCoor::ImrCoor(imint y=0, imint x=0){
+ImrCoor::ImrCoor(int y=0, int x=0){
     this->y = y;
     this->x = x;
 }
@@ -33,20 +33,26 @@ imgraw::imgraw(ImrSize size=ImrSize(0,0)) {
     this->masksize = ImrSize(0,0);
 }
 //=========================================================
-// 取得遮罩值
-imch imgraw::mask(ImrCoor ori, ImrCoor tar, 
-        int sy=-1, int sx=-1){
-    // 判斷遮罩大小是否初始化
-    if (this->masksize.high == 0 
-        && this->masksize.width == 0){
-        cout << "masksize uninit." << endl;
-        return 0;
+// 取得遮罩值 (原點，遮罩座標，位移)
+imch imgraw::mask(ImrCoor ori, ImrCoor mas, 
+        ImrCoor shi=ImrCoor(-1,-1)){
+    // 取得對應位置
+    ImrCoor pos = ori + mas + shi;
+    // 修正邊緣
+    if (pos.y <0){
+        pos.y = 0;
     }
-    imch temp=0;
-    ImrCoor pos;
-    // pos=ori+tar;
-    // this->point_read()
-    return temp;
+    if (pos.y > (int)this->high-1){
+        pos.y = (int)this->high-1;
+    }
+    if (pos.x <0){
+        pos.x = 0;
+    }
+    if (pos.x > (int)this->width-1){
+        pos.x = (int)this->width-1;
+    }
+    // 回傳正確位置的數值
+    return this->point_read((pos.y), (pos.x));
 }
 // 設定遮罩
 void imgraw::setMaskSize(ImrSize masksize){
@@ -234,4 +240,30 @@ void imgraw::extremum(){
             }
         }
     }
+}
+//=========================================================
+// 運算子重載
+ImrCoor ImrCoor::operator+(const ImrCoor &p){
+    ImrCoor temp;
+    temp.y = this->y + p.y;
+    temp.x = this->x + p.x;
+    return temp;
+}
+ImrCoor ImrCoor::operator-(const ImrCoor &p){
+    ImrCoor temp;
+    temp.y = this->y - p.y;
+    temp.x = this->x - p.x;
+    return temp;
+}
+ImrCoor ImrCoor::operator*(const ImrCoor &p){
+    ImrCoor temp;
+    temp.y = this->y * p.y;
+    temp.x = this->x * p.x;
+    return temp;
+}
+ImrCoor ImrCoor::operator/(const ImrCoor &p){
+    ImrCoor temp;
+    temp.y = (int)((double)this->y / (double)p.y);
+    temp.x = (int)((double)this->x / (double)p.x);
+    return temp;
 }

@@ -27,9 +27,13 @@ namespace imr{
     };
     class ImrCoor{
     public:
-        ImrCoor(imint y, imint x);
-        imint y;
-        imint x;
+        ImrCoor(int y, int x);
+        ImrCoor operator+(const ImrCoor &p);
+        ImrCoor operator-(const ImrCoor &p);
+        ImrCoor operator*(const ImrCoor &p);
+        ImrCoor operator/(const ImrCoor &p);
+        int y;
+        int x;
     };
     // class ImrMask{
     // public:
@@ -53,8 +57,7 @@ namespace imr{
         imint h();
         void pri_htg(string title);
         void setMaskSize(ImrSize masksize);
-        imch mask(ImrCoor ori, ImrCoor tar,
-             int sy, int sx);
+        imch mask(ImrCoor ori, ImrCoor mas, ImrCoor shi);
 
     private:
         ifstream::pos_type filesize;
