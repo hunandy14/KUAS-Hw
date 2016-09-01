@@ -28,8 +28,7 @@ void imgraw::gaussian(double dev=2){
     double sq_10 = sqrt((double)10);
     // 高斯係數
     double gau = (sq_12*dev)/sq_10;
-
-
+    // 計算
     for (int j = 0; j < this->high; ++j){
         for (int i = 0; i < this->width; ++i){
             // 取亂數

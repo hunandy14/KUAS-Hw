@@ -18,6 +18,7 @@ using namespace imr;
 int main(int argc, char const *argv[]) {
     // 創建畫布
     imgraw img(ImrSize(Pic_y, Pic_x));
+    imgraw img_ori=img;
     // imgraw img2(ImrSize(Pic_y, Pic_x));
     // 讀取檔案
     img.read(Pic_name_in);
@@ -32,6 +33,7 @@ int main(int argc, char const *argv[]) {
     // 提示訊息
     cout << "畫布寬度 = " << img.w() << endl;
     // 印出直方圖
+    // img_ori=
     img.pri_htg("Original");
     // 輸出檔案
     img.write(Pic_name_out);
