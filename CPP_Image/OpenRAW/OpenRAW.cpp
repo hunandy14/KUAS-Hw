@@ -34,13 +34,40 @@ imgraw::imgraw(ImrSize size=ImrSize(0,0)) {
     this->filesize = x*y;
     this->masksize = ImrSize(0,0);
 }
-//=========================================================
-// 以二維方式讀取
+/*
+    ###               #     #
+     #  #    # #####  ##   ##   ##    ####  #    #
+     #  ##  ## #    # # # # #  #  #  #      #   #
+     #  # ## # #    # #  #  # #    #  ####  ####
+     #  #    # #####  #     # ######      # #  #
+     #  #    # #   #  #     # #    # #    # #   #
+    ### #    # #    # #     # #    #  ####  #    #
+*/
+// void insertion_sort(T arr[], int len) {
+//     int i, j;
+//     T temp;
+//     for (i = 1; i < len; i++) {
+//         temp = arr[i];
+//         for (j = i - 1; j >= 0 && arr[j] > temp; j--)
+//             arr[j + 1] = arr[j];
+//         arr[j + 1] = temp;
+//     }
+// }
+// 以二維方式讀取或寫入
 imch& ImrMask::at2d(size_t y, size_t x){
     size_t pos = (y*this->masksize.width) + x;
     return mask[pos];
 }
-//=========================================================
+/*
+       ##
+
+     ####     ### ##    ######  ## ###    ######  ##   ##
+       ##     ## # ##  ##   ##  ###      ##   ##  ## # ##
+       ##     ## # ##  ##   ##  ##       ##   ##  ## # ##
+       ##     ## # ##   ######  ##       ##  ###  ## # ##
+     ######   ##   ##       ##  ##        ### ##   ## ##
+                        #####
+*/
 // 取得遮罩值 (原點，遮罩座標，位移)
 imch imgraw::mask(ImrCoor ori, ImrCoor mas, 
         ImrCoor shi=ImrCoor(-1,-1)){
@@ -66,7 +93,6 @@ imch imgraw::mask(ImrCoor ori, ImrCoor mas,
 void imgraw::setMaskSize(ImrSize masksize){
     this->masksize = masksize;
 }
-
 //=========================================================
 // 匯入檔案
 void imgraw::read(string filename) {
@@ -135,6 +161,12 @@ imint imgraw::w() {
 imint imgraw::h() {
     return this->high;
 }
+/*
+            __  ___  __   __   __
+    |__| | /__`  |  /  \ / _` |__)  /\   |\/|
+    |  | | .__/  |  \__/ \__> |  \ /~~\  |  |
+
+*/
 // 印出直方圖
 void imgraw::pri_htg(string title=""){
     // 取得數據
@@ -225,6 +257,8 @@ void imgraw::extremum(){
         }
     }
 }
+//=========================================================
+//-----------------------運算子重載-------------------------
 //=========================================================
 // ImrCoor運算子重載
 ImrCoor ImrCoor::operator+(const ImrCoor &p){

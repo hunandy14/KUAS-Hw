@@ -33,7 +33,7 @@ int main(int argc, char const *argv[]) {
     }
     // cout << (int)mask[1] << endl;
     mask.at2d(0,0)=5;
-    cout << "mask[=" << (int)mask[0] << endl;
+    cout << "mask=" << (int)mask[0] << endl;
 
     // mask
     // cout << endl<< "mask" << endl;
