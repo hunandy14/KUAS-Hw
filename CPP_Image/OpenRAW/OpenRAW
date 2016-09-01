@@ -41,6 +41,8 @@ namespace imr{
         ~ImrMask();
         imch& operator[](const size_t __n);
         imch& at2d(size_t y, size_t x);
+        void sort(size_t len, size_t start);
+
         imch* mask;
         ImrSize masksize;
     };
@@ -57,7 +59,8 @@ namespace imr{
         imint h();
         void pri_htg(string title);
         void setMaskSize(ImrSize masksize);
-        imch mask(ImrCoor ori, ImrCoor mas, ImrCoor shi);
+        imch maskVal(ImrCoor ori, ImrCoor mas, ImrCoor shi);
+        ImrMask getMask(ImrCoor ori, ImrCoor shi);
 
     private:
         ifstream::pos_type filesize;
