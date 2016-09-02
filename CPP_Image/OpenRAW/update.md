@@ -20,7 +20,7 @@
 ---
 
 ## 2.3 版待改進項目
-
+1. maskVal()改為call by reference
 
 ---
 
