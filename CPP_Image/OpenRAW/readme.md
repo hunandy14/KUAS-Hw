@@ -61,13 +61,21 @@ c = a+b;
 `mask[0] = 1;`  
 型態為`unsigned char*`  
 
-### 方法 
-#### at2d(y,x)
+> 雖然為動態陣列，不過會智能解構  
+> 不必擔心主程式接住後記憶體釋放問題  
+
+> 因為是動態陣列，主程式用複製的方式  
+> 只複製指標並不會拖垮效能  
+> 不過讀取的時候那仍然是複製數值  
+> 盡可能使用 maskVal() 取代  
+
+### 方法  
+#### imch & at2d(size_t y, size_t x);
 以二維的方式存取位置(y,x)的遮罩   
 `cout << mask.at2d(0,0);`  
 `mask.at2d(0,0) = 0;`  
 
-#### sort()  
+#### void sort(size_t len, size_t start);  
 插入排序遮罩大小，由小到大  
 `mask.sort();` 排序全部  
 
@@ -78,3 +86,194 @@ c = a+b;
 `mask.sort(2,1);`  
 
 ---
+## imgraw OpenRAW主要類別
+`imgraw` 用來儲存RAW圖檔  
+在建構時需設置圖檔大小  
+建構參數是 `imgraw(ImrSize)` 類別  
+
+
+如，設置一個256x256大小的圖檔  
+`ImrSize size(256,256);`  
+`imgraw img(size);`  
+你也可以一起設置  
+`imgraw img(ImrSize(256,256));`   
+
+> 設置錯誤的圖檔大小，基於RAW檔特性  
+> 程式是無法辨別並自動修正的  
+> 可能會產生不可預知的錯誤  
+
+使用時可直接使用[下標]存取圖檔資訊  
+`cout << img[0] << endl;`  
+`img[0] = 1;`  
+型態為`vector<unsigned char>`  
+
+> 注意因為型態是 `unsigned char`   
+> 如果超出255將會從0開始計算  
+> 修正方式請在處理時轉為其他型態  
+
+```
+img[0] = 127;
+double temp;
+temp = (double)img[0] + (double)255;
+
+if (temp > 255){
+    temp=255;
+}
+
+img[0] = (unsigned char)temp;
+```
+
+### 方法
+
+```
+typedef unsigned char imch;
+typedef size_t imint;
+```
+
+#### void read(string filename);
+將檔案與主程式放到同一個位置
+`img.read("File name");`
+即可將圖檔讀入
+
+#### void write(string filename);
+`img.write("File name");`
+填入輸出的檔名，通常會在圖像處理完畢後輸出
+
+#### imch & at2d(size_t y, size_t x);
+以二維的方式存取圖檔資訊
+`cout << img.at2d(y, x) << endl;`
+`img.at2d(y, x)=img.at2d(y, x)+10;`
+
+#### void resize_canvas(ImrSize size);
+重新定義畫布大小
+`img.resize_canvas(ImrSize(high, width))`
+
+#### imint w();
+獲得寬  
+`img.w();`  
+
+#### imint h();
+獲得高  
+`img.h();`  
+
+#### void pri_htg(string title);
+印出直方圖  
+`img.pri_htg("title name");`  
+
+#### void setMaskSize(ImrSize masksize);
+設定遮罩大小，使用`getMask()`前須事先指定  
+`img.setMaskSize(ImrSize(3,3));`  
+
+#### imch maskVal(ImrCoor ori, ImrCoor mas, ImrCoor shi);
+取得遮罩數據  
+> 遮罩會自動檢查邊界，如果遇到邊界無法取值，自動補上邊界數值  
+
+**使用說明**  
+`ImrCoor ori();`  
+對應原圖的點  
+
+`ImrCoor mas();`  
+遮罩二維位置  
+
+`ImrCoor shi();`  
+偏移位置(可省略預設 -1,-1)  
+
+**假設**  
+ori(1,1), 
+mas(2,2), 
+shi(-1,-1), 
+
+```
+原圖(5x5)
+○ ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+
+遮罩參考點 ori(1,1)
+○ ○ ○ ○ ○ 
+○ ● ○ ○ ○ 
+○ ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+
+加上位移 shi(-1,-1)
+● ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+
+放大這個部分 
+● ● ● ○ ○ 
+● ● ● ○ ○ 
+● ● ● ○ ○ 
+○ ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+
+取 mas(2,2)
+● ● ● 
+● ● ● 
+● ● ○ 
+
+img.maskVal(ImrCoor(1,1), ImrCoor(2,2));
+可得 [ 若shi留空，預設是shi(-1,-1) ]
+○ ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+○ ○ ● ○ ○ 
+○ ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+```
+
+
+#### ImrMask getMask(ImrCoor ori, ImrCoor shi);
+取得遮罩陣列(一維)
+> 需先設置遮罩大小 `img,setMaskSize(ImrSize(3,3));`   
+> 點會複製到動態陣列上，除非有要排序，否則會比較花費時間
+
+```
+// 設定遮罩
+img.setMaskSize(ImrSize(4,4));
+// 取得Mask陣列及排續 getMask(原點位置)
+ImrMask mask = img.getMask(ImrCoor(2,2));
+
+cout << endl<< "setMaskSize" << endl;
+for (int j = 0, c = 0; j < 4; ++j){
+    for (int i = 0; i < 4; ++i, c++){
+        cout << (int)mask[c] << " ";
+        // cout << mask.at2d(j,i);
+    }cout << endl;
+}
+```
+
+```
+原圖(5x5)
+○ ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+
+對應原圖的點
+○ ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+○ ○ ● ○ ○ 
+○ ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+
+偏移位置 shi(-1,-1)
+[ 若shi留空，預設是shi(-1,-1) ]
+○ ○ ○ ○ ○ 
+○ ● ○ ○ ○ 
+○ ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+○ ○ ○ ○ ○ 
+
+獲得(4x4)
+○ ○ ○ ○ ○ 
+○ ● ● ● ● 
+○ ● ● ● ●  
+○ ● ● ● ●  
+○ ● ● ● ●  
+```
