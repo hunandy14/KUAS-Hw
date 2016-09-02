@@ -131,22 +131,22 @@ typedef size_t imint;
 ```
 
 #### void read(string filename);
-將檔案與主程式放到同一個位置
-`img.read("File name");`
-即可將圖檔讀入
+將檔案與主程式放到同一個位置  
+`img.read("File name");`  
+即可將圖檔讀入  
 
 #### void write(string filename);
-`img.write("File name");`
-填入輸出的檔名，通常會在圖像處理完畢後輸出
+`img.write("File name");`  
+填入輸出的檔名，通常會在圖像處理完畢後輸出  
 
 #### imch & at2d(size_t y, size_t x);
-以二維的方式存取圖檔資訊
-`cout << img.at2d(y, x) << endl;`
-`img.at2d(y, x)=img.at2d(y, x)+10;`
+以二維的方式存取圖檔資訊  
+`cout << img.at2d(y, x) << endl;`  
+`img.at2d(y, x)=img.at2d(y, x)+10;`  
 
 #### void resize_canvas(ImrSize size);
-重新定義畫布大小
-`img.resize_canvas(ImrSize(high, width))`
+重新定義畫布大小  
+`img.resize_canvas(ImrSize(high, width))`  
 
 #### imint w();
 獲得寬  
