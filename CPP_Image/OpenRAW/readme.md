@@ -5,10 +5,46 @@
 使用時須使用命名空間 `namespace imr`  
 可以再標頭引入 `using namespace imr;`  
 
+```
+typedef unsigned char imch;
+typedef size_t imint;
+
+namespace imr{
+    class ImrSize{
+    public:
+        ImrSize(imint y, imint x);
+        imint width;
+        imint high;
+    };
+
+    class ImrCoor{
+    public:
+        ImrCoor(int y, int x);
+        int y;
+        int x;
+    };
+
+    class ImrMask{
+    public:
+        ImrMask(ImrSize masksize);
+    private:
+        imch* mask;
+    };
+
+    class imgraw {
+    public:
+        imgraw(ImrSize size);
+    private:
+        vector<imch> img_data;
+    };
+};
+```
+
+
+
 # 各項類別屬性與建構說明
+
 ---
-
-
 
 ## ImrSize 畫布大小
 `ImrSize` 用來描述畫布畫布大小  
