@@ -1,8 +1,8 @@
 /**********************************************************
-Name : OpenRaw 2.3
+Name : OpenRaw 2.31
 Date : 2016/08/03
 By   : CharlotteHonG
-Final: 2016/09/01
+Final: 2016/09/08
 **********************************************************/
 // ImrSize«Øºc¤l
 ImrSize::ImrSize(imint high=0, imint width=0){

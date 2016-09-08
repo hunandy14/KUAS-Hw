@@ -2,7 +2,7 @@
 Name : OpenRAW.cpp
 Date : 2016/08/03
 By   : CharlotteHonG
-Final: 2016/09/01
+Final: 2016/09/08
 **********************************************************/
 
 #include <iostream>
