@@ -1,9 +1,10 @@
-# OpenRAW 2.3 refrence
+# OpenRAW 2.31 refrence
 
 **如何引入使用**  
 標頭僅需引入 `#include "OpenRAW"`  
 使用時須使用命名空間 `namespace imr`  
-可以再標頭引入 `using namespace imr;`  
+
+可在標頭引入 `using namespace imr;`  
 
 ```
 typedef unsigned char imch;
@@ -28,7 +29,7 @@ namespace imr{
     public:
         ImrMask(ImrSize masksize);
     private:
-        imch* mask;
+        vector<imch> mask;
     };
 
     class imgraw {
