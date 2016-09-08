@@ -167,43 +167,54 @@ typedef unsigned char imch;
 typedef size_t imint;
 ```
 
-#### void read(string filename);
+> #### void read(string filename);
+
 將檔案與主程式放到同一個位置  
 `img.read("File name");`  
 即可將圖檔讀入  
 
-#### void write(string filename);
+> #### void write(string filename);
+
 `img.write("File name");`  
 填入輸出的檔名，通常會在圖像處理完畢後輸出  
 
-#### imch & at2d(size_t y, size_t x);
+> #### imch & at2d(size_t y, size_t x);
+
 以二維的方式存取圖檔資訊  
 `cout << img.at2d(y, x) << endl;`  
 `img.at2d(y, x)=img.at2d(y, x)+10;`  
 
-#### void resize_canvas(ImrSize size);
+> #### void resize_canvas(ImrSize size);
+
 重新定義畫布大小  
 `img.resize_canvas(ImrSize(high, width))`  
 
-#### imint w();
+> #### imint w();
+
 獲得寬  
 `img.w();`  
 
-#### imint h();
+> #### imint h();
+
 獲得高  
 `img.h();`  
 
-#### void pri_htg(string title);
+> #### void pri_htg(string title);
+
 印出直方圖  
 `img.pri_htg("title name");`  
 
-#### void setMaskSize(ImrSize masksize);
+> #### void setMaskSize(ImrSize masksize);
+
 設定遮罩大小，使用`getMask()`前須事先指定  
 `img.setMaskSize(ImrSize(3,3));`  
 
-#### imch maskVal(ImrCoor ori, ImrCoor mas, ImrCoor shi);
+> #### imch maskVal(ImrCoor ori, ImrCoor mas, ImrCoor shi);
+
 取得遮罩數據  
-> 遮罩會自動檢查邊界，如果遇到邊界無法取值，自動補上邊界數值  
+**遮罩會自動檢查邊界，如果遇到邊界無法取值，自動補上邊界數值**  
+
+---
 
 **使用說明**  
 `ImrCoor ori();`  
