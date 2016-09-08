@@ -16,15 +16,10 @@ ImrCoor::ImrCoor(int y=0, int x=0){
     this->x = x;
 }
 
-// ImrMask建解構子
+// ImrMask建構子
 ImrMask::ImrMask(ImrSize masksize=ImrSize(0,0)){
-    this->mask = new imch[masksize.high * masksize.width];
+    this->mask.vector::resize(masksize.high * masksize.width);
     this->masksize = masksize;
-    // cout << "create" << endl;
-}
-ImrMask::~ImrMask(){
-    delete [] this->mask;
-    // cout << "delete" << endl;
 }
 // imgraw建構子
 imgraw::imgraw(ImrSize size=ImrSize(0,0)) {
@@ -47,12 +42,12 @@ imgraw::imgraw(ImrSize size=ImrSize(0,0)) {
 */
 // 排序陣列(長度，起始點)
 void ImrMask::sort(size_t len=0, size_t start=0) {
-    imch *arr, temp;
-    arr = this->mask + start;
+    imch temp;
+    imch* arr = &this->mask[start];
     if (len == 0){
         len = this->masksize.high*this->masksize.width; 
     }
-    // 插入排序法
+    // // 插入排序法
     for (int i=1, j; i<(int)len; i++) {
         temp = arr[i];
         for (j=i-1; j>=0 && arr[j]>temp; j--)
@@ -105,7 +100,8 @@ ImrMask imgraw::getMask(ImrCoor ori,
         return ImrMask();
     }
     // 創建動態陣列
-    ImrMask mask = ImrMask(this->masksize);
+    ImrMask mask;
+    mask = ImrMask(this->masksize);
     // 複製遮罩
     for (int j = 0; j < (int)this->masksize.high; ++j){
         for (int i = 0; i < (int)this->masksize.width; ++i){
@@ -121,6 +117,7 @@ ImrMask imgraw::getMask(ImrCoor ori,
     //         cout << mask.at2d(j,i);
     //     }cout << endl;
     // }
+    // return ImrMask();
     return mask;
 }
 

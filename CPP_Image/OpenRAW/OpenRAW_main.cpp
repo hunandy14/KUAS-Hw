@@ -26,10 +26,11 @@ int main(int argc, char const *argv[]) {
     // 設定遮罩
     img.setMaskSize(ImrSize(4,4));
     // 取得Mask陣列及排續 getMask(原點位置)
-    ImrMask mask = img.getMask(ImrCoor(1,1));
+    ImrMask mask;
+    mask = img.getMask(ImrCoor(1,1));
     cout << endl<< "setMaskSize" << endl;
-    for (int j = 0, c = 0; j < 4; ++j){
-        for (int i = 0; i < 4; ++i, c++){
+    for (int j = 0, c = 0; j <4; ++j){
+        for (int i = 0; i <4; ++i, c++){
             cout << (int)mask[c] << " ";
             // cout << mask.at2d(j,i);
         }cout << endl;

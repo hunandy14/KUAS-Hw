@@ -38,12 +38,11 @@ namespace imr{
     class ImrMask{
     public:
         ImrMask(ImrSize masksize);
-        ~ImrMask();
         imch & operator[](const size_t __n);
         imch & at2d(size_t y, size_t x);
         void sort(size_t len, size_t start);
     private:
-        imch* mask;
+        vector<imch> mask;
         ImrSize masksize;
     };
 
