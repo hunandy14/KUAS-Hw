@@ -298,6 +298,7 @@ void imgraw::extremum(){
     }
 }
 /*-------------------------------------------------------*/
+
 // 收縮
 void imgraw::shrink(ImrIntv intv){
     // 取得數據極值
