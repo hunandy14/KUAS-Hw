@@ -19,10 +19,14 @@ using namespace imr;
 int main(int argc, char const *argv[]) {
     // 創建畫布
     imgraw img(ImrSize(Pic_y, Pic_x));
+    imgraw orimg;
     // 讀取檔案
     img.read(Pic_name_in);
     //---------------------------------------------------------
-    
+    img.pri_htg("Original");
+    // 收縮
+    img.shrink(ImrIntv(100,200));
+    img.pri_htg("shrink");
     //---------------------------------------------------------
     // 印出直方圖
     // img.pri_htg("Original");

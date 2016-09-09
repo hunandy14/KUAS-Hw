@@ -45,6 +45,12 @@ namespace imr{
         vector<imch> mask;
         ImrSize masksize;
     };
+    class ImrIntv{
+    public:
+        ImrIntv(imint min, imint max);
+        imint max;
+        imint min;
+    };
 
     class imgraw {
     public:
@@ -62,6 +68,10 @@ namespace imr{
         imch maskVal(ImrCoor ori, ImrCoor mas, ImrCoor shi);
         ImrMask getMask(ImrCoor ori, ImrCoor shi);
         imch & operator[](const size_t __n);
+        // ·s¼Wªº
+        void shrink(ImrIntv intv);
+        void stretch(ImrIntv intv);
+        void equalization();
     private:
         ifstream::pos_type filesize;
         string filename;
