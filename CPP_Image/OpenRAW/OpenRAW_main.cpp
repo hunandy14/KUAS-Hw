@@ -10,7 +10,7 @@ Final: 2016/09/08
 using namespace std;
 using namespace imr;
 
-#define AutoOpen 0
+#define AutoOpen 1
 #define Pic_name_in "IMG.raw"
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 256
@@ -79,6 +79,7 @@ int main(int argc, char const *argv[]) {
             img2.at2d(j,i)=img.at2d(j,i);
         }
     }
+    imgraw test(ImrSize(Pic_y, Pic_x));
     //---------------------------------------------------------
     // 印出直方圖
     img2.pri_htg("Original");

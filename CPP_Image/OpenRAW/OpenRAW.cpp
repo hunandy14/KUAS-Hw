@@ -1,8 +1,8 @@
 /**********************************************************
-Name : OpenRaw 2.32
+Name : OpenRaw 2.4
 Date : 2016/08/03
 By   : CharlotteHonG
-Final: 2016/09/08
+Final: 2016/09/10
 **********************************************************/
 // ImrSize建構子
 ImrSize::ImrSize(imint high=0, imint width=0){
@@ -22,7 +22,7 @@ ImrMask::ImrMask(ImrSize masksize=ImrSize(0,0)){
     this->masksize = masksize;
 }
 // imgraw建構子
-imgraw::imgraw(ImrSize size=ImrSize(0,0)) {
+imgraw::imgraw(ImrSize size) {
     imint x = size.width;
     imint y = size.high;
     this->width = x;
@@ -60,6 +60,10 @@ imch& ImrMask::at2d(size_t y, size_t x){
     size_t pos = (y*this->masksize.width) + x;
     return this->mask[pos];
 }
+const imch& ImrMask::at2d(size_t y, size_t x) const{
+    size_t pos = (y*this->masksize.width) + x;
+    return this->mask[pos];
+}
 /*
        ##
 
@@ -73,6 +77,26 @@ imch& ImrMask::at2d(size_t y, size_t x){
 // 取得遮罩值 (原點，遮罩座標，位移)
 imch& imgraw::maskVal(ImrCoor ori, ImrCoor mas, 
         ImrCoor shi=ImrCoor(-1,-1)){
+    // 取得對應位置
+    ImrCoor pos = ori + mas + shi;
+    // 修正邊緣
+    if (pos.y <0){
+        pos.y = 0;
+    }
+    if (pos.y > (int)this->high-1){
+        pos.y = (int)this->high-1;
+    }
+    if (pos.x <0){
+        pos.x = 0;
+    }
+    if (pos.x > (int)this->width-1){
+        pos.x = (int)this->width-1;
+    }
+    // 回傳正確位置的數值
+    return this->at2d((pos.y), (pos.x));
+}
+const imch& imgraw::maskVal(ImrCoor ori, ImrCoor mas, 
+        ImrCoor shi=ImrCoor(-1,-1)) const{
     // 取得對應位置
     ImrCoor pos = ori + mas + shi;
     // 修正邊緣
@@ -174,6 +198,10 @@ void imgraw::point_write(imint y, imint x, imch value) {
 }
 // 以二維方式讀取或寫入(檢查邊界)
 imch& imgraw::at2d(size_t y, size_t x){
+    size_t pos = (y*this->width)+x;
+    return this->img_data.at(pos);
+}
+const imch& imgraw::at2d(size_t y, size_t x) const{
     size_t pos = (y*this->width)+x;
     return this->img_data.at(pos);
 }
@@ -324,7 +352,89 @@ ImrCoor ImrCoor::operator/(const ImrCoor &p){
 imch& ImrMask::operator[](const size_t __n){
     return this->mask[__n];
 }
+const imch& ImrMask::operator[](const size_t __n) const{
+    return this->mask[__n];
+}
 // imgraw 運算子重載
 imch& imgraw::operator[](const size_t __n){
     return this->img_data[__n];
+}
+const imch& imgraw::operator[](const size_t __n) const{
+    return this->img_data[__n];
+}
+imgraw imgraw::operator+(const imgraw &p){
+    // 獲得最大長度
+    imint y = this->high>p.high? this->high: p.high;
+    imint x = this->width>p.width? this->width: p.width;
+    // 創建暫存影像
+    imgraw temp(ImrSize(y, x));
+    // 取得影像總像素
+    int len = (int)this->high * (int)this->width;
+    // 單點相加
+    for (int i = 0; i < len; ++i){
+        if ((double)(*this)[i]+(double)p[i] > (double)255){
+            temp[i] = (imch)255;
+        }
+        else{
+            temp[i] = (*this)[i]+p[i];
+        }
+    }
+    return temp;
+}
+imgraw imgraw::operator+(const imch value){
+    // 獲得最大長度
+    imint y = this->high;
+    imint x = this->width;
+    // 創建暫存影像
+    imgraw temp(ImrSize(y, x));
+    // 取得影像總像素
+    int len = (int)this->high * (int)this->width;
+    // 單點相加
+    for (int i = 0; i < len; ++i){
+        if ((double)(*this)[i]+value > (double)255){
+            temp[i] = (imch)255;
+        }
+        else{
+            temp[i] = (*this)[i]+value;
+        }
+    }
+    return temp;
+}
+imgraw imgraw::operator-(const imgraw &p){
+    // 獲得最大長度
+    imint y = this->high>p.high? this->high: p.high;
+    imint x = this->width>p.width? this->width: p.width;
+    // 創建暫存影像
+    imgraw temp(ImrSize(y, x));
+    // 取得影像總像素
+    int len = (int)this->high * (int)this->width;
+    // 單點相減
+    for (int i = 0; i < len; ++i){
+        if ((double)(*this)[i]-(double)p[i] < 0){
+            temp[i] = (imch)0;
+        }
+        else{
+            temp[i] = (*this)[i]-p[i];
+        }
+    }
+    return temp;
+}
+imgraw imgraw::operator-(const imch value){
+    // 獲得最大長度
+    imint y = this->high;
+    imint x = this->width;
+    // 創建暫存影像
+    imgraw temp(ImrSize(y, x));
+    // 取得影像總像素
+    int len = (int)this->high * (int)this->width;
+    // 單點相加
+    for (int i = 0; i < len; ++i){
+        if ((double)(*this)[i]-value < (double)0){
+            temp[i] = (imch)0;
+        }
+        else{
+            temp[i] = (*this)[i]-value;
+        }
+    }
+    return temp;
 }
