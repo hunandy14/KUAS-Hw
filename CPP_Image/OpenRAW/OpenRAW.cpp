@@ -1,5 +1,5 @@
 /**********************************************************
-Name : OpenRaw 2.31
+Name : OpenRaw 2.32
 Date : 2016/08/03
 By   : CharlotteHonG
 Final: 2016/09/08
@@ -71,7 +71,7 @@ imch& ImrMask::at2d(size_t y, size_t x){
                         #####
 */
 // 取得遮罩值 (原點，遮罩座標，位移)
-imch imgraw::maskVal(ImrCoor ori, ImrCoor mas, 
+imch& imgraw::maskVal(ImrCoor ori, ImrCoor mas, 
         ImrCoor shi=ImrCoor(-1,-1)){
     // 取得對應位置
     ImrCoor pos = ori + mas + shi;
@@ -89,7 +89,7 @@ imch imgraw::maskVal(ImrCoor ori, ImrCoor mas,
         pos.x = (int)this->width-1;
     }
     // 回傳正確位置的數值
-    return this->point_read((pos.y), (pos.x));
+    return this->at2d((pos.y), (pos.x));
 }
 // 取得遮罩，回傳一維陣列(原點位置，位移維度)
 ImrMask imgraw::getMask(ImrCoor ori, 
@@ -283,7 +283,7 @@ void imgraw::extremum(){
     this->max=0;
     for (int j = 0; j < (int)this->high; ++j){
         for (int i = 0; i < (int)this->width; ++i){
-            temp = this->point_read(j,i);
+            temp = this->at2d(j,i);
             if (temp > this->max){
                 this->max = temp;
             }else if (temp < this->min){
