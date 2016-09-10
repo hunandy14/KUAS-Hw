@@ -1,5 +1,5 @@
 /**********************************************************
-Name : OpenRaw 2.31
+Name : OpenRaw 2.32
 Date : 2016/08/03
 By   : CharlotteHonG
 Final: 2016/09/08
@@ -76,7 +76,7 @@ imch& ImrMask::at2d(size_t y, size_t x){
                         #####
 */
 // 取得遮罩值 (原點，遮罩座標，位移)
-imch imgraw::maskVal(ImrCoor ori, ImrCoor mas, 
+imch& imgraw::maskVal(ImrCoor ori, ImrCoor mas, 
         ImrCoor shi=ImrCoor(-1,-1)){
     // 取得對應位置
     ImrCoor pos = ori + mas + shi;
@@ -94,7 +94,7 @@ imch imgraw::maskVal(ImrCoor ori, ImrCoor mas,
         pos.x = (int)this->width-1;
     }
     // 回傳正確位置的數值
-    return this->point_read((pos.y), (pos.x));
+    return this->at2d((pos.y), (pos.x));
 }
 // 取得遮罩，回傳一維陣列(原點位置，位移維度)
 ImrMask imgraw::getMask(ImrCoor ori, 
@@ -129,6 +129,41 @@ ImrMask imgraw::getMask(ImrCoor ori,
 // 設定遮罩
 void imgraw::setMaskSize(ImrSize masksize){
     this->masksize = masksize;
+}
+/*
+     ##   ##             ##
+     ###  ##
+     ###  ##   #####   ####      #####    #####
+     ## # ##  ##   ##    ##     ##       ##   ##
+     ## # ##  ##   ##    ##      ####    #######
+     ##  ###  ##   ##    ##         ##   ##
+     ##   ##   #####   ######   #####     #####
+
+*/
+// 低通
+void imgraw::low_pass(ImrSize size=ImrSize(3,3)){
+    imgraw img2(ImrSize(this->high, this->width));
+    double maslen = (double)size.high*(double)size.width;
+    // 單點處理
+    for (int j = 0; j < (int)this->high; ++j){
+        for (int i = 0; i < (int)this->width; ++i){
+            double long temp=0;
+            // 取得遮罩加總數值
+            for (int k = 0; k < (int)size.high; ++k){
+                for (int l = 0; l < (int)size.width; ++l){
+                    ImrCoor ori(j,i);
+                    ImrCoor mas(k, l);
+                    temp += this->maskVal(ori, mas);
+                }
+            }
+            // 取得平均
+            temp = temp/maslen;
+            // 寫入新圖
+            img2.at2d(j, i) = (imch)temp;
+        }
+    }
+    // 寫回舊圖
+    *this=img2;
 }
 //=========================================================
 // 匯入檔案
