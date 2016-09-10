@@ -1,36 +1,151 @@
 /**********************************************************
-Name : OpenRaw 2.2
+Name : OpenRaw 2.32
 Date : 2016/08/03
 By   : CharlotteHonG
-Final: 2016/08/25
+Final: 2016/09/08
 **********************************************************/
-//=========================================================
-// size建構子
-ImrSize::ImrSize(int high=0, int width=0){
+// ImrSize建構子
+ImrSize::ImrSize(imint high=0, imint width=0){
     this->high  = high;
     this->width = width;
 }
 
+// ImrCoor建構子
+ImrCoor::ImrCoor(int y=0, int x=0){
+    this->y = y;
+    this->x = x;
+}
+
+// ImrMask建構子
+ImrMask::ImrMask(ImrSize masksize=ImrSize(0,0)){
+    this->mask.vector::resize(masksize.high * masksize.width);
+    this->masksize = masksize;
+}
 // imgraw建構子
 imgraw::imgraw(ImrSize size=ImrSize(0,0)) {
-    int x=size.width;
-    int y=size.high;
+    imint x = size.width;
+    imint y = size.high;
     this->width = x;
     this->high = y;
     this->img_data.vector::resize(x*y);
     this->filesize = x*y;
+    this->masksize = ImrSize(0,0);
 }
-//=========================================================
+/*
+    ###               #     #
+     #  #    # #####  ##   ##   ##    ####  #    #
+     #  ##  ## #    # # # # #  #  #  #      #   #
+     #  # ## # #    # #  #  # #    #  ####  ####
+     #  #    # #####  #     # ######      # #  #
+     #  #    # #   #  #     # #    # #    # #   #
+    ### #    # #    # #     # #    #  ####  #    #
+*/
+// 排序陣列(長度，起始點)
+void ImrMask::sort(size_t len=0, size_t start=0) {
+    imch temp;
+    imch* arr = &this->mask[start];
+    if (len == 0){
+        len = this->masksize.high*this->masksize.width; 
+    }
+    // // 插入排序法
+    for (int i=1, j; i<(int)len; i++) {
+        temp = arr[i];
+        for (j=i-1; j>=0 && arr[j]>temp; j--)
+            arr[j + 1] = arr[j];
+        arr[j + 1] = temp;
+    }
+}
+// 以二維方式讀取或寫入
+imch& ImrMask::at2d(size_t y, size_t x){
+    size_t pos = (y*this->masksize.width) + x;
+    return this->mask[pos];
+}
+
+/*
+       ##
+
+     ####     ### ##    ######  ## ###    ######  ##   ##
+       ##     ## # ##  ##   ##  ###      ##   ##  ## # ##
+       ##     ## # ##  ##   ##  ##       ##   ##  ## # ##
+       ##     ## # ##   ######  ##       ##  ###  ## # ##
+     ######   ##   ##       ##  ##        ### ##   ## ##
+                        #####
+*/
+// 取得遮罩值 (原點，遮罩座標，位移)
+imch& imgraw::maskVal(ImrCoor ori, ImrCoor mas, 
+        ImrCoor shi=ImrCoor(-1,-1)){
+    // 取得對應位置
+    ImrCoor pos = ori + mas + shi;
+    // 修正邊緣
+    if (pos.y <0){
+        pos.y = 0;
+    }
+    if (pos.y > (int)this->high-1){
+        pos.y = (int)this->high-1;
+    }
+    if (pos.x <0){
+        pos.x = 0;
+    }
+    if (pos.x > (int)this->width-1){
+        pos.x = (int)this->width-1;
+    }
+    // 回傳正確位置的數值
+    return this->at2d((pos.y), (pos.x));
+}
+// 取得遮罩，回傳一維陣列(原點位置，位移維度)
+ImrMask imgraw::getMask(ImrCoor ori, 
+        ImrCoor shi = ImrCoor(-1,-1)){
+    if (this->masksize.high == 0
+        && this->masksize.width == 0){
+        cout << "Error! Uninit masksize." << endl;
+        return ImrMask();
+    }
+    // 創建動態陣列
+    ImrMask mask;
+    mask = ImrMask(this->masksize);
+    // 複製遮罩
+    for (int j = 0; j < (int)this->masksize.high; ++j){
+        for (int i = 0; i < (int)this->masksize.width; ++i){
+            // 遮罩位置
+            ImrCoor mas(j,i);
+            // 複製遮罩數值
+            mask.at2d(j,i)=this->maskVal(ori, mas, shi);
+        }
+    }
+    // 印出
+    // for (int j = 0; j < 3; ++j){
+    //     for (int i = 0; i < 3; ++i){
+    //         cout << mask.at2d(j,i);
+    //     }cout << endl;
+    // }
+    // return ImrMask();
+    return mask;
+}
+
+// 設定遮罩
+void imgraw::setMaskSize(ImrSize masksize){
+    this->masksize = masksize;
+}
+/*
+     ##   ##             ##
+     ###  ##
+     ###  ##   #####   ####      #####    #####
+     ## # ##  ##   ##    ##     ##       ##   ##
+     ## # ##  ##   ##    ##      ####    #######
+     ##  ###  ##   ##    ##         ##   ##
+     ##   ##   #####   ######   #####     #####
+
+*/
 // 高斯
-void imgraw::gaussian(double dev=2){
+void imgraw::gaussian(double dev=5){
     // 係數
     double sq_12 = sqrt((double)12);
     double sq_10 = sqrt((double)10);
     // 高斯係數
     double gau = (sq_12*dev)/sq_10;
     // 計算
-    for (int j = 0; j < this->high; ++j){
-        for (int i = 0; i < this->width; ++i){
+    for (int j = 0; j < (int)this->high; ++j){
+        for (int i = 0; i < (int)this->width; ++i){
             // 取亂數
             int ran = rand_int(-dev,dev+1);
             // 雜訊值
@@ -47,109 +162,50 @@ void imgraw::gaussian(double dev=2){
     }
 
 }
-// 中值(尚未優化)
+// 中值
 void imgraw::median_filter(ImrSize size=ImrSize(3,3)){
-    imch** mask;
+    this->setMaskSize(size);
     imgraw img2(ImrSize(this->high, this->width));
-    for (int j = 0; j < this->high; ++j){
-        for (int i = 0; i < this->width; ++i){
-            mask = this->getMask(j, i, size, -1, -1);
-            // 建立一個臨時陣列排序用(優化時要修掉)
-            imch* temp=new imch[size.high*size.width];
-            // 二維轉一為
-            int pos=0;
-            for (int j = 0; j < size.high; ++j){
-                for (int i = 0; i < size.width; ++i){
-                    temp[pos] = mask[j][i];
-                    ++pos;
-                }
-            }
-            // 排序
-            this->sort(temp, size.high*size.width);
-            img2.point_write(j,i,temp[4]);
+    int maslen = (int)size.high*(int)size.width;
+    int mid=maslen/2;
+    // 單點處理
+    for (int j = 0; j < (int)this->high; ++j){
+        for (int i = 0; i < (int)this->width; ++i){
+            ImrMask mask=this->getMask(ImrCoor(j, i));
+            mask.sort();
+            img2.at2d(j, i) = mask[mid];
         }
-    } *this=img2;
-    // 釋放記憶體
-    for (int i = 0; i < size.high ; ++i)
-        delete [] mask[i];
-    delete [] mask;
-}
-// 排序
-void imgraw::sort(imch arr[], int len){
-    imch temp;
-    int i, j;
-    for (i = 1; i < len; i++) {
-        temp = arr[i];
-        for (j = i - 1; j >= 0 && arr[j] > temp; j--)
-            arr[j + 1] = arr[j];
-        arr[j + 1] = temp;
     }
+    // 寫回舊圖
+    *this=img2;
 }
 // 低通
 void imgraw::low_pass(ImrSize size=ImrSize(3,3)){
-    imch** mask;
     imgraw img2(ImrSize(this->high, this->width));
-    // 印出遮罩
-    // mask = this->getMask(2, 2, size, -1, -1);
-    // for (int j = 0; j < size.high; ++j){
-    //     for (int i = 0; i < size.width; ++i){
-    //         cout << mask[j][i];
-    //     }cout << endl;
-    // }
-    // 平均遮罩的的數值並寫入
-    for (int j = 0; j < this->high; ++j){
-        for (int i = 0; i < this->width; ++i){
-            mask = this->getMask(j, i, size, -1, -1);
-            double temp=0;
-            for (int l = 0; l < size.high; ++l){
-                for (int k = 0; k < size.width; ++k){
-                    temp+=(double)mask[l][k];
+    double maslen = (double)size.high*(double)size.width;
+    // 單點處理
+    for (int j = 0; j < (int)this->high; ++j){
+        for (int i = 0; i < (int)this->width; ++i){
+            double long temp=0;
+            // 取得遮罩加總數值
+            for (int k = 0; k < (int)size.high; ++k){
+                for (int l = 0; l < (int)size.width; ++l){
+                    ImrCoor ori(j,i);
+                    ImrCoor mas(k, l);
+                    temp += this->maskVal(ori, mas);
                 }
-            }temp/=size.high*size.width;
-            img2.point_write(j,i,(imch)temp);
-        }
-    } *this=img2;
-    // 釋放記憶體
-    for (int i = 0; i < size.high ; ++i)
-        delete [] mask[i];
-    delete [] mask;
-}
-// 取得遮罩(座標, 大小, 遮罩偏移的位置)
-imch** imgraw::getMask(int oy, int ox,
-        ImrSize size=ImrSize(3,3),
-        int sy=-1, int sx=-1){
-    // 創建動態陣列
-    imch** mask;
-    mask = new imch*[size.high];
-    for (int i = 0; i < size.high; ++i)
-        mask[i] = new imch[size.width];
-    // 取得周圍16點
-    int foy,fox; // 修復後的原始座標
-    for (int j = 0; j < size.high; ++j){
-        for (int i = 0; i < size.width; ++i){
-            foy=oy+(j+(sy)); fox=ox+(i+(sx));
-            // 超過左邊界修復
-            if (foy<0){foy=0;}
-            // 超過上邊界修復
-            if (fox<0){fox=0;}
-            // 超過下邊界修復
-            if(foy==this->high){foy-=2;}
-            if(foy==this->high-1){foy-=1;}
-            // 超過右邊界修復
-            if (fox==this->width){fox-=2;}
-            if (fox==this->width-1){fox-=1;}
-            // 紀錄對應的指標
-            mask[j][i] = this->point_read(foy, fox);
+            }
+            // 取得平均
+            temp = temp/maslen;
+            // 寫入新圖
+            img2.at2d(j, i) = (imch)temp;
         }
     }
-    // 釋放記憶體
-    // for (int i = 0; i < 4; ++i)
-    //     delete [] mask[i];
-    // delete [] mask;
-    return mask;
+    // 寫回舊圖
+    *this=img2;
 }
 // 胡椒鹽雜訊
-void imgraw::salt_pepper(unsigned int white, unsigned int black=0){
+void imgraw::salt_pepper(imint white, imint black=0){
     srand((unsigned)time(NULL));
     ImrSize size(this->high, this->width);
     imgraw img2(size);
@@ -178,8 +234,8 @@ void imgraw::salt_pepper(unsigned int white, unsigned int black=0){
         }else {--i;}
     }
     // 灑到原圖上
-    for (int j = 0; j < this->high; ++j){
-        for (int i = 0; i < this->width; ++i){
+    for (int j = 0; j < (int)this->high; ++j){
+        for (int i = 0; i < (int)this->width; ++i){
             imch temp = img2.point_read(j, i);
             if (temp == (imch)1){
                 this->point_write(j, i, (imch)0);
@@ -212,7 +268,7 @@ void imgraw::read(string filename) {
         exit(1);
     }
     else {
-        cout << "File ok." << endl;
+        // cout << "File ok." << endl;
     } img.close();
     // 二進位模式讀檔
     // 取得總長
@@ -235,22 +291,25 @@ void imgraw::write(string filename) {
     img.close();
 }
 
-// 讀檔單點
-imch imgraw::point_read(int y, int x) {
-    int pos = (y*this->width)+x;
+// 讀檔單點(檢查邊界)
+imch imgraw::point_read(imint y, imint x) {
+    imint pos = (y*this->width)+x;
     return this->img_data.at(pos);
 }
-
-// 寫入記憶體單點
-void imgraw::point_write(int y, int x, imch value) {
-    int pos = (y*this->width)+x;
+// 寫入記憶體單點(檢查邊界)
+void imgraw::point_write(imint y, imint x, imch value) {
+    imint pos = (y*this->width)+x;
     this->img_data.vector::at(pos) = value;
 }
-
+// 以二維方式讀取或寫入(檢查邊界)
+imch& imgraw::at2d(size_t y, size_t x){
+    size_t pos = (y*this->width)+x;
+    return this->img_data.at(pos);
+}
 // 調整畫布大小
 void imgraw::resize_canvas(ImrSize size) {
-    int x = size.width;
-    int y = size.high;
+    imint x = size.width;
+    imint y = size.high;
     // cout << "x=" << x << endl;
     // cout << "y=" << y << endl;
     this->width = x;
@@ -258,14 +317,20 @@ void imgraw::resize_canvas(ImrSize size) {
 }
 
 // 獲得寬
-int imgraw::w() {
+imint imgraw::w() {
     return this->width;
 }
 
 // 獲得高
-int imgraw::h() {
+imint imgraw::h() {
     return this->high;
 }
+/*
+            __  ___  __   __   __
+    |__| | /__`  |  /  \ / _` |__)  /\   |\/|
+    |  | | .__/  |  \__/ \__> |  \ /~~\  |  |
+
+*/
 // 印出直方圖
 void imgraw::pri_htg(string title=""){
     // 取得數據
@@ -327,7 +392,7 @@ void imgraw::pri_htg(string title=""){
     }
     cout << "" << endl;
 }
-// 取得數據統計
+// 取得數據統計(數值0~255有幾個)
 void imgraw::histogram(){
     int s=this->width * this->high;
     int temp;
@@ -345,9 +410,9 @@ void imgraw::extremum(){
     imch temp;
     this->min=255;
     this->max=0;
-    for (int j = 0; j < this->high; ++j){
-        for (int i = 0; i < this->width; ++i){
-            temp = this->point_read(j,i);
+    for (int j = 0; j < (int)this->high; ++j){
+        for (int i = 0; i < (int)this->width; ++i){
+            temp = this->at2d(j,i);
             if (temp > this->max){
                 this->max = temp;
             }else if (temp < this->min){
@@ -355,4 +420,40 @@ void imgraw::extremum(){
             }
         }
     }
+}
+//=========================================================
+//-----------------------運算子重載-------------------------
+//=========================================================
+// ImrCoor運算子重載
+ImrCoor ImrCoor::operator+(const ImrCoor &p){
+    ImrCoor temp;
+    temp.y = this->y + p.y;
+    temp.x = this->x + p.x;
+    return temp;
+}
+ImrCoor ImrCoor::operator-(const ImrCoor &p){
+    ImrCoor temp;
+    temp.y = this->y - p.y;
+    temp.x = this->x - p.x;
+    return temp;
+}
+ImrCoor ImrCoor::operator*(const ImrCoor &p){
+    ImrCoor temp;
+    temp.y = this->y * p.y;
+    temp.x = this->x * p.x;
+    return temp;
+}
+ImrCoor ImrCoor::operator/(const ImrCoor &p){
+    ImrCoor temp;
+    temp.y = (int)((double)this->y / (double)p.y);
+    temp.x = (int)((double)this->x / (double)p.x);
+    return temp;
+}
+// ImrMask 運算子重載
+imch& ImrMask::operator[](const size_t __n){
+    return this->mask[__n];
+}
+// imgraw 運算子重載
+imch& imgraw::operator[](const size_t __n){
+    return this->img_data[__n];
 }

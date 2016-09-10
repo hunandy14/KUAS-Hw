@@ -1,8 +1,8 @@
 /**********************************************************
-Name : OpenRaw 2.2
+Name : OpenRaw 2.32
 Date : 2016/08/04
 By   : CharlotteHonG
-Final: 2016/08/25
+Final: 2016/09/08
 **********************************************************/
 #ifndef OPEN_RAW
 #define OPEN_RAW
@@ -14,18 +14,37 @@ Final: 2016/08/25
 #include <string>
 #include <iomanip>
 #include <sstream>
-#include <ctime>
 #include <cmath>
-
 using namespace std;
 typedef unsigned char imch;
+typedef size_t imint;
 
 namespace imr{
     class ImrSize{
     public:
-        ImrSize(int y, int x);
-        int width;
-        int high;
+        ImrSize(imint y, imint x);
+        imint width;
+        imint high;
+    };
+    class ImrCoor{
+    public:
+        ImrCoor(int y, int x);
+        ImrCoor operator+(const ImrCoor &p);
+        ImrCoor operator-(const ImrCoor &p);
+        ImrCoor operator*(const ImrCoor &p);
+        ImrCoor operator/(const ImrCoor &p);
+        int y;
+        int x;
+    };
+    class ImrMask{
+    public:
+        ImrMask(ImrSize masksize);
+        imch & operator[](const size_t __n);
+        imch & at2d(size_t y, size_t x);
+        void sort(size_t len, size_t start);
+    private:
+        vector<imch> mask;
+        ImrSize masksize;
     };
 
     class imgraw {
@@ -33,17 +52,19 @@ namespace imr{
         imgraw(ImrSize size);
         void read(string filename);
         void write(string filename);
-        imch point_read(int y, int x);
-        void point_write(int y, int x, imch value);
+        imch point_read(imint y, imint x);
+        void point_write(imint y, imint x, imch value);
+        imch & at2d(size_t y, size_t x);
         void resize_canvas(ImrSize size);
-        int w();
-        int h();
+        imint w();
+        imint h();
         void pri_htg(string title);
+        void setMaskSize(ImrSize masksize);
+        imch & maskVal(ImrCoor ori, ImrCoor mas, ImrCoor shi);
+        ImrMask getMask(ImrCoor ori, ImrCoor shi);
+        imch & operator[](const size_t __n);
         // 新增
-        void salt_pepper(unsigned int white,
-            unsigned int black);
-        imch** getMask(int oy, int ox,
-            ImrSize size, int sy, int sx);
+        void salt_pepper(imint white, imint black);
         void low_pass(ImrSize size);
         void median_filter(ImrSize size);
         void gaussian(double dev);
@@ -51,19 +72,20 @@ namespace imr{
         ifstream::pos_type filesize;
         string filename;
         vector<imch> img_data;
-        int width;
-        int high;
+        imint width;
+        imint high;
         imch max;
         imch min;
         int htg_data[255];
         void histogram();
         void extremum();
+        ImrSize masksize;
         // 新增
         int rand_int(int low, int up);
         void sort(imch arr[], int len);
     };
 
-    #include "Noise.cpp"
+#include "Noise.cpp"
 };
 
 
