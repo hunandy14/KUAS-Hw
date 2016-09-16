@@ -10,7 +10,9 @@ updata
 6. 更完整的 重載計畫 http://goo.gl/iiATVh
 7. 二值化
 8. imrmask的加減運算子
-9. 
+9. info() 印出長寬
+10. imrmask info() 印出遮罩數值
+11. imrmask的平均值
 
 **完成**
 
