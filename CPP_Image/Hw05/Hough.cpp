@@ -21,6 +21,7 @@ ImrMask::ImrMask(ImrSize masksize=ImrSize(0,0)){
     this->mask.vector::resize(masksize.high * masksize.width);
     this->masksize = masksize;
 }
+
 // imgraw建構子
 imgraw::imgraw(ImrSize size) {
     imint x = size.width;
@@ -171,12 +172,13 @@ void ImrMask::info(string title){
 }
 
 void imgraw::sobel(int thr){
+    ImrMask p;
+    imgraw s(ImrSize(this->high, this->width));
     for (int j = 0; j < (int)this->high; ++j){
         for (int i = 0; i < (int)this->width; ++i){
             // 核心運算
             this->setMaskSize(ImrSize(3, 3));
-            ImrMask p = this->getMask(ImrCoor(j, i));
-            // p.info("p");
+            p = this->getMask(ImrCoor(j, i));
             double s1=
                     (p[0]+2*p[1]+p[2])
                    -(p[6]+2*p[7]+p[8]);
@@ -184,20 +186,18 @@ void imgraw::sobel(int thr){
                     (p[2]+2*p[5]+p[8])
                    -(p[0]+2*p[3]+p[6]);
             double sobel=abs(s1)+abs(s2);
-            // cout << "sobel=" << sobel << endl;
-            // cout << "s1=" << s1 << endl;
-            // cout << "s2=" << s2 << endl;
             // 判斷閥值
             if(thr >= (int)sobel) {
-                this->at2d(j, i) = (imch)255;
+                s.at2d(j, i) = (imch)0;
             }else{
-                this->at2d(j, i) = (imch)0;
+                s.at2d(j, i) = (imch)255;
             }
-            // break;
         }
-        // break;
     }
+    *this=s;
 }
+
+
 //=========================================================
 // 匯入檔案
 void imgraw::read(string filename) {
