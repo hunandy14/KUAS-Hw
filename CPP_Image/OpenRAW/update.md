@@ -13,6 +13,7 @@ updata
 9. info() 印出長寬
 10. imrmask info() 印出遮罩數值
 11. imrmask的平均值
+12. maskval 增加一維讀取方式
 
 **完成**
 
