@@ -173,28 +173,54 @@ void ImrMask::info(string title){
 
 void imgraw::sobel(int thr){
     ImrMask p;
-    imgraw s(ImrSize(this->high, this->width));
+    imgraw s=*this;
     for (int j = 0; j < (int)this->high; ++j){
         for (int i = 0; i < (int)this->width; ++i){
-            // 核心運算
-            this->setMaskSize(ImrSize(3, 3));
-            p = this->getMask(ImrCoor(j, i));
-            double s1=
-                    (p[0]+2*p[1]+p[2])
-                   -(p[6]+2*p[7]+p[8]);
-            double s2=
-                    (p[2]+2*p[5]+p[8])
-                   -(p[0]+2*p[3]+p[6]);
-            double sobel=abs(s1)+abs(s2);
+            // 核心運算 1
+            // this->setMaskSize(ImrSize(3, 3));
+            // p = this->getMask(ImrCoor(j, i));
+
+            // double s1=
+            //         (p[0]+2*p[1]+p[2])
+            //        -(p[6]+2*p[7]+p[8]);
+            // double s2=
+            //         (p[2]+2*p[5]+p[8])
+            //        -(p[0]+2*p[3]+p[6]);
+
+            // 核心運算 2
+            ImrCoor ori(j, i);
+            double s1 = 
+                (
+                  s.maskVal(ori, ImrCoor(0, 0)) +
+                  2*s.maskVal(ori, ImrCoor(0, 1)) +
+                  s.maskVal(ori, ImrCoor(0, 2))
+                ) -
+                (
+                  s.maskVal(ori, ImrCoor(2, 0)) +
+                  2*s.maskVal(ori, ImrCoor(2, 1)) +
+                  s.maskVal(ori, ImrCoor(2, 2))
+                );
+            double s2 =
+                (
+                  s.maskVal(ori, ImrCoor(0, 2)) +
+                  2*s.maskVal(ori, ImrCoor(1, 2)) +
+                  s.maskVal(ori, ImrCoor(2, 2))
+                ) -
+                (
+                  s.maskVal(ori, ImrCoor(0, 0)) +
+                  2*s.maskVal(ori, ImrCoor(1, 0)) +
+                  s.maskVal(ori, ImrCoor(2, 0))
+                );
+
             // 判斷閥值
+            double sobel = abs(s1)+abs(s2);
             if(thr >= (int)sobel) {
-                s.at2d(j, i) = (imch)0;
+                this->at2d(j, i) = (imch)0;
             }else{
-                s.at2d(j, i) = (imch)255;
+                this->at2d(j, i) = (imch)255;
             }
         }
     }
-    *this=s;
 }
 
 

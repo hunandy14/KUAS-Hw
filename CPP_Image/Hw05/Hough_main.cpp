@@ -23,7 +23,7 @@ int main(int argc, char const *argv[]) {
     imgraw img(ImrSize(Pic_y, Pic_x));
     img.read(Pic_name_in);
     //---------------------------------------------------------
-    img.sobel(500);
+    img.sobel(450);
     //---------------------------------------------------------
     // 提示訊息
     cout << "畫布寬度 = " << img.w() << " x " << img.h() << endl;
