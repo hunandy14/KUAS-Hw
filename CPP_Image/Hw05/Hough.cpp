@@ -217,12 +217,65 @@ void imgraw::sobel(int thr){
             if(thr >= (int)sobel) {
                 this->at2d(j, i) = (imch)0;
             }else{
-                this->at2d(j, i) = (imch)255;
+                this->at2d(j, i) = (imch)50;
             }
         }
     }
 }
+void imgraw::hough(imint n){
+    int h = (int)this->high;
+    int w = (int)this->width;
+    // 最大邊長
+    int big = h>w? h: w;
+    // 最大 P
+    int D = (int)(big*sqrt(2)+1);
+    // 創建緩存
+    imgraw P(ImrSize(2*D, 180));
+    // 尋找所有白點的P值
+    for (int j = 0; j < h; ++j){
+        for (int i = 0; i < w; ++i){
+            // 找白點
+            if (this->at2d(j, i) == 50){
+                // 記錄所有角度的P值
+                for (int k = 0; k < 180; ++k){
+                    int angle = k;
+                    int polar = i*cos(angle*PI/180) + j*sin(angle*PI/180);
+                    P.at2d(polar+D, angle) += 1;
+                }
+            }
+        }
+    }
+    // int angle=-60;
+    // double polar2 = 2*cos(angle*PI/180) + 1*sin(angle*PI/180);
+    // cout <<  "polar2=" << polar2 << endl;
+    // 找重複最多的P點
+    int target;
+    for (int i = 0, temp=0; i < 2*D*180; ++i){
+        if (temp < (int)P[i]){
+            temp = (int)P[i];
+            target = i;
+        }
+    }
 
+    cout <<  "target=" << target << endl;
+    int x=target%180;
+    int y=target/180-D;
+    cout <<  "長=" << y << ",";
+    cout <<  "角=" << x << endl;
+    cout <<  "point = ";
+    cout << (int)(y*cos(x*PI/180)) << ", ";
+    cout << (int)(y*sin(x*PI/180));
+    cout << endl;
+    // cout <<  i*cos(x*PI/180) + j*sin(x*PI/180) << endl;
+    // 畫線(待優化)
+    for (int j = 0; j < h; ++j){
+        for (int i = 0; i < w; ++i){
+            if((int)(i*cos(x*PI/180)) + (int)(j*sin(x*PI/180)) == y) {
+                this->at2d(j, i) = 255;
+            }
+        }
+    }
+}
 
 //=========================================================
 // 匯入檔案

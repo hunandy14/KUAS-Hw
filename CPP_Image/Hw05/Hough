@@ -15,9 +15,11 @@ Final: 2016/09/10
 #include <iomanip>
 #include <sstream>
 #include <cmath>
+#define PI 3.14159265
 using namespace std;
 typedef unsigned char imch;
 typedef size_t imint;
+typedef unsigned int unt;
 
 namespace imr{
     class ImrSize{
@@ -73,7 +75,9 @@ namespace imr{
         imgraw operator+(const imch value);
         imgraw operator-(const imgraw &p);
         imgraw operator-(const imch value);
+        // 新增的
         void sobel(int thr);
+        void hough(imint n);
     private:
         ifstream::pos_type filesize;
         string filename;

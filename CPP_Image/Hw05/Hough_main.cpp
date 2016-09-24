@@ -10,7 +10,7 @@ Final: 2016/09/12
 using namespace std;
 using namespace imr;
 
-#define AutoOpen 1
+#define AutoOpen 0
 #define Pic_name_in "Hough_868X600.raw"
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 868
@@ -23,14 +23,16 @@ int main(int argc, char const *argv[]) {
     imgraw img(ImrSize(Pic_y, Pic_x));
     img.read(Pic_name_in);
     //---------------------------------------------------------
-    img.sobel(450);
+    img.sobel(350);
+    img.hough(1);
     //---------------------------------------------------------
     // 提示訊息
     cout << "畫布寬度 = " << img.w() << " x " << img.h() << endl;
     // 輸出檔案
     img.write(Pic_name_out);
     // 開啟檔案
-    if(AutoOpen==1)
+    if(AutoOpen==1){
         system(Pic_name_out);
+    }
     return 0;
 }
