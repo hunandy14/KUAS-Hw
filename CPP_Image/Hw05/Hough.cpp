@@ -249,13 +249,15 @@ void imgraw::hough(imint n){
     // double polar2 = 2*cos(angle*PI/180) + 1*sin(angle*PI/180);
     // cout <<  "polar2=" << polar2 << endl;
     // 找重複最多的P點
-    int target;
-    for (int i = 0, temp=0; i < 2*D*180; ++i){
+    int target, limit;
+    int temp=0;
+    for (int i = 0; i < 2*D*180; ++i){
         if (temp < (int)P[i]){
             temp = (int)P[i];
             target = i;
         }
-    }
+    }limit=temp;
+
 
     cout <<  "target=" << target << endl;
     int x=target%180;
@@ -267,6 +269,34 @@ void imgraw::hough(imint n){
     cout << (int)(y*sin(x*PI/180));
     cout << endl;
     // cout <<  i*cos(x*PI/180) + j*sin(x*PI/180) << endl;
+    // 畫線(待優化)
+    for (int j = 0; j < h; ++j){
+        for (int i = 0; i < w; ++i){
+            if((int)(i*cos(x*PI/180)) + (int)(j*sin(x*PI/180)) == y) {
+                this->at2d(j, i) = 255;
+            }
+        }
+    }
+
+
+    // 找第二次
+    temp=0;
+    for (int i = 0; i < 2*D*180; ++i){
+        if (temp < (int)P[i] && (int)P[i] < limit){
+            temp = (int)P[i];
+            target = i;
+        }
+    }limit=temp;
+    cout <<  "target=" << target << endl;
+    x=target%180;
+    y=target/180-D;
+    cout <<  "長=" << y << ",";
+    cout <<  "角=" << x << endl;
+    cout <<  "point = ";
+    cout << (int)(y*cos(x*PI/180)) << ", ";
+    cout << (int)(y*sin(x*PI/180));
+    cout << endl;
+
     // 畫線(待優化)
     for (int j = 0; j < h; ++j){
         for (int i = 0; i < w; ++i){

@@ -78,6 +78,7 @@ namespace imr{
         // 新增的
         void sobel(int thr);
         void hough(imint n);
+        ImrCoor find_P();
     private:
         ifstream::pos_type filesize;
         string filename;
