@@ -2,7 +2,7 @@
 Name : OpenRaw 2.4
 Date : 2016/08/03
 By   : CharlotteHonG
-Final: 2016/09/10
+Final: 2016/09/25
 **********************************************************/
 // ImrSize建構子
 ImrSize::ImrSize(imint high=0, imint width=0){
@@ -170,8 +170,8 @@ void ImrMask::info(string title){
         }cout << endl;
     }cout << endl;
 }
-
-void imgraw::sobel(int thr){
+// 邊緣偵測(閥值, 匹配顏色, 背景顏色)
+void imgraw::sobel(int thr, imch value=128, imch bg=32){
     ImrMask p;
     imgraw s=*this;
     for (int j = 0; j < (int)this->high; ++j){
@@ -215,98 +215,90 @@ void imgraw::sobel(int thr){
             // 判斷閥值
             double sobel = abs(s1)+abs(s2);
             if(thr >= (int)sobel) {
-                this->at2d(j, i) = (imch)0;
+                this->at2d(j, i) = (imch)bg;
             }else{
-                this->at2d(j, i) = (imch)50;
+                this->at2d(j, i) = (imch)value;
             }
         }
     }
 }
-void imgraw::hough(imint n){
+// 找霍夫線條(線條數, 線條顏色, soble匹配顏色)
+void imgraw::hough(imint n, imch line_value=255, imch match_value=128){
     int h = (int)this->high;
     int w = (int)this->width;
     // 最大邊長
     int big = h>w? h: w;
-    // 最大 P
-    int D = (int)(big*sqrt(2)+1);
-    // 創建緩存
-    imgraw P(ImrSize(2*D, 180));
+    // 最大距離
+    int maxdis = (int)(big*sqrt(2)+1);
+    // 創建緩存(2倍是為了取正數)
+    imgraw P(ImrSize(2*maxdis, 180));
     // 尋找所有白點的P值
-    for (int j = 0; j < h; ++j){
-        for (int i = 0; i < w; ++i){
+    for (int j = 0; j < (int)this->high; ++j){
+        for (int i = 0; i < (int)this->width; ++i){
             // 找白點
-            if (this->at2d(j, i) == 50){
+            if (this->at2d(j, i) == match_value){
                 // 記錄所有角度的P值
                 for (int k = 0; k < 180; ++k){
-                    int angle = k;
-                    int polar = i*cos(angle*PI/180) + j*sin(angle*PI/180);
-                    P.at2d(polar+D, angle) += 1;
+                    int ang = k;
+                    int dis = j*sin(ang*PI/180) +
+                              i*cos(ang*PI/180);
+                    // 取正數，多加了D，之後要減回來
+                    P.at2d(dis+maxdis, ang) += 1;
                 }
             }
         }
     }
-    // int angle=-60;
-    // double polar2 = 2*cos(angle*PI/180) + 1*sin(angle*PI/180);
-    // cout <<  "polar2=" << polar2 << endl;
-    // 找重複最多的P點
-    int target, limit;
-    int temp=0;
-    for (int i = 0; i < 2*D*180; ++i){
-        if (temp < (int)P[i]){
-            temp = (int)P[i];
-            target = i;
-        }
-    }limit=temp;
+    // 設定最大長度
+    P.set_Maxdis(maxdis);
 
-
-    cout <<  "target=" << target << endl;
-    int x=target%180;
-    int y=target/180-D;
-    cout <<  "長=" << y << ",";
-    cout <<  "角=" << x << endl;
-    cout <<  "point = ";
-    cout << (int)(y*cos(x*PI/180)) << ", ";
-    cout << (int)(y*sin(x*PI/180));
-    cout << endl;
-    // cout <<  i*cos(x*PI/180) + j*sin(x*PI/180) << endl;
-    // 畫線(待優化)
-    for (int j = 0; j < h; ++j){
-        for (int i = 0; i < w; ++i){
-            if((int)(i*cos(x*PI/180)) + (int)(j*sin(x*PI/180)) == y) {
-                this->at2d(j, i) = 255;
-            }
-        }
+    for (int i = 0; i < (int)n; ++i){   
+        // 找重複最多的極座標 (距離, 角度)
+        // ImrCoor polar = P.get_P();
+        // 根據找到的極座標繪圖
+        // this->draw_line(polar);
+        this->draw_line(ImrCoor(P.get_P()), line_value);
     }
+}
 
-
-    // 找第二次
-    temp=0;
-    for (int i = 0; i < 2*D*180; ++i){
-        if (temp < (int)P[i] && (int)P[i] < limit){
-            temp = (int)P[i];
-            target = i;
-        }
-    }limit=temp;
-    cout <<  "target=" << target << endl;
-    x=target%180;
-    y=target/180-D;
-    cout <<  "長=" << y << ",";
-    cout <<  "角=" << x << endl;
-    cout <<  "point = ";
-    cout << (int)(y*cos(x*PI/180)) << ", ";
-    cout << (int)(y*sin(x*PI/180));
-    cout << endl;
-
-    // 畫線(待優化)
-    for (int j = 0; j < h; ++j){
-        for (int i = 0; i < w; ++i){
-            if((int)(i*cos(x*PI/180)) + (int)(j*sin(x*PI/180)) == y) {
-                this->at2d(j, i) = 255;
+// 畫線(待優化)
+void imgraw::draw_line(ImrCoor polar, imch value){
+    for (int j = 0; j < (int)this->high; ++j){
+        for (int i = 0; i < (int)this->width; ++i){
+            int dis = (int)(i*cos(polar.x*PI/180)) +
+                      (int)(j*sin(polar.x*PI/180));
+            if( dis == polar.y) {
+                this->at2d(j, i) = value;
             }
         }
     }
 }
 
+// 找重複最多的P點，回傳目標的 (距離, 角度)
+/*
+1. 需先set_Maxdis()
+2.此方法不能用img的類別資料來呼叫
+*/
+ImrCoor imgraw::get_P(){ 
+    int dis=0, ang=0;
+    // 最大距離
+    int maxdis=this->high;
+    // 找重複最多的P點
+    int target;
+    int temp=0;
+    for (int i = 0; i < maxdis*180; ++i){
+        if (temp < (int)(*this)[i] && (int)(*this)[i] < this->P_limit){
+            temp = (int)(*this)[i];
+            target = i;
+        }
+    }this->P_limit=temp;
+    // 這裡的dis還沒處理當初加上去的D
+    dis=target/180 - maxdis/2;
+    ang=target%180;
+    return ImrCoor(dis, ang);
+}
+void imgraw::set_Maxdis(int maxdis){
+    this->P_limit=2*maxdis*180;
+}
 //=========================================================
 // 匯入檔案
 void imgraw::read(string filename) {

@@ -2,7 +2,7 @@
 Name : OpenRAW.cpp
 Date : 2016/08/03
 By   : CharlotteHonG
-Final: 2016/09/12
+Final: 2016/09/25
 **********************************************************/
 
 #include <iostream>
@@ -10,7 +10,7 @@ Final: 2016/09/12
 using namespace std;
 using namespace imr;
 
-#define AutoOpen 0
+#define AutoOpen 1
 #define Pic_name_in "Hough_868X600.raw"
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 868
@@ -23,8 +23,10 @@ int main(int argc, char const *argv[]) {
     imgraw img(ImrSize(Pic_y, Pic_x));
     img.read(Pic_name_in);
     //---------------------------------------------------------
+    // 邊緣偵測
     img.sobel(350);
-    img.hough(1);
+    // 霍夫運算
+    img.hough(10);
     //---------------------------------------------------------
     // 提示訊息
     cout << "畫布寬度 = " << img.w() << " x " << img.h() << endl;
