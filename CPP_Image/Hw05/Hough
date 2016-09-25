@@ -51,6 +51,23 @@ namespace imr{
         vector<imch> mask;
         ImrSize masksize;
     };
+    class ImrPolar{
+    public:
+        ImrPolar(ImrSize size);
+        imint & at2d(size_t y, size_t x);
+        const imint & at2d(size_t y, size_t x) const;
+        ImrCoor get_P(imint n, imint min);
+        void getarr_P(imint n, imint min);
+        imint & operator[](const size_t __n);
+        const imint & operator[](const size_t __n) const;
+    private:
+        imint dis;
+        int ang;
+        vector<imint> polar;    // 存重複幾次
+        int P_limit;            // 找 P 時紀錄找到哪了
+        // P 前幾高的陣列 p[0]為第一多的索引向
+        vector<int> P_tar;
+    };
 
     class imgraw {
     public:
@@ -78,9 +95,8 @@ namespace imr{
         // 新增的
         void sobel(int thr, imch value, imch bg);
         void hough(imint n, imch line_value, imch match_value);
-        ImrCoor get_P();
+        // vector<int> getarr_P(imint n, imint min);
         void draw_line(ImrCoor polar, imch value);
-        void set_Maxdis(int limit);
 
     private:
         ifstream::pos_type filesize;
@@ -95,7 +111,6 @@ namespace imr{
         void extremum();
         ImrSize masksize;
         // 新增的
-        int P_limit;
     };
 
 #include "Hough.cpp"
