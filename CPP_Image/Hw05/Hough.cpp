@@ -114,16 +114,16 @@ void imgraw::hough(imint n, imch line_value=255, imch match_value=128){
         // 查看極座標
         // cout << "polar ="; po.info();
         // 畫圖
-        // this->draw_line(po, line_value);
+        this->draw_line(po, line_value);
     }
 }
 // 畫線(待優化)
 void imgraw::draw_line(ImrCoor polar, imch value){
+    int cosVal = (int)(cos(polar.x*PI/180)+0.5);
+    int sinVal = (int)(sin(polar.x*PI/180)+0.5);
     for (int j = 0; j < (int)this->high; ++j){
         for (int i = 0; i < (int)this->width; ++i){
-            int dis = (int)(i*cos(polar.x*PI/180)) +
-                      (int)(j*sin(polar.x*PI/180));
-            if( dis == polar.y) {
+            if(i*cosVal+j*sinVal == polar.y) {
                 this->at2d(j, i) = value;
             }
         }

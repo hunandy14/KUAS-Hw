@@ -26,7 +26,7 @@ int main(int argc, char const *argv[]) {
     // 邊緣偵測
     img.sobel(450);
     // 霍夫運算
-    img.hough(5);
+    img.hough(500);
     //---------------------------------------------------------
     // 提示訊息
     cout << "畫布寬度 = " << img.w() << " x " << img.h() << endl;
