@@ -10,7 +10,7 @@ Final: 2016/09/25
 using namespace std;
 using namespace imr;
 
-#define AutoOpen 1
+#define AutoOpen 0
 #define Pic_name_in "Hough_868X600.raw"
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 868
@@ -26,7 +26,7 @@ int main(int argc, char const *argv[]) {
     // 邊緣偵測
     img.sobel(450);
     // 霍夫運算
-    img.hough(500);
+    img.hough(5);
     //---------------------------------------------------------
     // 提示訊息
     cout << "畫布寬度 = " << img.w() << " x " << img.h() << endl;

@@ -5,22 +5,33 @@ By   : CharlotteHonG
 Final: 2016/09/25
 **********************************************************/
 //=========================================================
-//-------------------------«Øºc¤l---------------------------
+//-------------------------å»ºæ§‹å­---------------------------
 //=========================================================
 #include "OpenRaw\Structor.cpp"
 //=========================================================
 //------------------------ImrMask--------------------------
 //=========================================================
 #include "OpenRaw\ImrMask.cpp"
+void ImrMask::info(string title){
+    cout << title << endl;
+    for (int j = 0; j < (int)masksize.high; ++j){
+        for (int i = 0; i < (int)masksize.width; ++i){
+            cout << (int)this->at2d(j, i) << " ";
+        }cout << endl;
+    }cout << endl;
+}
 //=========================================================
 //------------------------OpenRaw--------------------------
 //=========================================================
 #include "OpenRaw\imgraw.cpp"
 //=========================================================
-//-----------------------¹Bºâ¤l­«¸ü-------------------------
+//-----------------------é‹ç®—å­é‡è¼‰-------------------------
 //=========================================================
 #include "OpenRaw\Operator.cpp"
 //=========================================================
+void ImrCoor::info(){
+    cout << this->y << ", " << this->x << endl;
+}
 /*
     ###               ######
      #  #    # #####  #     #  ####  #        ##   #####
@@ -30,10 +41,34 @@ Final: 2016/09/25
      #  #    # #   #  #       #    # #      #    # #   #
     ### #    # #    # #        ####  ###### #    # #    #
 */
-// ¥H¤Gºû¤è¦¡Åª¨ú©Î¼g¤J
+// ä»¥äºŒç¶­æ–¹å¼è®€å–æˆ–å¯«å…¥
 imint & ImrPolar::at2d(size_t y, size_t x){
     size_t pos = (y*this->ang) + x;
     return this->polar[pos];
+}
+// æ‰¾é‡è¤‡æœ€å¤šçš„Pé»ï¼Œå›å‚³ç›®æ¨™çš„ (è·é›¢, è§’åº¦)
+ImrCoor ImrPolar::get_P(imint n, imint min=0){ 
+    // æœ€å¤§è·é›¢
+    int maxdis=this->dis;
+    // ç´€éŒ„é‡è¤‡æ€§æœ€é«˜çš„P
+    int tar;
+    // æ‰¾é‡è¤‡æœ€å¤šçš„Pé»
+    int temp=min;
+    for (int i = 0; i < maxdis*180; ++i){
+        if (temp <= (int)(*this)[i] && 
+            (int)(*this)[i] < this->P_limit){
+            // ç´€éŒ„(é‡è¤‡å¹¾æ¬¡çš„æ•¸æ“š)
+            temp = (int)(*this)[i];
+            // ç´€éŒ„(æ¥µåº§æ¨™æ•¸æ“š)
+            tar = i;
+        }
+    }
+    // æ›´æ–°æœ€é«˜é»(ä¸‹æ¬¡é¿é–‹)
+    this->P_limit = temp;
+    // è½‰æ›æˆæ¥µåº§æ¨™
+    int dis = tar/180 - maxdis/2;
+    int ang = tar%180;
+    return ImrCoor(dis, ang);
 }
 /*
      ##   ##                             ##
@@ -45,21 +80,62 @@ imint & ImrPolar::at2d(size_t y, size_t x){
      ##   ##   #####    ### ##       ##  ##   ##
                                  #####
 */
-void ImrMask::info(string title){
-    cout << title << endl;
-    for (int j = 0; j < (int)masksize.high; ++j){
-        for (int i = 0; i < (int)masksize.width; ++i){
-            cout << (int)this->at2d(j, i) << " ";
-        }cout << endl;
-    }cout << endl;
+// æ‰¾éœå¤«ç·šæ¢(ç·šæ¢æ•¸, ç·šæ¢é¡è‰², sobleåŒ¹é…é¡è‰²)
+void imgraw::hough(imint n, imch line_value=255, imch match_value=128){
+    int h = (int)this->high;
+    int w = (int)this->width;
+    // æœ€å¤§é‚Šé•·
+    int big = h>w? h: w;
+    // æœ€å¤§è·é›¢
+    int maxdis = (int)(big*sqrt(2)+1);
+    // å‰µå»ºç·©å­˜(2å€æ˜¯ç‚ºäº†å–æ­£æ•¸)
+    ImrPolar P(ImrSize(2*maxdis, 180));
+    // å°‹æ‰¾æ‰€æœ‰ç™½é»çš„På€¼
+    for (int j = 0; j < (int)this->high; ++j){
+        for (int i = 0; i < (int)this->width; ++i){
+            // æ‰¾ç™½é»
+            if (this->at2d(j, i) == match_value){
+                // è¨˜éŒ„æ‰€æœ‰è§’åº¦çš„På€¼
+                for (int k = 0; k < 180; ++k){
+                    int ang = k;
+                    int dis = j*sin(ang*PI/180) +
+                              i*cos(ang*PI/180);
+                    // å–æ­£æ•¸ï¼Œå¤šåŠ äº†Dï¼Œä¹‹å¾Œè¦æ¸›å›ä¾†
+                    P.at2d(dis+maxdis, ang) += 1;
+                }
+            }
+        }
+    }
+    // å°šæœªå„ªåŒ–
+    ImrCoor po;
+    for (int i = 0; i < (int)n; ++i){
+        // å°‹æ‰¾ç·šæ¢
+        po = P.get_P(n, 0);
+        // æŸ¥çœ‹æ¥µåº§æ¨™
+        // cout << "polar ="; po.info();
+        // ç•«åœ–
+        // this->draw_line(po, line_value);
+    }
 }
-// Ãä½t°»´ú(»Ö­È, ¤Ç°tÃC¦â, ­I´ºÃC¦â)
+// ç•«ç·š(å¾…å„ªåŒ–)
+void imgraw::draw_line(ImrCoor polar, imch value){
+    for (int j = 0; j < (int)this->high; ++j){
+        for (int i = 0; i < (int)this->width; ++i){
+            int dis = (int)(i*cos(polar.x*PI/180)) +
+                      (int)(j*sin(polar.x*PI/180));
+            if( dis == polar.y) {
+                this->at2d(j, i) = value;
+            }
+        }
+    }
+}
+// é‚Šç·£åµæ¸¬(é–¥å€¼, åŒ¹é…é¡è‰², èƒŒæ™¯é¡è‰²)
 void imgraw::sobel(int thr, imch value=128, imch bg=32){
     ImrMask p;
     imgraw s=*this;
     for (int j = 0; j < (int)this->high; ++j){
         for (int i = 0; i < (int)this->width; ++i){
-            // ®Ö¤ß¹Bºâ 1
+            // æ ¸å¿ƒé‹ç®— 1
             // this->setMaskSize(ImrSize(3, 3));
             // p = this->getMask(ImrCoor(j, i));
 
@@ -70,7 +146,7 @@ void imgraw::sobel(int thr, imch value=128, imch bg=32){
             //         (p[2]+2*p[5]+p[8])
             //        -(p[0]+2*p[3]+p[6]);
 
-            // ®Ö¤ß¹Bºâ 2
+            // æ ¸å¿ƒé‹ç®— 2
             ImrCoor ori(j, i);
             double s1 = 
                 (
@@ -95,117 +171,12 @@ void imgraw::sobel(int thr, imch value=128, imch bg=32){
                   s.maskVal(ori, ImrCoor(2, 0))
                 );
 
-            // §PÂ_»Ö­È
+            // åˆ¤æ–·é–¥å€¼
             double sobel = abs(s1)+abs(s2);
             if(thr >= (int)sobel) {
                 this->at2d(j, i) = (imch)bg;
             }else{
                 this->at2d(j, i) = (imch)value;
-            }
-        }
-    }
-}
-// §äÀN¤Ò½u±ø(½u±ø¼Æ, ½u±øÃC¦â, soble¤Ç°tÃC¦â)
-void imgraw::hough(imint n, imch line_value=255, imch match_value=128){
-    int h = (int)this->high;
-    int w = (int)this->width;
-    // ³Ì¤jÃäªø
-    int big = h>w? h: w;
-    // ³Ì¤j¶ZÂ÷
-    int maxdis = (int)(big*sqrt(2)+1);
-    // ³Ğ«Ø½w¦s(2­¿¬O¬°¤F¨ú¥¿¼Æ)
-    ImrPolar P(ImrSize(2*maxdis, 180));
-    // ´M§ä©Ò¦³¥ÕÂIªºP­È
-    for (int j = 0; j < (int)this->high; ++j){
-        for (int i = 0; i < (int)this->width; ++i){
-            // §ä¥ÕÂI
-            if (this->at2d(j, i) == match_value){
-                // °O¿ı©Ò¦³¨¤«×ªºP­È
-                for (int k = 0; k < 180; ++k){
-                    int ang = k;
-                    int dis = j*sin(ang*PI/180) +
-                              i*cos(ang*PI/180);
-                    // ¨ú¥¿¼Æ¡A¦h¥[¤FD¡A¤§«á­n´î¦^¨Ó
-                    P.at2d(dis+maxdis, ang) += 1;
-                }
-            }
-        }
-    }
-    // ³Ğ«Ø½u±ø
-    ImrCoor polar;
-    polar = P.get_P(n, 0);
-    this->draw_line(polar, line_value);
-
-    // for (int i = 0; i < (int)n; ++i){   
-    //     §ä­«½Æ³Ì¦hªº·¥®y¼Ğ (¶ZÂ÷, ¨¤«×)
-    //     ImrCoor polar = P.get_P();
-    //     ®Ú¾Ú§ä¨ìªº·¥®y¼ĞÃ¸¹Ï
-    //     this->draw_line(polar, line_value);
-    //     this->draw_line(ImrCoor(P.get_P()), line_value);
-    // }
-}
-
-// §ä­«½Æ³Ì¦hªºPÂI
-void ImrPolar::getarr_P(imint n, imint min=0){ 
-    // ³Ì¤j¶ZÂ÷
-    int maxdis=this->dis;
-    // ¬ö¿ı­«½Æ©Ê«e´X°ªªºP (P_tar[P_tar[0]]¬°³Ì¤j)
-    P_tar.resize(n+1);
-    // §ä­«½Æ³Ì¦hªºPÂI
-    int temp=min, c=0;
-    for (int i = 0; i < maxdis*180; ++i){
-        if (temp <= (int)(*this)[i] && 
-            (int)(*this)[i] < this->P_limit){
-            temp = (int)(*this)[i];
-            // ¬ö¿ı
-            P_tar[++c] = i;
-            if(c == (int)n) {
-                c=0;
-            }
-        }
-    }
-    // §ó·s³Ì°ªÂI(¤U¦¸Á×¶})
-    this->P_limit = temp;
-    // ¥[¤J¯Á¤Ş
-    P_tar[0] = c;
-}
-
-// §ä­«½Æ³Ì¦hªºPÂI¡A¦^¶Ç¥Ø¼Ğªº (¶ZÂ÷, ¨¤«×)
-ImrCoor ImrPolar::get_P(imint n, imint min=0){ 
-    // ³Ì¤j¶ZÂ÷
-    int maxdis=this->dis;
-    // ¬ö¿ı­«½Æ©Ê«e´X°ªªºP (P_tar[P_tar[0]]¬°³Ì¤j)
-    P_tar.resize(n+1);
-    // §ä­«½Æ³Ì¦hªºPÂI
-    int temp=min, c=0;
-    for (int i = 0; i < maxdis*180; ++i){
-        if (temp <= (int)(*this)[i] && 
-            (int)(*this)[i] < this->P_limit){
-            temp = (int)(*this)[i];
-            // ¬ö¿ı
-            P_tar[++c] = i;
-            if(c == (int)n) {
-                c=0;
-            }
-        }
-    }
-    // §ó·s³Ì°ªÂI(¤U¦¸Á×¶})
-    this->P_limit = temp;
-    // ¥[¤J¯Á¤Ş
-    P_tar[0] = c;
-    int dis = P_tar[c]/180 - maxdis/2;
-    int ang = P_tar[c]%180;
-    return ImrCoor(dis, ang);
-}
-
-// µe½u(«İÀu¤Æ)
-void imgraw::draw_line(ImrCoor polar, imch value){
-    for (int j = 0; j < (int)this->high; ++j){
-        for (int i = 0; i < (int)this->width; ++i){
-            int dis = (int)(i*cos(polar.x*PI/180)) +
-                      (int)(j*sin(polar.x*PI/180));
-            if( dis == polar.y) {
-                this->at2d(j, i) = value;
             }
         }
     }
