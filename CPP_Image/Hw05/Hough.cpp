@@ -53,10 +53,10 @@ ImrCoor ImrPolar::get_P(imint n, imint min=0){
     // 紀錄重複性最高的P
     int tar;
     // 找重複最多的P點
-    int temp=min;
+    int temp = min;
     for (int i = 0; i < maxdis*180; ++i){
-        if (temp <= (int)(*this)[i] && 
-            (int)(*this)[i] < this->P_limit){
+        if (temp <= (int)(*this)[i]
+            && (int)(*this)[i] < this->P_limit){
             // 紀錄(重複幾次的數據)
             temp = (int)(*this)[i];
             // 紀錄(極座標數據)
@@ -84,6 +84,7 @@ ImrCoor ImrPolar::get_P(imint n, imint min=0){
 void imgraw::hough(imint n, imch line_value=255, imch match_value=128){
     int h = (int)this->high;
     int w = (int)this->width;
+    double radian = PI/180;
     // 最大邊長
     int big = h>w? h: w;
     // 最大距離
@@ -95,13 +96,15 @@ void imgraw::hough(imint n, imch line_value=255, imch match_value=128){
         for (int i = 0; i < (int)this->width; ++i){
             // 找白點
             if (this->at2d(j, i) == match_value){
-                // 記錄所有角度的P值
+                // 記錄所有角度的P值 (k=找的角度)
                 for (int k = 0; k < 180; ++k){
-                    int ang = k;
-                    int dis = j*sin(ang*PI/180) +
-                              i*cos(ang*PI/180);
-                    // 取正數，多加了D，之後要減回來
-                    P.at2d(dis+maxdis, ang) += 1;
+                    // 取正數多加了maxdis，之後要減回來
+                    P.at2d(
+                        (int)(
+                            (j*sin(k*radian))+
+                            (i*cos(k*radian))+0.5
+                        )
+                        +maxdis, k) += 1;
                 }
             }
         }
@@ -117,7 +120,7 @@ void imgraw::hough(imint n, imch line_value=255, imch match_value=128){
         this->draw_line(po, line_value);
     }
 }
-// 畫線(待優化)
+// 畫線(還沒優化取的點數)
 void imgraw::draw_line(ImrCoor polar, imch value){
     double cosVal = cos(polar.x*PI/180);
     double sinVal = sin(polar.x*PI/180);
