@@ -10,7 +10,7 @@ Final: 2016/09/25
 using namespace std;
 using namespace imr;
 
-#define AutoOpen 0
+#define AutoOpen 1
 #define Pic_name_in "Hough_868X600.raw"
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 868
@@ -24,7 +24,7 @@ int main(int argc, char const *argv[]) {
     img.read(Pic_name_in);
     //---------------------------------------------------------
     // Ãä½t°»´ú
-    img.sobel(450);
+    img.sobel(250);
     // ÀN¤Ò¹Bºâ
     img.hough(500);
     //---------------------------------------------------------

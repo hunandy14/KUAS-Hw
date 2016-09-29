@@ -65,6 +65,7 @@ ImrCoor ImrPolar::get_P(imint n, imint min=0){
     }
     // 更新最高點(下次避開)
     this->P_limit = temp;
+    // cout <<  "temp=" << temp << endl;
     // 轉換成極座標
     int dis = tar/180 - maxdis/2;
     int ang = tar%180;
@@ -114,13 +115,16 @@ void imgraw::hough(imint n, imch line_value=255, imch match_value=128){
     for (int i = 0; i < (int)n; ++i){
         // 尋找線條
         po = P.get_P(n, 0);
+        // 排除異常數值(找完了剩下怪怪的數值)
+        if(po.y==-1225)
+            break;
         // 查看極座標
-        // cout << "polar ="; po.info();
+        // cout << "polar[" << i << "] = "; po.info();
         // 畫圖
         this->draw_line(po, line_value);
     }
 }
-// 畫線(還沒優化取的點數)
+// 畫線
 void imgraw::draw_line(ImrCoor polar, imch value){
     double cosVal = cos(polar.x*PI/180);
     double sinVal = sin(polar.x*PI/180);
