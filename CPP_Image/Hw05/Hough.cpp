@@ -119,11 +119,11 @@ void imgraw::hough(imint n, imch line_value=255, imch match_value=128){
 }
 // 畫線(待優化)
 void imgraw::draw_line(ImrCoor polar, imch value){
-    int cosVal = (int)(cos(polar.x*PI/180)+0.5);
-    int sinVal = (int)(sin(polar.x*PI/180)+0.5);
+    double cosVal = cos(polar.x*PI/180);
+    double sinVal = sin(polar.x*PI/180);
     for (int j = 0; j < (int)this->high; ++j){
         for (int i = 0; i < (int)this->width; ++i){
-            if(i*cosVal+j*sinVal == polar.y) {
+            if( (int)((i*cosVal)+(j*sinVal)+0.5) == polar.y) {
                 this->at2d(j, i) = value;
             }
         }
