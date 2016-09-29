@@ -47,7 +47,7 @@ imint & ImrPolar::at2d(size_t y, size_t x){
     return this->polar[pos];
 }
 // 找重複最多的P點，回傳目標的 (距離, 角度)
-ImrCoor ImrPolar::get_P(imint n, imint min=0){ 
+ImrCoor ImrPolar::get_P(imint n, imint min=2){ 
     // 最大距離
     int maxdis=this->dis;
     // 紀錄重複性最高的P
@@ -66,6 +66,7 @@ ImrCoor ImrPolar::get_P(imint n, imint min=0){
     // 更新最高點(下次避開)
     this->P_limit = temp;
     // cout <<  "temp=" << temp << endl;
+    // cout <<  "tar=" << tar << endl;
     // 轉換成極座標
     int dis = tar/180 - maxdis/2;
     int ang = tar%180;
@@ -114,10 +115,12 @@ void imgraw::hough(imint n, imch line_value=255, imch match_value=128){
     ImrCoor po;
     for (int i = 0; i < (int)n; ++i){
         // 尋找線條
-        po = P.get_P(n, 0);
+        po = P.get_P(n, 2);
         // 排除異常數值(找完了剩下怪怪的數值)
-        if(po.y==-1225)
+        if(po.y==-1225){
+            cout << "toatal[" << i << "]" << endl;
             break;
+        }
         // 查看極座標
         // cout << "polar[" << i << "] = "; po.info();
         // 畫圖
