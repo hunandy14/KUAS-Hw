@@ -2,11 +2,11 @@
 Name : OpenRAW.cpp
 Date : 2016/08/03
 By   : CharlotteHonG
-Final: 2016/09/08
+Final: 2016/10/03
 **********************************************************/
 
 #include <iostream>
-#include "OpenRAW"
+#include "OpenRAW\OpenRAW"
 using namespace std;
 using namespace imr;
 
