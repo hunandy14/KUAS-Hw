@@ -43,6 +43,7 @@ namespace imr{
         imch & at2d(size_t y, size_t x);
         const imch & at2d(size_t y, size_t x) const;
         void sort(size_t len, size_t start);
+        ImrMask operator+(const ImrMask &p);
     private:
         vector<imch> mask;
         ImrSize masksize;

@@ -6,7 +6,7 @@ Final: 2016/10/03
 **********************************************************/
 
 #include <iostream>
-#include "OpenRAW\OpenRAW"
+#include "OpenRAW"
 using namespace std;
 using namespace imr;
 
