@@ -1,4 +1,7 @@
-﻿## 方法回傳為參考時，必須同時定義 const 與非const 版本
+﻿## 參考是什麼
+http://stackoverflow.com/questions/2379859/in-c-what-does-mean-after-a-functions-return-type
+
+## 方法回傳為參考時，必須同時定義 const 與非const 版本
 有些時候必須使用const，比如說運算子重載的時候
 這時候沒有定義你就沒有辦法直接使用了
 
