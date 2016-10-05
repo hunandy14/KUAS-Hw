@@ -8,15 +8,16 @@ updata
 4. []影像建立時，可以建立預設像素
 5. []3和4改為一個 value() 直接修改全部的數值
 6. []更完整的 重載計畫 http://goo.gl/iiATVh
-7. []二值化
+7. [v]二值化
 8. [v]imrmask的加減運算子
 9. [v]info() 印出長寬
 10. [v]imrmask info() 印出遮罩數值
-11. []imrmask的平均值
+11. [v]imrmask的平均值
 12. []maskval 增加一維讀取方式
 13. [v]Imrmask 增加建構子(預設所有數值)
 14. [v]Imrmask 取消建構子的預設值
 15. [v]ImrCoor info()
+16. [v]ImrSize info()
 
 **完成**
 

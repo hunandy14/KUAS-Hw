@@ -10,7 +10,7 @@ Final: 2016/10/03
 using namespace std;
 using namespace imr;
 
-#define AutoOpen 1
+#define AutoOpen 0
 #define Pic_name_in "IMG.raw"
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 256
@@ -22,12 +22,11 @@ int main(int argc, char const *argv[]) {
     // 讀取檔案
     img.read(Pic_name_in);
     //---------------------------------------------------------
-    // ImrMask mas1(ImrSize(3, 3), 1);
-    // ImrMask mas2(ImrSize(3, 3), 100);
-    // ImrMask mas3=mas2-mas1;
-    img.binarizae();
-    // cout << "img[0]=" << (int)img[0] << endl;
-
+    ImrMask mas(ImrSize(3, 3), 1);
+    for (int i = 0; i < 9; ++i){
+        mas[i]=(imch)i;
+    }
+    cout << "mas.avg()=" << (int)mas.avg() << endl;
     //---------------------------------------------------------
     // 提示訊息
     img.info();

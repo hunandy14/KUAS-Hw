@@ -45,3 +45,12 @@ void ImrMask::info(){
         }cout << endl;
     }
 }
+// 取得平均值
+imch ImrMask::avg(){
+    imch long temp=0;
+    imint len=this->masksize.high * this->masksize.width;
+    for (int i = 0; i < (int)len; ++i){
+        temp += (*this)[i];
+    }
+    return (imch)((temp/len)+0.5);
+}

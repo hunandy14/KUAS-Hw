@@ -29,17 +29,5 @@ Final: 2016/09/10
 //=========================================================
 #include "OpenRaw_fun\Operator.cpp"
 //=========================================================
-void imgraw::binarizae(imch value=128,
-        imch high=255, imch low=0){
-    int len = this->width * this->high;
-    // cout << "this[0]=" << (*this)[0] << endl;
-    for (int i = 0; i < len; ++i)
-    {
-        if( (*this)[i] > value ) {
-            (*this)[i] = high;
-        }else{
-            (*this)[i] = low;
-        }
-    }
-}
+
 
