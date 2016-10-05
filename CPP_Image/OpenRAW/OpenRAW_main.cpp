@@ -10,7 +10,7 @@ Final: 2016/10/03
 using namespace std;
 using namespace imr;
 
-#define AutoOpen 1
+#define AutoOpen 0
 #define Pic_name_in "IMG.raw"
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 256
@@ -22,6 +22,7 @@ int main(int argc, char const *argv[]) {
     // 讀取檔案
     img.read(Pic_name_in);
     //---------------------------------------------------------
+    // ImrMask mas(ImrSize(3, 3));
     
     //---------------------------------------------------------
     // 提示訊息

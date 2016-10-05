@@ -61,11 +61,10 @@ ImrMask imgraw::getMask(ImrCoor ori,
     if (this->masksize.high == 0
         && this->masksize.width == 0){
         cout << "Error! Uninit masksize." << endl;
-        return ImrMask();
+        return ImrMask(ImrSize(0, 0));
     }
     // 創建動態陣列
-    ImrMask mask;
-    mask = ImrMask(this->masksize);
+    ImrMask mask(this->masksize);
     // 複製遮罩
     for (int j = 0; j < (int)this->masksize.high; ++j){
         for (int i = 0; i < (int)this->masksize.width; ++i){

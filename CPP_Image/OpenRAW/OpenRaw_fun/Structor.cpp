@@ -9,18 +9,13 @@ ImrSize::ImrSize(imint high=0, imint width=0){
     this->high  = high;
     this->width = width;
 }
-
 // ImrCoor建構子
 ImrCoor::ImrCoor(int y=0, int x=0){
     this->y = y;
     this->x = x;
 }
-
 // ImrMask建構子
-ImrMask::ImrMask(ImrSize masksize=ImrSize(0,0)){
-    this->mask.vector::resize(masksize.high * masksize.width);
-    this->masksize = masksize;
-}
+
 // imgraw建構子
 imgraw::imgraw(ImrSize size) {
     imint x = size.width;
