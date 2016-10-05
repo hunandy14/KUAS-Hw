@@ -1,5 +1,5 @@
 /**********************************************************
-Name : 
+Name : imgraw 實作
 Date : 2016/10/03
 By   : CharlotteHonG
 Final: 2016/10/03
@@ -83,7 +83,6 @@ ImrMask imgraw::getMask(ImrCoor ori,
     // return ImrMask();
     return mask;
 }
-
 // 設定遮罩
 void imgraw::setMaskSize(ImrSize masksize){
     this->masksize = masksize;
@@ -261,4 +260,8 @@ void imgraw::extremum(){
             }
         }
     }
+}
+void imgraw::info(){
+    cout << "畫布大小(寬x長) = " << this->width
+         << " x " << this->high << endl;
 }

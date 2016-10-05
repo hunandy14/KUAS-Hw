@@ -10,7 +10,7 @@ Final: 2016/10/03
 using namespace std;
 using namespace imr;
 
-#define AutoOpen 0
+#define AutoOpen 1
 #define Pic_name_in "IMG.raw"
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 256
@@ -22,11 +22,21 @@ int main(int argc, char const *argv[]) {
     // 讀取檔案
     img.read(Pic_name_in);
     //---------------------------------------------------------
-    // ImrMask mas(ImrSize(3, 3));
-    
+    ImrMask mas1(ImrSize(3, 3), 1);
+    ImrMask mas2(ImrSize(3, 3), 100);
+    ImrMask mas3=mas2-mas1;
+
+    mas1.info();
+    mas2.info();
+    mas3.info();
+
+
+
+
+
     //---------------------------------------------------------
     // 提示訊息
-    cout << "畫布寬度 = " << img.w() << endl;
+    img.info();
     //---------------------------------------------------------
     // 輸出檔案
     img.write(Pic_name_out);

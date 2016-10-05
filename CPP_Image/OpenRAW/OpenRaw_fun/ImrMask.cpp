@@ -1,5 +1,5 @@
 ﻿/**********************************************************
-Name : 
+Name : ImrMask 實作
 Date : 2016/10/03
 By   : CharlotteHonG
 Final: 2016/10/03
@@ -36,4 +36,12 @@ imch& ImrMask::at2d(size_t y, size_t x){
 const imch& ImrMask::at2d(size_t y, size_t x) const{
     size_t pos = (y*this->masksize.width) + x;
     return this->mask[pos];
+}
+// 印出資訊
+void ImrMask::info(){
+    for (int j = 0; j < (int)masksize.high; ++j){
+        for (int i = 0; i < (int)masksize.width; ++i){
+            cout << setw(4) << (int)this->at2d(j, i);
+        }cout << endl;
+    }
 }

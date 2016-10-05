@@ -28,6 +28,7 @@ namespace imr{
     class ImrCoor{
     public:
         ImrCoor(int y, int x);
+        void info();
         // 重載運算子
         ImrCoor operator+(const ImrCoor &p);
         ImrCoor operator-(const ImrCoor &p);
@@ -39,14 +40,16 @@ namespace imr{
     class ImrMask{
     public:
         ImrMask(ImrSize masksize);
-        // ImrMask(ImrSize masksize, imch value);
+        ImrMask(ImrSize masksize, imch value);
         void sort(size_t len, size_t start);
+        void info();
         // 重載運算子
         imch & operator[](const size_t __n);
         const imch & operator[](const size_t __n) const;
         imch & at2d(size_t y, size_t x);
         const imch & at2d(size_t y, size_t x) const;
         ImrMask operator+(const ImrMask &p);
+        ImrMask operator-(const ImrMask &p);
     private:
         vector<imch> mask;
         ImrSize masksize;
@@ -69,6 +72,7 @@ namespace imr{
         imch & maskVal(ImrCoor ori, ImrCoor mas, ImrCoor shi);
         const imch & maskVal(ImrCoor ori, ImrCoor mas, ImrCoor shi) const;
         ImrMask getMask(ImrCoor ori, ImrCoor shi);
+        void info();
         // 重載運算子
         imch & operator[](const size_t __n);
         const imch & operator[](const size_t __n) const;

@@ -1,10 +1,20 @@
 ﻿/**********************************************************
-Name : 
+Name : 運算子重載
 Date : 2016/10/03
 By   : CharlotteHonG
 Final: 2016/10/03
 **********************************************************/
-// ImrCoor運算子重載
+
+/*
+     ######                       ####
+       ##                        ##  ##
+       ##     ### ##   ## ###   ##        #####    #####   ## ###
+       ##     ## # ##  ###      ##       ##   ##  ##   ##  ###
+       ##     ## # ##  ##       ##       ##   ##  ##   ##  ##
+       ##     ## # ##  ##        ##  ##  ##   ##  ##   ##  ##
+     ######   ##   ##  ##         ####    #####    #####   ##
+
+*/
 ImrCoor ImrCoor::operator+(const ImrCoor &p){
     ImrCoor temp;
     temp.y = this->y + p.y;
@@ -29,15 +39,87 @@ ImrCoor ImrCoor::operator/(const ImrCoor &p){
     temp.x = (int)((double)this->x / (double)p.x);
     return temp;
 }
-// ImrMask 運算子重載
+/*
+     ######                     ##   ##                    ##
+       ##                       ##   ##                    ##
+       ##     ### ##   ## ###   ### ###   ######   #####   ##  ##
+       ##     ## # ##  ###      ## # ##  ##   ##  ##       ## ##
+       ##     ## # ##  ##       ## # ##  ##   ##   ####    ####
+       ##     ## # ##  ##       ##   ##  ##  ###      ##   ## ##
+     ######   ##   ##  ##       ##   ##   ### ##  #####    ##  ##
+
+*/
+
 imch& ImrMask::operator[](const size_t __n){
     return this->mask[__n];
 }
 const imch& ImrMask::operator[](const size_t __n) const{
     return this->mask[__n];
 }
+ImrMask ImrMask::operator+(const ImrMask &p){
+    // 獲得最大長度
+    imint y = this->masksize.high>p.masksize.high?
+                this->masksize.high: p.masksize.high;
+    imint x = this->masksize.width>p.masksize.width?
+                this->masksize.width: p.masksize.width;
+    // 獲得最小長度
+    imint y_min = this->masksize.high<p.masksize.high? this->masksize.high: p.masksize.high;
+    imint x_min = this->masksize.width<p.masksize.width? this->masksize.width: p.masksize.width;
+    // 創建暫存影像
+    ImrMask temp(ImrSize(y, x));
+    // 單點相加
+    for (int j = 0; j < (int)y_min; ++j){
+        for (int i = 0; i < (int)x_min; ++i){
+            double num = (double)this->at2d(j, i)
+                + (double)p.at2d(j, i);
+            if (num > (double)255){
+                temp.at2d(j, i) = (imch)255;
+            }
+            else{
+                temp.at2d(j, i) = (*this)[i]+p[i];
+            }
+        }
+    }
+    return temp;
+}
+ImrMask ImrMask::operator-(const ImrMask &p){
+    // 獲得最大長度
+    imint y = this->masksize.high>p.masksize.high?
+                this->masksize.high: p.masksize.high;
+    imint x = this->masksize.width>p.masksize.width?
+                this->masksize.width: p.masksize.width;
+    // 獲得最小長度
+    imint y_min = this->masksize.high<p.masksize.high? this->masksize.high: p.masksize.high;
+    imint x_min = this->masksize.width<p.masksize.width? this->masksize.width: p.masksize.width;
+    // 創建暫存影像
+    ImrMask temp(ImrSize(y, x));
+    // 單點相加
+    for (int j = 0; j < (int)y_min; ++j){
+        for (int i = 0; i < (int)x_min; ++i){
+            double num = (double)this->at2d(j, i)
+                - (double)p.at2d(j, i);
+            if (num < (double)0){
+                temp.at2d(j, i) = (imch)0;
+            }
+            else{
+                temp.at2d(j, i) = (*this)[i]-p[i];
+            }
+        }
+    }
+    return temp;
+}
 
-// imgraw 運算子重載
+/*
+       ##
+
+     ####     ### ##    ######  ## ###    ######  ##   ##
+       ##     ## # ##  ##   ##  ###      ##   ##  ## # ##
+       ##     ## # ##  ##   ##  ##       ##   ##  ## # ##
+       ##     ## # ##   ######  ##       ##  ###  ## # ##
+     ######   ##   ##       ##  ##        ### ##   ## ##
+                        #####
+*/
+
 imch& imgraw::operator[](const size_t __n){
     return this->img_data[__n];
 }
