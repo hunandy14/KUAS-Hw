@@ -22,17 +22,11 @@ int main(int argc, char const *argv[]) {
     // 讀取檔案
     img.read(Pic_name_in);
     //---------------------------------------------------------
-    ImrMask mas1(ImrSize(3, 3), 1);
-    ImrMask mas2(ImrSize(3, 3), 100);
-    ImrMask mas3=mas2-mas1;
-
-    mas1.info();
-    mas2.info();
-    mas3.info();
-
-
-
-
+    // ImrMask mas1(ImrSize(3, 3), 1);
+    // ImrMask mas2(ImrSize(3, 3), 100);
+    // ImrMask mas3=mas2-mas1;
+    img.binarizae();
+    // cout << "img[0]=" << (int)img[0] << endl;
 
     //---------------------------------------------------------
     // 提示訊息

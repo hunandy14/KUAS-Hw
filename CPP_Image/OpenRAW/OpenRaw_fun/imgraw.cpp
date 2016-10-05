@@ -14,79 +14,7 @@ Final: 2016/10/03
      ######   ##   ##       ##  ##        ### ##   ## ##
                         #####
 */
-// 取得遮罩值 (原點，遮罩座標，位移)
-imch& imgraw::maskVal(ImrCoor ori, ImrCoor mas, 
-        ImrCoor shi=ImrCoor(-1,-1)){
-    // 取得對應位置
-    ImrCoor pos = ori + mas + shi;
-    // 修正邊緣
-    if (pos.y <0){
-        pos.y = 0;
-    }
-    if (pos.y > (int)this->high-1){
-        pos.y = (int)this->high-1;
-    }
-    if (pos.x <0){
-        pos.x = 0;
-    }
-    if (pos.x > (int)this->width-1){
-        pos.x = (int)this->width-1;
-    }
-    // 回傳正確位置的數值
-    return this->at2d((pos.y), (pos.x));
-}
-const imch& imgraw::maskVal(ImrCoor ori, ImrCoor mas, 
-        ImrCoor shi=ImrCoor(-1,-1)) const{
-    // 取得對應位置
-    ImrCoor pos = ori + mas + shi;
-    // 修正邊緣
-    if (pos.y <0){
-        pos.y = 0;
-    }
-    if (pos.y > (int)this->high-1){
-        pos.y = (int)this->high-1;
-    }
-    if (pos.x <0){
-        pos.x = 0;
-    }
-    if (pos.x > (int)this->width-1){
-        pos.x = (int)this->width-1;
-    }
-    // 回傳正確位置的數值
-    return this->at2d((pos.y), (pos.x));
-}
-// 取得遮罩，回傳一維陣列(原點位置，位移維度)
-ImrMask imgraw::getMask(ImrCoor ori, 
-        ImrCoor shi = ImrCoor(-1,-1)){
-    if (this->masksize.high == 0
-        && this->masksize.width == 0){
-        cout << "Error! Uninit masksize." << endl;
-        return ImrMask(ImrSize(0, 0));
-    }
-    // 創建動態陣列
-    ImrMask mask(this->masksize);
-    // 複製遮罩
-    for (int j = 0; j < (int)this->masksize.high; ++j){
-        for (int i = 0; i < (int)this->masksize.width; ++i){
-            // 遮罩位置
-            ImrCoor mas(j,i);
-            // 複製遮罩數值
-            mask.at2d(j,i)=this->maskVal(ori, mas, shi);
-        }
-    }
-    // 印出
-    // for (int j = 0; j < 3; ++j){
-    //     for (int i = 0; i < 3; ++i){
-    //         cout << mask.at2d(j,i);
-    //     }cout << endl;
-    // }
-    // return ImrMask();
-    return mask;
-}
-// 設定遮罩
-void imgraw::setMaskSize(ImrSize masksize){
-    this->masksize = masksize;
-}
+
 //=========================================================
 // 匯入檔案
 void imgraw::read(string filename) {
@@ -114,7 +42,6 @@ void imgraw::read(string filename) {
     img.read((char*)&this->img_data[0], this->filesize);
     img.close();
 }
-
 // 將記憶體資料匯出
 void imgraw::write(string filename) {
     // 進位模式寫檔
@@ -123,7 +50,6 @@ void imgraw::write(string filename) {
     img.write((char*)&img_data[0], this->filesize);
     img.close();
 }
-
 // 讀檔單點(檢查邊界)
 imch imgraw::point_read(imint y, imint x) {
     imint pos = (y*this->width)+x;
@@ -152,15 +78,119 @@ void imgraw::resize_canvas(ImrSize size) {
     this->width = x;
     this->high = y;
 }
-
 // 獲得寬
 imint imgraw::w() {
     return this->width;
 }
-
 // 獲得高
 imint imgraw::h() {
     return this->high;
+}
+// 印出畫布大小
+void imgraw::info(){
+    cout << "畫布大小(寬x長) = " << this->width
+         << " x " << this->high << endl;
+}
+// 二值化
+void imgraw::binarizae(imch value=128,
+        imch high=255, imch low=0)
+{
+    int len = this->width * this->high;
+    // cout << "this[0]=" << (*this)[0] << endl;
+    for (int i = 0; i < len; ++i)
+    {
+        if( (*this)[i] > value ) {
+            (*this)[i] = high;
+        }else{
+            (*this)[i] = low;
+        }
+    }
+}
+/*
+     ##   ##                    ##
+     ##   ##                    ##
+     ### ###   ######   #####   ##  ##
+     ## # ##  ##   ##  ##       ## ##
+     ## # ##  ##   ##   ####    ####
+     ##   ##  ##  ###      ##   ## ##
+     ##   ##   ### ##  #####    ##  ##
+
+*/
+// 取得遮罩值 (原點，遮罩座標，位移)
+imch& imgraw::maskVal(ImrCoor ori, ImrCoor mas, 
+        ImrCoor shi=ImrCoor(-1,-1))
+{
+    // 取得對應位置
+    ImrCoor pos = ori + mas + shi;
+    // 修正邊緣
+    if (pos.y <0){
+        pos.y = 0;
+    }
+    if (pos.y > (int)this->high-1){
+        pos.y = (int)this->high-1;
+    }
+    if (pos.x <0){
+        pos.x = 0;
+    }
+    if (pos.x > (int)this->width-1){
+        pos.x = (int)this->width-1;
+    }
+    // 回傳正確位置的數值
+    return this->at2d((pos.y), (pos.x));
+}
+const imch& imgraw::maskVal(ImrCoor ori, ImrCoor mas, 
+        ImrCoor shi=ImrCoor(-1,-1)) const
+{
+    // 取得對應位置
+    ImrCoor pos = ori + mas + shi;
+    // 修正邊緣
+    if (pos.y <0){
+        pos.y = 0;
+    }
+    if (pos.y > (int)this->high-1){
+        pos.y = (int)this->high-1;
+    }
+    if (pos.x <0){
+        pos.x = 0;
+    }
+    if (pos.x > (int)this->width-1){
+        pos.x = (int)this->width-1;
+    }
+    // 回傳正確位置的數值
+    return this->at2d((pos.y), (pos.x));
+}
+// 取得遮罩，回傳一維陣列(原點位置，位移維度)
+ImrMask imgraw::getMask(ImrCoor ori, 
+        ImrCoor shi = ImrCoor(-1,-1))
+{
+    if (this->masksize.high == 0
+        && this->masksize.width == 0){
+        cout << "Error! Uninit masksize." << endl;
+        return ImrMask(ImrSize(0, 0));
+    }
+    // 創建動態陣列
+    ImrMask mask(this->masksize);
+    // 複製遮罩
+    for (int j = 0; j < (int)this->masksize.high; ++j){
+        for (int i = 0; i < (int)this->masksize.width; ++i){
+            // 遮罩位置
+            ImrCoor mas(j,i);
+            // 複製遮罩數值
+            mask.at2d(j,i)=this->maskVal(ori, mas, shi);
+        }
+    }
+    // 印出
+    // for (int j = 0; j < 3; ++j){
+    //     for (int i = 0; i < 3; ++i){
+    //         cout << mask.at2d(j,i);
+    //     }cout << endl;
+    // }
+    // return ImrMask();
+    return mask;
+}
+// 設定遮罩
+void imgraw::setMaskSize(ImrSize masksize){
+    this->masksize = masksize;
 }
 /*
 
@@ -199,7 +229,8 @@ void imgraw::pri_htg(string title=""){
     // 轉換等比
     int htg_rate[32]={0};
     for (int i = 0; i < 32; ++i){
-        htg_rate[i] = (int)((double)htg_comp[i]/(double)htg_high*32);
+        htg_rate[i] = (int)((double)htg_comp[i]
+            / (double)htg_high*32);
     }
     // 轉換字串
     string str[32][32];
@@ -219,7 +250,8 @@ void imgraw::pri_htg(string title=""){
     cout << endl << setw((64-3)-(title.length()/2));
     cout << title << endl;
     for (int i = 31; i >= 0; --i){
-        cout << setw(temp.length()) << htg_high/32*(i+1) << " ";
+        cout << setw(temp.length()) 
+             << htg_high/32*(i+1) << " ";
         for (int j = 0; j < 32; ++j){
             cout << setw(3) <<str[j][i];
         }
@@ -260,8 +292,4 @@ void imgraw::extremum(){
             }
         }
     }
-}
-void imgraw::info(){
-    cout << "畫布大小(寬x長) = " << this->width
-         << " x " << this->high << endl;
 }
