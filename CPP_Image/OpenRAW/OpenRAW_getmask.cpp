@@ -2,7 +2,7 @@
 Name : OpenRAW_getmask 說明範例
 Date : 2016/10/04
 By   : CharlotteHonG
-Final: 2016/10/04
+Final: 2016/10/05
 **********************************************************/
 #include <iostream>
 #include "OpenRAW"
@@ -24,8 +24,7 @@ int main(int argc, char const *argv[]) {
     // 設定遮罩
     img.setMaskSize(ImrSize(4,4));
     // 取得Mask陣列及排續 getMask(原點位置)
-    ImrMask mask;
-    mask = img.getMask(ImrCoor(1,1));
+    ImrMask mask = img.getMask(ImrCoor(1,1));
     cout << endl<< "setMaskSize" << endl;
     for (int j = 0, c = 0; j <4; ++j){
         for (int i = 0; i <4; ++i, c++){
@@ -51,7 +50,7 @@ int main(int argc, char const *argv[]) {
     }
     //---------------------------------------------------------
     // 提示訊息
-    cout << "畫布寬度 = " << img.w() << endl;
+    img.info();
     //---------------------------------------------------------
     // 輸出檔案
     img.write(Pic_name_out);

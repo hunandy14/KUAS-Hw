@@ -1,8 +1,8 @@
 /**********************************************************
-Name : OpenRAW.cpp
+Name : OpenRAW_main
 Date : 2016/08/03
 By   : CharlotteHonG
-Final: 2016/10/03
+Final: 2016/10/05
 **********************************************************/
 
 #include <iostream>
@@ -10,7 +10,7 @@ Final: 2016/10/03
 using namespace std;
 using namespace imr;
 
-#define AutoOpen 0
+#define AutoOpen 1
 #define Pic_name_in "IMG.raw"
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 256
@@ -19,20 +19,23 @@ using namespace imr;
 int main(int argc, char const *argv[]) {
     // 創建畫布
     imgraw img(ImrSize(Pic_y, Pic_x));
+    imgraw img_2(ImrSize(Pic_y, Pic_x));
     // 讀取檔案
     img.read(Pic_name_in);
     //---------------------------------------------------------
-    ImrMask mas(ImrSize(3, 3), 1);
-    for (int i = 0; i < 9; ++i){
-        mas[i]=(imch)i;
+    // 單點操作        
+    for(int j = 0; j < Pic_y; ++j){       
+        for(int i = 0; i < Pic_x; ++i){     
+            // img2[j*(Pic_x)+i]=img[j*(Pic_x)+i];        
+            img_2.at2d(j,i)=img.at2d(j,i);     
+        }     
     }
-    cout << "mas.avg()=" << (int)mas.avg() << endl;
     //---------------------------------------------------------
     // 提示訊息
-    img.info();
+    img_2.info();
     //---------------------------------------------------------
     // 輸出檔案
-    img.write(Pic_name_out);
+    img_2.write(Pic_name_out);
     // 開啟檔案
     if(AutoOpen==1)
         system(Pic_name_out);

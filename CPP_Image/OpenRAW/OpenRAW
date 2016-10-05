@@ -1,8 +1,8 @@
 /**********************************************************
-Name : OpenRaw 2.5
+Name : OpenRaw 2.5.1
 Date : 2016/08/04
 By   : CharlotteHonG
-Final: 2016/10/03
+Final: 2016/10/05
 **********************************************************/
 #ifndef OPEN_RAW
 #define OPEN_RAW
@@ -108,6 +108,7 @@ namespace imr{
         imint h();
         void info();
         void binarizae(imch value, imch high, imch low);
+        void value(imch value);
         // Mask
         void setMaskSize(ImrSize masksize);
         imch & maskVal(ImrCoor ori, ImrCoor mas, ImrCoor shi);

@@ -2,7 +2,7 @@
 Name : 建構子
 Date : 2016/10/03
 By   : CharlotteHonG
-Final: 2016/10/03
+Final: 2016/10/05
 **********************************************************/
 // ImrSize建構子
 ImrSize::ImrSize(imint high=0, imint width=0){

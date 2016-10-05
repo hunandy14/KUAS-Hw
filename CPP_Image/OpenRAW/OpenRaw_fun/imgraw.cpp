@@ -2,7 +2,7 @@
 Name : imgraw 實作
 Date : 2016/10/03
 By   : CharlotteHonG
-Final: 2016/10/03
+Final: 2016/10/05
 **********************************************************/
 /*
        ##
@@ -14,8 +14,6 @@ Final: 2016/10/03
      ######   ##   ##       ##  ##        ### ##   ## ##
                         #####
 */
-
-//=========================================================
 // 匯入檔案
 void imgraw::read(string filename) {
     this->filename = filename;
@@ -104,6 +102,13 @@ void imgraw::binarizae(imch value=128,
         }else{
             (*this)[i] = low;
         }
+    }
+}
+// 一次更改所有像素
+void imgraw::value(imch value){
+    int len = this->width * this->high;
+    for (int i = 0; i < len; ++i){
+        (*this)[i] = value;
     }
 }
 /*

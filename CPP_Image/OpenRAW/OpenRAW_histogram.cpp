@@ -1,10 +1,9 @@
 /**********************************************************
-Name : 
+Name : OpenRAW_histogram 說明範例
 Date : 2016/10/04
 By   : CharlotteHonG
-Final: 2016/10/04
+Final: 2016/10/05
 **********************************************************/
-
 #include <iostream>
 #include "OpenRAW"
 using namespace std;
@@ -26,7 +25,7 @@ int main(int argc, char const *argv[]) {
     img.pri_htg("Original");
     //---------------------------------------------------------
     // 提示訊息
-    cout << "畫布寬度 = " << img.w() << endl;
+    img.info();
     //---------------------------------------------------------
     // 輸出檔案
     img.write(Pic_name_out);
