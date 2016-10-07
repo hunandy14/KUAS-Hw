@@ -10,7 +10,7 @@ Final: 2016/10/05
 using namespace std;
 using namespace imr;
 
-#define AutoOpen 0
+#define AutoOpen 1
 #define Pic_name_in "IMG.raw"
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 256
@@ -19,17 +19,16 @@ using namespace imr;
 int main(int argc, char const *argv[]) {
     // 創建畫布
     imgraw img(ImrSize(Pic_y, Pic_x));
-    imgraw img_2(ImrSize(Pic_y, Pic_x));
     // 讀取檔案
     img.read(Pic_name_in);
     //---------------------------------------------------------
-    img.wavelet();
+    img.wavelet(3);
     //---------------------------------------------------------
     // 提示訊息
-    img_2.info();
+    img.info();
     //---------------------------------------------------------
     // 輸出檔案
-    img_2.write(Pic_name_out);
+    img.write(Pic_name_out);
     // 開啟檔案
     if(AutoOpen==1)
         system(Pic_name_out);

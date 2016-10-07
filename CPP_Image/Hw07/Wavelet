@@ -137,6 +137,7 @@ namespace imr{
         void histogram();
         void extremum();
         ImrSize masksize;
+        void wavelet_core(ImrSize size);
     };
 #include "Wavelet.cpp"
 };

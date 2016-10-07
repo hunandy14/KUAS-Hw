@@ -29,74 +29,50 @@ Final: 2016/10/05
 //=========================================================
 #include "OpenRaw_fun\Operator.cpp"
 //=========================================================
-
-
+// 小波轉換驅動程式
 void imgraw::wavelet(imint value=1){
-    ImrMask a(ImrSize(4, 4));
-    ImrMask b(ImrSize(4, 4));
-    ImrMask c(ImrSize(4, 4));
-
-    vector<imint> v={
-        20, 26, 18, 24,
-        32, 36, 30, 38,
-        40, 42, 36, 46, 
-        26, 28, 34, 42
-    };
-
-    int t=0;
-    for(auto&& i : v) {
-        a[t++] = i;
+    int h=this->high;
+    int w=this->width;
+    for (int i = 0; i < (int)value; ++i){
+        int temp=pow(2, i);
+        this->wavelet_core(ImrSize(h/temp, w/temp));
     }
+}
+// 小波轉換核心程式
+void imgraw::wavelet_core(ImrSize size){
+    imgraw temp(size);
     // row
-    int w=4;
-    for (int j=0, p=0; j < w; ++j){
+    for (int j=0, p=0; j < (int)size.width; ++j){
         // 左邊
-        for (int i = 0; i < w/2; ++i){
-            // cout << "a=" << (int)a.at2d(j, (i*2)) << endl;
-            b[p] = round(
-                ((double)a.at2d(j, (i*2))
-                +(double)a.at2d(j, (i*2)+1)) /2 
+        for (int i = 0; i < (int)size.width/2; ++i, ++p){
+            temp[p] = round(
+                ((double)this->at2d(j, (i*2))
+                +(double)this->at2d(j, (i*2)+1)) /2 
             );
-            ++p;
         }
         // 右邊
-        for (int i = 0; i < w/2; ++i){
-            // cout << "a=" << (int)a.at2d(j, (i*2)) << endl;
-            b[p] = round(
-                ((double)a.at2d(j, (i*2))
-                -(double)a.at2d(j, (i*2)+1)) /2 
-            );
-            // b[p]+=128;
-            ++p;
+        for (int i = 0; i < (int)size.width/2; ++i, ++p){
+            temp[p] = round(
+                ((double)this->at2d(j, (i*2))
+                -(double)this->at2d(j, (i*2)+1)) /2 
+            );temp[p]+=128;
         }
     }
     // col
-    int h=4;
-    for (int j=0, p=0; j < h; ++j){
-        p=0;
+    for (int j=0, p=0; j < (int)size.high; ++j){
         // 上面
-        for (int i = 0; i < h/2; ++i){
-            a.at2d(p, j) = round(
-                ((double)b.at2d((i*2), j)
-                +(double)b.at2d((i*2)+1, j)) /2 
+        for (int i = 0; i < (int)size.high/2; ++i, ++p){
+            this->at2d(p, j) = round(
+                ((double)temp.at2d((i*2), j)
+                +(double)temp.at2d((i*2)+1, j)) /2 
             );
-            ++p;
         }
         // 下面
-        for (int i = 0; i < h/2; ++i){
-            a.at2d(p, j) = round(
-                ((double)b.at2d((i*2), j)
-                -(double)b.at2d((i*2)+1, j)) /2 
-            );
-            ++p;
-        }
+        for (int i = 0; i < (int)size.high/2; ++i, ++p){
+            this->at2d(p, j) = round(
+                ((double)temp.at2d((i*2), j)
+                -(double)temp.at2d((i*2)+1, j)) /2 
+            );this->at2d(p, j)+=128;
+        }p=0;
     }
-
-
-
-
-    cout << endl;
-    a.info();
-    cout << endl;
-    b.info();
 }
