@@ -137,7 +137,7 @@ namespace imr{
         void histogram();
         void extremum();
         ImrSize masksize;
-        int mor_check(ImrCoor ori, imch tar, imch bg);
+        string mor_check(ImrCoor ori, imch tar, imch bg);
     };
 #include "Morphological.cpp"
 };

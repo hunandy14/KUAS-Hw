@@ -22,11 +22,27 @@ int main(int argc, char const *argv[]) {
     // 讀取檔案
     img.read(Pic_name_in);
     //---------------------------------------------------------
-    img.binarizae(128, 32, 0);
-    // 膨脹
-    img.dilation(255, 32);
-    // 縮小
-    // img.erosion(255, 32);
+    int ch=0;
+    // 查看效果
+    if(ch==0){
+        // 二值
+        img.binarizae();
+        // 膨脹
+        img.dilation();
+        img.dilation();
+        // 侵蝕
+        img.erosion();
+        img.erosion();
+    }
+    // 驗證功能
+    if(ch==1){
+        // 二值(界線, 填充色, 底色)
+        img.binarizae(128, 32, 0);
+        // 膨脹(填充色, 目標影像數值)
+        img.dilation(255, 32);
+        // 侵蝕(填充色, 目標影像數值)
+        img.erosion(128, 255);
+    }
     //---------------------------------------------------------
     // 提示訊息
     img.info();
