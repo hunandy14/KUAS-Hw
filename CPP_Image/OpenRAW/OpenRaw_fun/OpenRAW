@@ -136,7 +136,6 @@ namespace imr{
         void extremum();
         ImrSize masksize;
     };
-#include "OpenRAW.cpp"
 };
 
 
