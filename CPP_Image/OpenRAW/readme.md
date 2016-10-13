@@ -1,10 +1,19 @@
 # OpenRAW 2.5.0 refrence
 
 **如何引入使用**  
-標頭僅需引入 `#include "OpenRAW"`  
-使用時須使用命名空間 `namespace imr`  
+- 標頭僅需引入 `#include "OpenRAW"`  
+- 使用時須使用命名空間 `namespace imr`  
+    可在標頭引入 `using namespace imr;`  
 
-可在標頭引入 `using namespace imr;`  
+**GCC 編譯**
+直接編譯`OpenRAW_main.cpp`檔即可
+`g++ -Wall -std=c++0x OpenRAW_main.cpp -o OpenRAW_main`
+
+**Visual Studio 編譯**
+1. 需註解 `GCC單檔編譯用` 這一行並移除該檔案
+
+2. 或只加入main.cpp檔[^1]
+[^1]:(OpenRAW_fun內的檔案還是要複製進去但不要加入項目內)
 
 ```
 typedef unsigned char imch;
