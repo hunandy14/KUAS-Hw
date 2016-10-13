@@ -11,7 +11,9 @@
 
 **Visual Studio 編譯(擇一即可)**  
 1. 需註解 `GCC單檔編譯用` 這一行並移除該檔案  
-2. 或只加入main.cpp檔 (OpenRAW_fun內的檔案還是要複製進去但不要加入項目內)    
+2. 只加入main.cpp檔 (OpenRAW_fun 資料夾  
+    還是要複製進去但不要加入專案項目內)  
+
 
 ```
 typedef unsigned char imch;
