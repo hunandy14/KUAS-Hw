@@ -1,4 +1,4 @@
-# OpenRAW 2.32 refrence
+# OpenRAW 2.5 refrence
 
 **如何引入使用**  
 標頭僅需引入 `#include "OpenRAW"`  
@@ -40,7 +40,7 @@ namespace imr{
     };
 };
 ```
-
+</br></br></br>
 
 
 # 各項類別屬性與建構說明
@@ -60,7 +60,14 @@ namespace imr{
 > 某些情況可需要轉態  
 `for (int i=0; i<=(int)size.high, ++i)`  
 
+### 方法  
+> #### void info();  
+
+印出畫布大小  
+`size.info();`  
+
 ---
+</br></br></br>
 
 ## ImrCoor 座標位置  
 `ImrCoor` 用來描述座標位置  
@@ -72,6 +79,11 @@ namespace imr{
 `size.y`與`size.x`  
 型態為 `int`   
 
+### 方法  
+#### void info();
+印出座標位置  
+`coor.info();`  
+
 ### 重載 
 `ImrCoor` 提供基本的加減乘除運算子  
 
@@ -82,6 +94,7 @@ c = a+b;
 > C則為(4,6)依此類推  
 
 ---
+</br></br></br>
 
 ## ImrMask 遮罩陣列
 `ImrMask` 用來儲存遮罩陣列  
@@ -122,8 +135,27 @@ c = a+b;
 長度是2，從mask[1]開始排序  
 `mask.sort(2,1);`  
 
+#### void info();
+印出所有遮罩元素  
+`mask.info();`  
+
+#### imch avg();  
+回傳平均值  
+`mask.avg();`  
+
+### 重載 
+`ImrMask` 提供基本的`加減`運算子  
+
+```
+ImrMask a(1), b(3), c;
+c = a+b;
+```
+> C則為全部則為4依此類推 
+
 ---
-## imgraw OpenRAW主要類別
+</br></br></br>
+
+# imgraw OpenRAW主要類別
 `imgraw` 用來儲存RAW圖檔  
 在建構時需設置圖檔大小  
 建構參數是 `imgraw(ImrSize)` 類別  
@@ -160,61 +192,82 @@ if (temp > 255){
 img[0] = (unsigned char)temp;
 ```
 
-### 方法
-
+## 方法
 ```
 typedef unsigned char imch;
 typedef size_t imint;
 ```
+</br>
 
-> #### void read(string filename);
+> #### void read(string filename);  
 
 將檔案與主程式放到同一個位置  
 `img.read("File name");`  
 即可將圖檔讀入  
+</br>
 
-> #### void write(string filename);
+> #### void write(string filename);  
 
 `img.write("File name");`  
 填入輸出的檔名，通常會在圖像處理完畢後輸出  
+</br>
 
-> #### imch & at2d(size_t y, size_t x);
+> #### imch & at2d(size_t y, size_t x);  
 
 以二維的方式存取圖檔資訊  
 `cout << img.at2d(y, x) << endl;`  
 `img.at2d(y, x)=img.at2d(y, x)+10;`  
+</br>
 
-> #### void resize_canvas(ImrSize size);
+> #### void resize_canvas(ImrSize size);  
 
 重新定義畫布大小  
 `img.resize_canvas(ImrSize(high, width))`  
+</br>
 
-> #### imint w();
+> #### imint w();  
 
 獲得寬  
 `img.w();`  
+</br>
 
-> #### imint h();
+> #### imint h();  
 
 獲得高  
 `img.h();`  
+</br>
 
-> #### void pri_htg(string title);
+> #### void info();  
 
-印出直方圖  
-`img.pri_htg("title name");`  
+印出畫布大小  
+`img.info();`  
+</br>
 
-> #### void setMaskSize(ImrSize masksize);
+> #### void imgraw::binarizae(imch value=128, imch high=255, imch low=0)  
+
+二值化(界線, 填色數值, 背景數值)  
+`img.binarizae();`  
+</br>
+
+> #### void imgraw::value(imch value);
+
+一次更改所有像素(更改的數值)  
+`img.value(0);`  
+</br>
+
+
+</br></br>
+## 方法 - Mask  
+> #### void setMaskSize(ImrSize masksize);  
 
 設定遮罩大小，使用`getMask()`前須事先指定  
 `img.setMaskSize(ImrSize(3,3));`  
+</br>
 
-> #### imch maskVal(ImrCoor ori, ImrCoor mas, ImrCoor shi);
+> #### imch maskVal(ImrCoor ori, ImrCoor mas, ImrCoor shi);  
 
 取得遮罩數據  
 **遮罩會自動檢查邊界，如果遇到邊界無法取值，自動補上邊界數值**  
-
----
 
 **使用說明**  
 `ImrCoor ori();`  
@@ -227,9 +280,9 @@ typedef size_t imint;
 偏移位置(可省略預設 -1,-1)  
 
 **假設**  
-ori(1,1), 
-mas(2,2), 
-shi(-1,-1), 
+ori(1,1),  
+mas(2,2),  
+shi(-1,-1),  
 
 ```
 原圖(5x5)
@@ -275,10 +328,10 @@ img.maskVal(ImrCoor(1,1), ImrCoor(2,2));
 ```
 
 
-#### ImrMask getMask(ImrCoor ori, ImrCoor shi);
-取得遮罩陣列(一維)
+> #### ImrMask getMask(ImrCoor ori, ImrCoor shi);  
+取得遮罩陣列(一維)  
 > 需先設置遮罩大小 `img,setMaskSize(ImrSize(3,3));`   
-> 點會複製到動態陣列上，除非有要排序，否則會比較花費時間
+> 點會複製到動態陣列上，除非有要排序，否則會比較花費時間  
 
 ```
 // 設定遮罩
@@ -325,3 +378,42 @@ for (int j = 0, c = 0; j < 4; ++j){
 ○ ● ● ● ●  
 ○ ● ● ● ●  
 ```
+</br>
+
+
+</br></br>
+## 方法 - Histogram  
+> #### void pri_htg(string title);  
+
+印出直方圖  
+`img.pri_htg("title name");`  
+
+## 重載  
+`imgraw` 提供基本的`加減`運算子  
+
+#### 物件相加  
+    imgraw img(...), img2(...);
+    imgraw img3 = img+img2;
+    
+#### 數件+常數  
+    imgraw img(...);
+    img = img + 10;
+    
+#### 下標存取  
+    imgraw img(...);
+    img[0]=255;
+    cout << img[0] << endl;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
