@@ -1,60 +1,56 @@
-/**********************************************************
-Name : OpenRAW_getmask »¡©ú½d¨Ò
+ï»¿/**********************************************************
+Name : OpenRAW_getmask èªªæ˜ç¯„ä¾‹
 Date : 2016/10/04
 By   : CharlotteHonG
 Final: 2016/10/05
 **********************************************************/
 #include <iostream>
-#include "OpenRAW"
+#include "OpenRAW_fun\OpenRAW"
+// Visual Studio ç·¨è­¯éœ€åˆªé™¤è©²è¡Œèˆ‡è©²æª”æ¡ˆ
+#include "OpenRAW.cpp" // GCCå–®æª”ç·¨è­¯ç”¨
 using namespace std;
 using namespace imr;
 
-#define AutoOpen 1
+#define AutoOpen 0
 #define Pic_name_in "IMG.raw"
 #define Pic_name_out "IMG_OUT.raw"
 #define Pic_x 256
 #define Pic_y 256
 
 int main(int argc, char const *argv[]) {
-    // ³Ğ«Øµe¥¬
+    // å‰µå»ºç•«å¸ƒ
     imgraw img(ImrSize(Pic_y, Pic_x));
-    // Åª¨úÀÉ®×
+    // è®€å–æª”æ¡ˆ
     img.read(Pic_name_in);
     //---------------------------------------------------------
-    // ³]©w¾B¸n
+    // è¨­å®šé®ç½©
     img.setMaskSize(ImrSize(4,4));
-    // ¨ú±oMask°}¦C¤Î±ÆÄò getMask(­ìÂI¦ì¸m)
+    // å–å¾—Maské™£åˆ—åŠæ’çºŒ getMask(åŸé»ä½ç½®)
     ImrMask mask = img.getMask(ImrCoor(1,1));
     cout << endl<< "setMaskSize" << endl;
-    for (int j = 0, c = 0; j <4; ++j){
-        for (int i = 0; i <4; ++i, c++){
-            cout << (int)mask[c] << " ";
-            // cout << mask.at2d(j,i);
-        }cout << endl;
-    }
-    // ­ì¹Ï¤ñ¸û
+    mask.info();
+
+    // åŸåœ–æ¯”è¼ƒ
     cout << endl<< "Original" << endl;
     for(int j = 0; j < 4; ++j){
         for(int i = 0; i < 4; ++i) {
             cout << (int)img.at2d(j, i) << " ";
         }cout << endl;
-    } 
-    // ±Æ§Ç
+    }
+
+    // æ’åº
     mask.sort();
     cout << endl<< "sort" << endl;
-    for (int j = 0, c = 0; j < 4; ++j){
-        for (int i = 0; i < 4; ++i, c++){
-            cout << (int)mask[c] << " ";
-            // cout << mask.at2d(j,i);
-        }cout << endl;
-    }
+    mask.info();
+    // å–å¹³å‡å€¼
+    cout << "avg=" << (int)mask.avg() << endl;
     //---------------------------------------------------------
-    // ´£¥Ü°T®§
+    // æç¤ºè¨Šæ¯
     img.info();
     //---------------------------------------------------------
-    // ¿é¥XÀÉ®×
+    // è¼¸å‡ºæª”æ¡ˆ
     img.write(Pic_name_out);
-    // ¶}±ÒÀÉ®×
+    // é–‹å•Ÿæª”æ¡ˆ
     if(AutoOpen==1)
         system(Pic_name_out);
     return 0;
