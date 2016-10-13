@@ -25,12 +25,12 @@ int main(int argc, char const *argv[]) {
     // 讀取檔案
     img.read(Pic_name_in);
     //---------------------------------------------------------
-    // 單點操作        
-    for(int j = 0; j < Pic_y; ++j){       
-        for(int i = 0; i < Pic_x; ++i){     
-            // img2[j*(Pic_x)+i]=img[j*(Pic_x)+i];        
-            img_2.at2d(j,i)=img.at2d(j,i);     
-        }     
+    // 單點操作
+    for(int j = 0; j < Pic_y; ++j){
+        for(int i = 0; i < Pic_x; ++i){
+            // img2[j*(Pic_x)+i]=img[j*(Pic_x)+i];
+            img_2.at2d(j,i)=img.at2d(j,i);
+        }
     }
     //---------------------------------------------------------
     // 提示訊息
