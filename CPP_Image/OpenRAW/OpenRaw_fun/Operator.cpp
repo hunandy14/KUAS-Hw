@@ -2,7 +2,7 @@
 Name : 運算子重載
 Date : 2016/10/03
 By   : CharlotteHonG
-Final: 2016/10/05
+Final: 2016/10/13
 **********************************************************/
 #include "OpenRAW"
 namespace imr{
