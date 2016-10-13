@@ -1,4 +1,4 @@
-# OpenRAW 2.5 refrence
+# OpenRAW 2.5.0 refrence
 
 **如何引入使用**  
 標頭僅需引入 `#include "OpenRAW"`  
