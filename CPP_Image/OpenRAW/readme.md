@@ -9,10 +9,9 @@
 直接編譯`OpenRAW_main.cpp`檔即可  
 `g++ -Wall -std=c++0x OpenRAW_main.cpp -o OpenRAW_main`  
 
-**Visual Studio 編譯**  
+**Visual Studio 編譯(擇一即可)**  
 1. 需註解 `GCC單檔編譯用` 這一行並移除該檔案  
-2. 或只加入main.cpp檔[^1]  
-[^1]:(OpenRAW_fun內的檔案還是要複製進去但不要加入項目內)  
+2. 或只加入main.cpp檔 (OpenRAW_fun內的檔案還是要複製進去但不要加入項目內)    
 
 ```
 typedef unsigned char imch;
