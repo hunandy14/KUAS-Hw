@@ -91,7 +91,7 @@ namespace imr{
         cout << "畫布大小(寬x長) = " << this->width
              << " x " << this->high << endl;
     }
-    // 二值化
+    // 二值化(界線, 填色數值, 背景數值)
     void imgraw::binarizae(imch value=128,
             imch high=255, imch low=0)
     {
@@ -106,7 +106,7 @@ namespace imr{
             }
         }
     }
-    // 一次更改所有像素
+    // 一次更改所有像素(更改的數值)
     void imgraw::value(imch value){
         int len = this->width * this->high;
         for (int i = 0; i < len; ++i){
