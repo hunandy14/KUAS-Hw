@@ -2,7 +2,7 @@
 Name : OpenRAW_getmask 說明範例
 Date : 2016/10/04
 By   : CharlotteHonG
-Final: 2016/10/05
+Final: 2016/10/13
 **********************************************************/
 #include <iostream>
 #include "OpenRAW_fun\OpenRAW"
